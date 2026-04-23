@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#111111"/>
+  <!-- T-shirt body -->
+  <path d="
+    M280,120 
+    L200,160 L100,240 L140,320 L200,280 L200,820 
+    Q200,860 240,860 
+    L560,860 
+    Q600,860 600,820 
+    L600,280 L660,320 L700,240 L600,160 L520,120
+    Q480,100 460,120 
+    L440,140 Q400,160 360,140 L340,120 
+    Q320,100 280,120 Z
+  " fill="#1a1a1a" stroke="#ef4444" stroke-width="6"/>
+  <!-- Back collar line -->
+  <path d="
+    M340,120 L360,140 Q400,160 440,140 L460,120
+    Q440,108 400,105 Q360,108 340,120 Z
+  " fill="#151515" stroke="#ef4444" stroke-width="3"/>
+  <!-- Back seam line -->
+  <line x1="400" y1="160" x2="400" y2="860" stroke="#ffffff" stroke-opacity="0.06" stroke-width="2"/>
+  <!-- Print area indicator -->
+  <rect x="240" y="200" width="320" height="400" rx="12" fill="#0d0d0d" stroke="#ffffff" stroke-opacity="0.35" stroke-dasharray="12 8" stroke-width="3"/>
+  <!-- Label -->
+  <text x="400" y="660" text-anchor="middle" fill="#ffffff" font-size="28" font-family="Arial, sans-serif" opacity="0.5">BACK</text>
+</svg>

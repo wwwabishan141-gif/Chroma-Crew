@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#111111"/>
+  <!-- T-shirt body -->
+  <path d="
+    M280,120 
+    L200,160 L100,240 L140,320 L200,280 L200,820 
+    Q200,860 240,860 
+    L560,860 
+    Q600,860 600,820 
+    L600,280 L660,320 L700,240 L600,160 L520,120
+    Q480,100 460,120 
+    L440,150 Q400,190 360,150 L340,120 
+    Q320,100 280,120 Z
+  " fill="#1a1a1a" stroke="#ef4444" stroke-width="6"/>
+  <!-- Collar -->
+  <path d="
+    M340,120 L360,150 Q400,190 440,150 L460,120
+    Q440,105 400,100 Q360,105 340,120 Z
+  " fill="#111111" stroke="#ef4444" stroke-width="3"/>
+  <!-- Print area indicator -->
+  <rect x="260" y="220" width="280" height="360" rx="12" fill="#0d0d0d" stroke="#ffffff" stroke-opacity="0.35" stroke-dasharray="12 8" stroke-width="3"/>
+  <!-- Label -->
+  <text x="400" y="640" text-anchor="middle" fill="#ffffff" font-size="28" font-family="Arial, sans-serif" opacity="0.5">FRONT</text>
+</svg>
