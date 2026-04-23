@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { Poppins } from "next/font/google"
 import { Providers } from "@/components/providers"
+import { CookieConsent } from "@/components/cookie-consent"
+import { BackToTop } from "@/components/back-to-top"
 import './globals.css'
 
 const poppins = Poppins({
@@ -44,9 +46,6 @@ export const viewport: Viewport = {
   maximumScale: 5,
   themeColor: '#0a0a0a',
 }
-
-import { CookieConsent } from "@/components/cookie-consent"
-import { BackToTop } from "@/components/back-to-top"
 
 export default function RootLayout({
   children,
