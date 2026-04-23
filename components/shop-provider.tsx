@@ -34,14 +34,6 @@ export const ORDER_STATUS_STEPS: OrderStatus[] = [
 
 export type OrderRecord = FirestoreOrder
 
-export type DigitalDownload = {
-  id: string
-  title: string
-  createdAt: string
-  /** Link to downloadable resource */
-  href: string
-}
-
 function cartItemKey(item: Pick<CartItem, "id" | "color" | "size" | "dtfSize">) {
   return [item.id, item.color ?? "", item.size ?? "", item.dtfSize ?? ""].join("::")
 }
@@ -50,7 +42,6 @@ type ShopContextType = {
   cart: CartItem[]
   wishlist: WishlistItem[]
   orders: OrderRecord[]
-  downloads: DigitalDownload[]
   cartCount: number
   wishlistCount: number
   cartTotal: number
@@ -64,33 +55,24 @@ type ShopContextType = {
   clearWishlist: () => void
   isLoggedIn: boolean
   user: any
-  addOrder: (
-    order: Pick<OrderRecord, "products" | "total" | "paymentMethod"> & Partial<OrderRecord>,
-  ) => string
-  addDownloads: (items: Omit<DigitalDownload, "id" | "createdAt">[]) => void
-  updateOrderStatus: (id: string, status: OrderStatus) => void
 }
 
 const ShopContext = createContext<ShopContextType | null>(null)
 
 const CART_KEY = "chromacrew_cart"
 const WISHLIST_KEY = "chromacrew_wishlist"
-const DOWNLOADS_KEY = "chromacrew_downloads"
 
 export function ShopProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth()
   const [cart, setCart] = useState<CartItem[]>([])
   const [wishlist, setWishlist] = useState<WishlistItem[]>([])
   const [orders, setOrders] = useState<OrderRecord[]>([])
-  const [downloads, setDownloads] = useState<DigitalDownload[]>([])
 
   useEffect(() => {
     const storedCart = localStorage.getItem(CART_KEY)
     const storedWishlist = localStorage.getItem(WISHLIST_KEY)
-    const storedDownloads = localStorage.getItem(DOWNLOADS_KEY)
     if (storedCart) setCart(JSON.parse(storedCart))
     if (storedWishlist) setWishlist(JSON.parse(storedWishlist))
-    if (storedDownloads) setDownloads(JSON.parse(storedDownloads))
   }, [])
 
   useEffect(() => {
@@ -111,10 +93,6 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist))
   }, [wishlist])
-
-  useEffect(() => {
-    localStorage.setItem(DOWNLOADS_KEY, JSON.stringify(downloads))
-  }, [downloads])
 
   const addToCart = (item: Omit<CartItem, "quantity">, quantity = 1) => {
     setCart((prev) => {
@@ -160,33 +138,11 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
   const removeFromWishlist = (id: string) => setWishlist((prev) => prev.filter((w) => w.id !== id))
   const clearWishlist = () => setWishlist([])
 
-  const addOrder = () => {
-    // This will be handled in checkout page directly with firestore-service
-    return ""
-  }
-
-  const addDownloads: ShopContextType["addDownloads"] = (items) => {
-    const now = new Date().toISOString()
-    setDownloads((prev) => [
-      ...items.map((d, i) => ({
-        ...d,
-        id: `dl-${Date.now()}-${i}`,
-        createdAt: now,
-      })),
-      ...prev,
-    ])
-  }
-
-  const updateOrderStatus = () => {
-    // Handled in admin page
-  }
-
   const value = useMemo(
     () => ({
       cart,
       wishlist,
       orders,
-      downloads,
       cartCount: cart.reduce((sum, item) => sum + item.quantity, 0),
       wishlistCount: wishlist.length,
       cartTotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -200,11 +156,8 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
       clearWishlist,
       isLoggedIn: Boolean(user),
       user,
-      addOrder: addOrder as any,
-      addDownloads,
-      updateOrderStatus,
     }),
-    [cart, wishlist, user, orders, downloads],
+    [cart, wishlist, user, orders],
   )
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>
