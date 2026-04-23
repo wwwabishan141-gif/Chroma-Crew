@@ -4,16 +4,13 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { getCartItemKey, useShop } from "@/components/shop-provider"
-import { createOrder } from "@/lib/firestore-service"
-import { uploadDesign, base64ToFile } from "@/lib/storage-service"
-import { useAuth } from "@/hooks/use-auth"
+import { createOrder, uploadDesign, base64ToFile } from "@/lib/supabase-service"
 import { toast } from "sonner"
 import { validateShippingForm } from "@/lib/validators"
-import { Timestamp } from "firebase/firestore"
+import { supabase } from "@/lib/supabase"
 
 export default function CheckoutPage() {
   const { cart, cartTotal, clearCart } = useShop()
-  const { user } = useAuth()
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "bank">("cod")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -58,9 +55,9 @@ export default function CheckoutPage() {
     const newOrderId = generateOrderId()
 
     try {
-      let imageUrl = ""
+      let imageUrl = null
       if (customItem && customItem.customImage) {
-        const uploadToast = toast.loading("Uploading your custom design...")
+        const uploadToast = toast.loading("Uploading design to Supabase...")
         try {
           const file = base64ToFile(customItem.customImage, "design.png")
           imageUrl = await uploadDesign(newOrderId, file)
@@ -68,13 +65,16 @@ export default function CheckoutPage() {
           toast.success("Design uploaded!")
         } catch (uploadErr: any) {
           toast.dismiss(uploadToast)
-          toast.error("Design upload failed, but we will continue with order.")
+          toast.error("Design upload failed. Check Supabase Storage rules.")
+          throw uploadErr
         }
       }
 
+      const { data: { user } } = await supabase.auth.getUser()
+
       const orderData = {
-        orderId: newOrderId,
-        userId: user ? user.uid : null,
+        order_id: newOrderId,
+        user_id: user ? user.id : null,
         name: shipping.fullName,
         phone: shipping.phone,
         address: `${shipping.address}, ${shipping.city}, ${shipping.state}, ${shipping.postal}`,
@@ -87,13 +87,11 @@ export default function CheckoutPage() {
           dtfSize: item.dtfSize
         })),
         total: finalTotal,
-        imageUrl: imageUrl || null,
-        paymentMethod: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer',
-        status: "Received" as const,
-        createdAt: Timestamp.now()
+        image_url: imageUrl,
+        status: "Received" as const
       }
 
-      // Save to Firestore
+      // Save to Supabase
       await createOrder(orderData)
       
       // Build WhatsApp Message
@@ -108,7 +106,7 @@ export default function CheckoutPage() {
                    `*Products:*\n${productList}\n\n` +
                    `*Total: Rs. ${finalTotal.toFixed(2)}*\n` +
                    `Payment: ${paymentLabel}\n\n` +
-                   `*Custom Design Link:* ${imageUrl || "None"}\n\n` +
+                   `*Design Image:* ${imageUrl || "None"}\n\n` +
                    `Please confirm my order. Thank you! 🙏`
       
       const link = `https://wa.me/94763425409?text=${encodeURIComponent(text)}`
@@ -119,12 +117,11 @@ export default function CheckoutPage() {
       toast.success("Order placed successfully!")
 
       // Auto-open WhatsApp
-      setTimeout(() => {
-        window.location.href = link
-      }, 2000)
+      window.open(link, "_blank")
 
     } catch (error: any) {
       toast.error("Failed to place order: " + error.message)
+      console.error(error)
     } finally {
       setIsSubmitting(false)
     }
@@ -147,13 +144,14 @@ export default function CheckoutPage() {
           <div className="mt-8 rounded-2xl border border-green-600/30 bg-green-600/10 p-6 text-left">
             <p className="font-bold text-green-400 mb-2">📲 Action Required: Confirm on WhatsApp</p>
             <p className="text-white/70 text-sm mb-4">
-              We've generated your order details. To finalize and start production, please click the button below to send the confirmation to our WhatsApp.
+              Your order has been saved in our system. To finalize and start production, please send the confirmation to our WhatsApp.
             </p>
             <a
               href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-green-600 hover:bg-green-700 font-bold transition-all active:scale-95"
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.483 8.413-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.308 1.654zm6.236-3.32c1.551.92 3.411 1.403 5.311 1.404 5.432 0 9.854-4.422 9.856-9.854 0-2.632-1.023-5.105-2.883-6.967-1.859-1.862-4.331-2.885-6.963-2.886-5.431 0-9.853 4.422-9.856 9.854-.001 1.905.501 3.766 1.456 5.353l-1.02 3.723 3.82-1.002zm11.754-6.844c-.305-.152-1.802-.888-2.081-.989-.279-.101-.482-.152-.684.152-.202.304-.785.989-.962 1.191-.177.202-.355.228-.66.076-.304-.152-1.284-.473-2.447-1.51-1.054-.94-1.765-2.102-1.968-2.406-.203-.304-.022-.468.129-.62.137-.136.305-.355.457-.533.152-.178.203-.304.305-.507.101-.202.05-.38-.026-.532-.076-.152-.684-1.648-.938-2.256-.247-.591-.499-.511-.684-.511-.178-.001-.38-.001-.584-.001-.203 0-.532.076-.811.38-.28.304-1.066 1.041-1.066 2.536 0 1.496 1.091 2.943 1.242 3.146.152.203 2.148 3.28 5.204 4.602.727.314 1.294.502 1.735.643.729.232 1.393.199 1.918.121.585-.087 1.802-.736 2.056-1.445.253-.708.253-1.316.177-1.445-.076-.129-.279-.203-.583-.355z"/></svg>
               Confirm on WhatsApp
             </a>
           </div>
@@ -177,7 +175,7 @@ export default function CheckoutPage() {
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <h1 className="text-4xl font-bold">Checkout</h1>
-            <p className="text-white/60">Complete your details to place your custom order.</p>
+            <p className="text-white/60">Using Supabase Backend for secure processing.</p>
           </div>
 
           <div className="grid grid-cols-1 gap-4">
@@ -275,17 +273,9 @@ export default function CheckoutPage() {
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full py-5 rounded-xl bg-red-600 hover:bg-red-700 font-bold text-xl transition-all active:scale-95 disabled:opacity-50 disabled:active:scale-100 shadow-xl shadow-red-600/20"
+            className="w-full py-5 rounded-xl bg-red-600 hover:bg-red-700 font-bold text-xl transition-all active:scale-95 disabled:opacity-50 shadow-xl shadow-red-600/20"
           >
-            {isSubmitting ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                Processing Order...
-              </span>
-            ) : "Place Order"}
+            {isSubmitting ? "Processing..." : "Place Order"}
           </button>
         </form>
 
@@ -305,23 +295,10 @@ export default function CheckoutPage() {
             </div>
             
             <div className="border-t border-white/10 mt-6 pt-6 space-y-3">
-              {discountPct > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-white/40">Volume Discount ({discountPct}%)</span>
-                  <span className="text-green-400">-Rs. {discountAmt.toFixed(2)}</span>
-                </div>
-              )}
               <div className="flex justify-between items-center pt-2">
                 <span className="text-lg text-white/60">Total</span>
                 <span className="text-3xl font-bold text-red-600">Rs. {finalTotal.toFixed(2)}</span>
               </div>
-            </div>
-
-            <div className="mt-8 p-4 rounded-xl bg-white/5 border border-dashed border-white/20">
-              <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-2">Notice</p>
-              <p className="text-xs text-white/50 leading-relaxed">
-                By placing this order, you agree to our Terms of Service. Custom prints are non-refundable once production starts.
-              </p>
             </div>
           </div>
         </aside>

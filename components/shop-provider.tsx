@@ -1,8 +1,6 @@
 "use client"
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
-import { useAuth } from "@/hooks/use-auth"
-import { subscribeToUserOrders, Order as FirestoreOrder } from "@/lib/firestore-service"
 
 export type CartItem = {
   id: string
@@ -22,18 +20,6 @@ export type WishlistItem = {
   image?: string
 }
 
-export type OrderStatus = "Received" | "Processing" | "Printed" | "Shipped" | "Delivered"
-
-export const ORDER_STATUS_STEPS: OrderStatus[] = [
-  "Received",
-  "Processing",
-  "Printed",
-  "Shipped",
-  "Delivered",
-]
-
-export type OrderRecord = FirestoreOrder
-
 function cartItemKey(item: Pick<CartItem, "id" | "color" | "size" | "dtfSize">) {
   return [item.id, item.color ?? "", item.size ?? "", item.dtfSize ?? ""].join("::")
 }
@@ -41,7 +27,6 @@ function cartItemKey(item: Pick<CartItem, "id" | "color" | "size" | "dtfSize">) 
 type ShopContextType = {
   cart: CartItem[]
   wishlist: WishlistItem[]
-  orders: OrderRecord[]
   cartCount: number
   wishlistCount: number
   cartTotal: number
@@ -53,8 +38,6 @@ type ShopContextType = {
   isWishlisted: (id: string) => boolean
   removeFromWishlist: (id: string) => void
   clearWishlist: () => void
-  isLoggedIn: boolean
-  user: any
 }
 
 const ShopContext = createContext<ShopContextType | null>(null)
@@ -63,10 +46,8 @@ const CART_KEY = "chromacrew_cart"
 const WISHLIST_KEY = "chromacrew_wishlist"
 
 export function ShopProvider({ children }: { children: React.ReactNode }) {
-  const { user } = useAuth()
   const [cart, setCart] = useState<CartItem[]>([])
   const [wishlist, setWishlist] = useState<WishlistItem[]>([])
-  const [orders, setOrders] = useState<OrderRecord[]>([])
 
   useEffect(() => {
     const storedCart = localStorage.getItem(CART_KEY)
@@ -74,17 +55,6 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
     if (storedCart) setCart(JSON.parse(storedCart))
     if (storedWishlist) setWishlist(JSON.parse(storedWishlist))
   }, [])
-
-  useEffect(() => {
-    if (user) {
-      const unsubscribe = subscribeToUserOrders(user.uid, (fetchedOrders) => {
-        setOrders(fetchedOrders as OrderRecord[])
-      })
-      return () => unsubscribe()
-    } else {
-      setOrders([])
-    }
-  }, [user])
 
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(cart))
@@ -142,7 +112,6 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
     () => ({
       cart,
       wishlist,
-      orders,
       cartCount: cart.reduce((sum, item) => sum + item.quantity, 0),
       wishlistCount: wishlist.length,
       cartTotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -154,10 +123,8 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
       isWishlisted,
       removeFromWishlist,
       clearWishlist,
-      isLoggedIn: Boolean(user),
-      user,
     }),
-    [cart, wishlist, user, orders],
+    [cart, wishlist],
   )
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>

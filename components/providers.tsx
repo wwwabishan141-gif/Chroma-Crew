@@ -5,13 +5,11 @@ import { PromoBanner, CookieConsentBanner, NewsletterPopup } from "@/components/
 import { CrispChat } from "@/components/crisp-chat"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { SiteFooter } from "@/components/site-footer"
-import { AuthProvider } from "@/hooks/use-auth"
 import { Toaster } from "sonner"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <AuthProvider>
-      <ShopProvider>
+    <ShopProvider>
         <Toaster position="bottom-right" richColors theme="dark" />
         <PromoBanner />
         <div className="flex min-h-screen flex-col">{children}</div>
@@ -21,6 +19,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <CrispChat />
         <WhatsAppButton />
       </ShopProvider>
-    </AuthProvider>
   )
 }

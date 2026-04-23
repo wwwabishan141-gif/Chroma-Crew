@@ -1,0 +1,45 @@
+type User @table {
+  authId: String!
+  email: String!
+  displayName: String!
+  shippingAddress: String
+  phoneNumber: String
+  isAdmin: Boolean
+}
+
+type Design @table {
+  user: User!
+  designUrl: String!
+  fileName: String!
+  uploadedAt: Timestamp!
+  thumbnailUrl: String
+}
+
+type Order @table {
+  user: User!
+  orderId: String!
+  orderDate: Timestamp!
+  totalAmountLKR: Float!
+  status: String! # Can be 'RECEIVED', 'PROCESSING', 'SHIPPED', 'DELIVERED'
+  notes: String
+}
+
+type OrderItem @table {
+  order: Order!
+  design: Design
+  quantity: Int!
+  size: String!
+  color: String!
+  printZone: String! # Can be 'CENTER', 'LEFT_CHEST', 'RIGHT_CHEST', 'BACK'
+  unitPriceLKR: Float!
+  printSize: String # Can be 'A4', 'A3'
+}
+
+type ProductTemplate @table {
+  name: String!
+  description: String!
+  basePriceLKR: Float!
+  availableSizes: [String]
+  availableColors: [String]
+  imageUrl: String
+}

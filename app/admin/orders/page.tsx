@@ -2,70 +2,54 @@
 
 import { useEffect, useState } from "react"
 import { Header } from "@/components/header"
-import { subscribeToAllOrders, updateOrderStatus, type Order } from "@/lib/firestore-service"
-import { useAuth } from "@/hooks/use-auth"
+import { getAllOrders, updateOrderStatus, type Order } from "@/lib/supabase-service"
+import { supabase } from "@/lib/supabase"
 import { format } from "date-fns"
 import { toast } from "sonner"
-import { ORDER_STATUS_STEPS, type OrderStatus } from "@/components/shop-provider"
 
 const ADMIN_EMAIL = "www.abiesivan@gmail.com"
 
-export default function AdminOrdersPage() {
-  const { user, loading: authLoading } = useAuth()
+export default function AdminDashboard() {
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
-    if (user?.email === ADMIN_EMAIL) {
-      const unsubscribe = subscribeToAllOrders((fetchedOrders) => {
-        setOrders(fetchedOrders)
-        setLoading(false)
-      })
-      return () => unsubscribe()
-    } else if (!authLoading) {
+    const fetchOrders = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+      
+      if (user?.email === ADMIN_EMAIL) {
+        try {
+          const allOrders = await getAllOrders()
+          setOrders(allOrders)
+        } catch (err) {
+          toast.error("Failed to load orders")
+        }
+      }
       setLoading(false)
     }
-  }, [user, authLoading])
+    fetchOrders()
+  }, [])
 
-  const handleStatusUpdate = async (orderId: string, newStatus: OrderStatus) => {
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
     try {
       await updateOrderStatus(orderId, newStatus)
+      setOrders(orders.map(o => o.order_id === orderId ? { ...o, status: newStatus as any } : o))
       toast.success(`Order ${orderId} updated to ${newStatus}`)
-    } catch (error: any) {
-      toast.error("Failed to update status: " + error.message)
+    } catch (err) {
+      toast.error("Failed to update status")
     }
   }
 
-  if (authLoading || loading) {
-    return (
-      <main className="min-h-screen bg-black text-white">
-        <Header currentPage="admin" />
-        <div className="flex items-center justify-center h-[70vh]">
-          <div className="animate-spin w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full" />
-        </div>
-      </main>
-    )
-  }
+  if (loading) return <div className="min-h-screen bg-black flex items-center justify-center"><div className="animate-spin w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full" /></div>
 
   if (user?.email !== ADMIN_EMAIL) {
     return (
-      <main className="min-h-screen bg-black text-white">
-        <Header currentPage="admin" />
-        <div className="max-w-xl mx-auto px-6 py-20 text-center space-y-6">
-          <div className="w-20 h-20 bg-red-600/20 rounded-full flex items-center justify-center mx-auto">
-            <svg className="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-          </div>
-          <h1 className="text-3xl font-bold">Access Denied</h1>
-          <p className="text-white/60 text-lg">
-            You do not have permission to access the admin dashboard. This area is restricted to authorized administrators only.
-          </p>
-          <div className="pt-6">
-            <a href="/" className="px-8 py-3 rounded-xl bg-red-600 hover:bg-red-700 font-bold transition-all">
-              Return Home
-            </a>
-          </div>
+      <main className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Access Denied</h1>
+          <p className="text-white/50">This area is for authorized administrators only.</p>
         </div>
       </main>
     )
@@ -75,137 +59,72 @@ export default function AdminOrdersPage() {
     <main className="min-h-screen bg-black text-white pb-20">
       <Header currentPage="admin" />
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
-          <div>
-            <h1 className="text-4xl font-bold mb-1">Store Management</h1>
-            <p className="text-white/50">Manage all incoming orders and update production status.</p>
-          </div>
-          <div className="flex gap-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-3 text-center">
-              <p className="text-xs text-white/40 uppercase tracking-widest mb-1">Total Orders</p>
-              <p className="text-2xl font-bold">{orders.length}</p>
-            </div>
-            <div className="bg-red-600/10 border border-red-600/20 rounded-xl px-6 py-3 text-center">
-              <p className="text-xs text-red-400 uppercase tracking-widest mb-1">Total Revenue</p>
-              <p className="text-2xl font-bold">Rs. {orders.reduce((sum, o) => sum + o.total, 0).toLocaleString()}</p>
-            </div>
-          </div>
-        </div>
+        <h1 className="text-4xl font-bold mb-10">Admin Dashboard</h1>
 
-        {orders.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/20 p-20 text-center">
-            <p className="text-white/40">No orders found in the database.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-6">
-            {orders.map((order) => (
-              <div key={order.orderId} className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-                {/* Header */}
-                <div className="p-6 border-b border-white/5 flex flex-wrap justify-between items-start gap-4">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl font-bold text-white">{order.orderId}</span>
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
-                        order.status === 'Delivered' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 
-                        order.status === 'Shipped' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 
-                        order.status === 'Processing' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
-                        'bg-blue-500/10 text-blue-400 border-blue-500/20'
-                      }`}>
-                        {order.status}
-                      </span>
-                    </div>
-                    <p className="text-sm text-white/40">
-                      {order.createdAt?.toDate ? format(order.createdAt.toDate(), "MMMM d, yyyy HH:mm:ss") : "Just now"}
-                    </p>
+        <div className="grid grid-cols-1 gap-6">
+          {orders.map((order) => (
+            <div key={order.order_id} className="rounded-2xl border border-white/10 bg-white/5 p-6 flex flex-col lg:flex-row gap-8">
+              <div className="flex-1 space-y-6">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-bold">{order.order_id}</h2>
+                    <p className="text-sm text-white/40">{format(new Date(order.created_at!), "MMM d, yyyy HH:mm")}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs text-white/30 uppercase tracking-widest mb-1">Grand Total</p>
-                    <p className="text-2xl font-bold text-red-500">Rs. {order.total.toFixed(2)}</p>
-                  </div>
+                  <p className="text-2xl font-bold text-red-500">Rs. {order.total.toFixed(2)}</p>
                 </div>
 
-                {/* Content */}
-                <div className="p-6 grid grid-cols-1 lg:grid-cols-[1fr_0.8fr_1fr] gap-10">
-                  {/* Column 1: Customer & Products */}
-                  <div className="space-y-6">
-                    <div>
-                      <p className="text-xs text-white/30 uppercase tracking-widest mb-3">Customer Info</p>
-                      <div className="space-y-1">
-                        <p className="font-bold text-lg">{order.name}</p>
-                        <p className="text-white/70">{order.phone}</p>
-                        <p className="text-white/50 text-sm leading-relaxed max-w-sm">{order.address}</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-xs text-white/30 uppercase tracking-widest mb-3">Order Items</p>
-                      <div className="space-y-2">
-                        {order.products.map((p, i) => (
-                          <div key={i} className="flex justify-between text-sm py-2 border-b border-white/5 last:border-0">
-                            <span className="text-white/80">{p.name} × {p.quantity}</span>
-                            <span className="text-white/40">{p.size} / {p.color}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <p className="text-xs text-white/30 uppercase tracking-widest mb-2">Customer</p>
+                    <p className="font-bold">{order.name}</p>
+                    <p className="text-white/60">{order.phone}</p>
+                    <p className="text-xs text-white/40 max-w-xs">{order.address}</p>
                   </div>
-
-                  {/* Column 2: Design Preview */}
-                  <div className="space-y-4">
-                    <p className="text-xs text-white/30 uppercase tracking-widest mb-3">Design Preview</p>
-                    {order.imageUrl ? (
-                      <div className="group relative aspect-square rounded-xl overflow-hidden bg-black/40 border border-white/10 flex items-center justify-center">
-                        <img src={order.imageUrl} alt="Custom Design" className="w-full h-full object-contain" />
-                        <a 
-                          href={order.imageUrl} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-sm font-bold"
-                        >
-                          View Original High-Res
-                        </a>
-                      </div>
-                    ) : (
-                      <div className="aspect-square rounded-xl bg-white/5 border border-dashed border-white/10 flex items-center justify-center text-white/20 text-xs">
-                        No Custom Design
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Column 3: Status Actions */}
-                  <div className="space-y-4">
-                    <p className="text-xs text-white/30 uppercase tracking-widest mb-3">Update Progress</p>
-                    <div className="grid grid-cols-1 gap-2">
-                      {ORDER_STATUS_STEPS.map((step) => (
-                        <button
-                          key={step}
-                          onClick={() => handleStatusUpdate(order.orderId, step)}
-                          disabled={order.status === step}
-                          className={`w-full py-3 rounded-xl text-xs font-bold transition-all active:scale-[0.98] ${
-                            order.status === step 
-                              ? 'bg-red-600 text-white shadow-lg shadow-red-600/30' 
-                              : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white'
-                          }`}
-                        >
-                          {order.status === step ? `✓ Current: ${step}` : `Move to ${step}`}
-                        </button>
+                  <div>
+                    <p className="text-xs text-white/30 uppercase tracking-widest mb-2">Items</p>
+                    <ul className="text-sm space-y-1">
+                      {order.products.map((p: any, i: number) => (
+                        <li key={i}>{p.name} ({p.size}/{p.color}) x{p.quantity}</li>
                       ))}
-                    </div>
-                    <div className="pt-4">
-                      <a 
-                        href={`https://wa.me/${order.phone.replace(/[^0-9]/g, '')}`} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl border border-green-600/40 text-green-400 hover:bg-green-600/10 text-xs font-bold transition-all"
-                      >
-                        Contact Customer via WhatsApp
-                      </a>
-                    </div>
+                    </ul>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+
+              <div className="w-full lg:w-64 space-y-4">
+                <p className="text-xs text-white/30 uppercase tracking-widest mb-2">Status Control</p>
+                <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
+                  {["Received", "Processing", "Printed", "Shipped", "Delivered"].map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => handleStatusChange(order.order_id, s)}
+                      className={`py-2 rounded-lg text-xs font-bold transition-all ${
+                        order.status === s 
+                          ? 'bg-red-600 text-white' 
+                          : 'bg-white/5 hover:bg-white/10 text-white/50'
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+                {order.image_url && (
+                  <a 
+                    href={order.image_url} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="block mt-4 rounded-xl overflow-hidden border border-white/10 bg-black group relative"
+                  >
+                    <img src={order.image_url} alt="Design" className="w-full h-32 object-contain p-2" />
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] font-bold transition-opacity">
+                      View Original
+                    </div>
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   )
