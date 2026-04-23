@@ -58,6 +58,13 @@ export default function CheckoutPage() {
     setIsSubmitting(true)
     const newOrderId = generateOrderId()
 
+    // 0. Safety check for Firebase Config
+    if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
+      toast.error("Firebase is not configured on the server. Please check environment variables.")
+      setIsSubmitting(false)
+      return
+    }
+
     try {
       let imageUrl = ""
       if (customItem && customItem.customImage) {
@@ -96,11 +103,20 @@ export default function CheckoutPage() {
 
       await createOrder(orderData)
       
-      const productList = orderData.products.map(i => `${i.name} x${i.quantity}`).join(", ")
+      const productList = orderData.products.map(i => `• ${i.name} (${i.size}/${i.color}) x${i.quantity}`).join("\n")
       const paymentLabel = paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'
-      const domain = window.location.origin
+      const orderLink = `${window.location.origin}/track/${newOrderId}`
       
-      const text = `Hi, I just placed an order on Chroma Crew.\n\nOrder ID: ${newOrderId}\nName: ${orderData.name}\nProducts: ${productList}\nTotal: Rs. ${orderData.total.toFixed(2)}\nAddress: ${orderData.address}\n\nCustom Design:\n${imageUrl || "None"}\n\nPlease confirm my order. Thank you.`
+      const text = `*New Order: ${newOrderId}*\n\n` +
+                   `*Customer Details:*\n` +
+                   `Name: ${orderData.name}\n` +
+                   `Phone: ${orderData.phone}\n` +
+                   `Address: ${orderData.address}\n\n` +
+                   `*Products:*\n${productList}\n\n` +
+                   `*Total: Rs. ${orderData.total.toFixed(2)}*\n` +
+                   `Payment: ${paymentLabel}\n\n` +
+                   `*Custom Design:*\n${imageUrl ? imageUrl : "None"}\n\n` +
+                   `Please confirm my order. Thank you! 🙏`
       
       const link = `https://wa.me/94763425409?text=${encodeURIComponent(text)}`
       setWaLink(link)

@@ -22,7 +22,7 @@ export interface Order {
   address: string;
   products: any[];
   total: number;
-  imageUrl?: string;
+  imageUrl?: string | null;
   paymentMethod?: string;
   status: "Received" | "Processing" | "Printed" | "Shipped" | "Delivered";
   createdAt: any;
