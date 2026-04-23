@@ -1,3 +1,4 @@
+// ChromaCrew - Final Deployment Trigger
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { Poppins } from "next/font/google"
