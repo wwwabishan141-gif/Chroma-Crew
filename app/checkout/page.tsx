@@ -81,7 +81,7 @@ export default function CheckoutPage() {
           dtfSize: item.dtfSize
         })),
         total: finalTotal,
-        imageUrl: imageUrl || undefined,
+        imageUrl: imageUrl || null,
         paymentMethod: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer',
         status: "Received" as const,
         createdAt: Timestamp.now()
