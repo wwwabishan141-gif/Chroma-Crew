@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { Header } from "@/components/header"
 import { Mail, Phone, MapPin, Send } from "lucide-react"
-import { submitContactMessage, buildWhatsAppContactLink } from "@/lib/contact-service"
 import { toast } from "sonner"
 
 export default function ContactsPage() {
@@ -21,20 +20,16 @@ export default function ContactsPage() {
     setLoading(true)
     
     try {
-      // 1. Save to Firebase
-      await submitContactMessage(formData)
-      
-      // 2. Prepare WhatsApp link
-      const waLink = buildWhatsAppContactLink(formData)
+      const waLink = `https://wa.me/94763425409?text=${encodeURIComponent(
+        `Hi ChromaCrew, I'm ${formData.name}. \nSubject: ${formData.subject}\nMessage: ${formData.message}`
+      )}`
       
       toast.success("Message sent successfully!")
       setSubmitted(true)
       
-      // Optional: Open WhatsApp after a short delay
       setTimeout(() => {
         window.open(waLink, "_blank")
       }, 1500)
-      
     } catch (error: any) {
       toast.error("Failed to send message: " + error.message)
     } finally {

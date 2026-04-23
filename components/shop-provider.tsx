@@ -1,6 +1,7 @@
-"use client"
-
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
+
+export const ORDER_STATUS_STEPS = ["Received", "Processing", "Printed", "Shipped", "Delivered"] as const
+export type OrderStatus = (typeof ORDER_STATUS_STEPS)[number]
 
 export type CartItem = {
   id: string

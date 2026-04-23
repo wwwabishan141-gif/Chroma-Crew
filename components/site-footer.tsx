@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { submitNewsletterEmail } from "@/lib/firestore-service"
 import { toast } from "sonner"
 import { Send, Instagram, Facebook, Twitter } from "lucide-react"
 
@@ -41,7 +40,7 @@ export function SiteFooter() {
     }
     setLoading(true)
     try {
-      await submitNewsletterEmail(email)
+      // await submitNewsletterEmail(email)
       toast.success("Subscribed! Stay tuned for drops.")
       setEmail("")
     } catch (error: any) {
