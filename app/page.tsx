@@ -35,12 +35,11 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       <div className="relative mb-8">
         <div className="relative w-32 h-32 animate-pulse">
           <Image
-            src="/api/design-assets/logo"
+            src="/website-logo-what-01.png"
             alt="ChromaCrew"
             fill
             className="object-contain"
             priority
-            unoptimized
           />
         </div>
         {/* Orbiting ring */}

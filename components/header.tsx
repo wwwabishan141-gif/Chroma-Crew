@@ -100,7 +100,7 @@ export function Header({ currentPage = "home" }: HeaderProps) {
             <div className="flex-initial flex justify-start items-center">
               <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
                 <Image
-                  src="/logo.png"
+                  src="/website-logo-what-01.png"
                   alt="Chroma Crew Logo"
                   width={50}
                   height={50}
