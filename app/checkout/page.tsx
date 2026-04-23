@@ -61,9 +61,16 @@ export default function CheckoutPage() {
     try {
       let imageUrl = ""
       if (customItem && customItem.customImage) {
-        toast.info("Uploading design...")
-        const file = base64ToFile(customItem.customImage, "design.png")
-        imageUrl = await uploadDesign(newOrderId, file)
+        const uploadToast = toast.loading("Uploading your custom design...")
+        try {
+          const file = base64ToFile(customItem.customImage, "design.png")
+          imageUrl = await uploadDesign(newOrderId, file)
+          toast.dismiss(uploadToast)
+          toast.success("Design uploaded!")
+        } catch (uploadErr: any) {
+          toast.dismiss(uploadToast)
+          throw new Error("Design upload failed. Please try a smaller image or check your connection.")
+        }
       }
 
       const orderData = {

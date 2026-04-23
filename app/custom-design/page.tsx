@@ -12,6 +12,7 @@ import {
   type DesignZone,
   type DesignState,
 } from "@/components/tshirt-editor"
+import { compressImage } from "@/lib/image-utils"
 
 export default function CustomDesignPage() {
   const { addToCart, toggleWishlist, isWishlisted } = useShop()
@@ -35,8 +36,8 @@ export default function CustomDesignPage() {
 
   const colors = ["Red", "Black", "White", "Navy", "Grey"]
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"]
-  const customPrice = 49.99
-  const dtfSurcharge = selectedDtfSize === "A3" ? 8 : 0
+  const customPrice = 4500
+  const dtfSurcharge = selectedDtfSize === "A3" ? 500 : 0
   const finalPrice = customPrice + dtfSurcharge
   const wished = isWishlisted("custom-dtf")
 
@@ -54,8 +55,12 @@ export default function CustomDesignPage() {
     const file = e.target.files?.[0]
     if (!file || !file.type.startsWith("image/")) return
     const reader = new FileReader()
-    reader.onload = (event) => {
-      updateDesign(activeZone, { image: (event.target?.result as string) || null })
+    reader.onload = async (event) => {
+      const base64 = (event.target?.result as string) || null
+      if (base64) {
+        const compressed = await compressImage(base64)
+        updateDesign(activeZone, { image: compressed })
+      }
     }
     reader.readAsDataURL(file)
   }
@@ -67,8 +72,12 @@ export default function CustomDesignPage() {
       const file = e.dataTransfer.files?.[0]
       if (!file || !file.type.startsWith("image/")) return
       const reader = new FileReader()
-      reader.onload = (event) => {
-        updateDesign(activeZone, { image: (event.target?.result as string) || null })
+      reader.onload = async (event) => {
+        const base64 = (event.target?.result as string) || null
+        if (base64) {
+          const compressed = await compressImage(base64)
+          updateDesign(activeZone, { image: compressed })
+        }
       }
       reader.readAsDataURL(file)
     },
@@ -335,6 +344,8 @@ export default function CustomDesignPage() {
                   cartPressed ? "bg-green-600 text-white scale-[0.98]" : "bg-white text-black"
                 }`}
                 onClick={() => {
+                  const combinedDesign = frontDesigns.center.image || frontDesigns.leftChest.image || frontDesigns.rightChest.image || backDesigns.center.image
+                  
                   addToCart(
                     {
                       id: "custom-dtf",
@@ -343,7 +354,7 @@ export default function CustomDesignPage() {
                       color: selectedColor,
                       size: selectedSize,
                       dtfSize: selectedDtfSize,
-                      customImage: frontDesigns.center.image ?? undefined,
+                      customImage: combinedDesign ?? undefined,
                     },
                     quantity,
                   )
