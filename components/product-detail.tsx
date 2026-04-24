@@ -38,7 +38,14 @@ export function ProductDetail({ product }: ProductDetailProps) {
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 py-8">
         <div className="space-y-4">
           <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-red-600/70 bg-white/5 shadow-2xl shadow-red-600/5">
-            <Image src={product.images[selectedView]} alt={`${product.name} ${selectedView}`} fill className="object-cover" />
+            <Image 
+              src={product.images[selectedView]} 
+              alt={`${product.name} ${selectedView}`} 
+              fill 
+              priority={true}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover" 
+            />
             <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 text-white text-xs">
               {viewOptions.find((v) => v.key === selectedView)?.label}
             </div>

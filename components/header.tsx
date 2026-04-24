@@ -88,8 +88,8 @@ export function Header({ currentPage = "home" }: HeaderProps) {
     <>
       <header
         className={`sticky top-0 z-50 w-full transition-all duration-300 ${isScrolled
-            ? "bg-background/95 backdrop-blur-lg border-b border-white/10 shadow-lg"
-            : "bg-background/80 border-b border-transparent"
+          ? "bg-background/95 backdrop-blur-lg border-b border-white/10 shadow-lg"
+          : "bg-background/80 border-b border-transparent"
           }`}
       >
         {/* ══════════════ ROW 1 ══════════════ */}
@@ -101,9 +101,9 @@ export function Header({ currentPage = "home" }: HeaderProps) {
               <Image
                 src="/website-logo-what-01.png"
                 alt="Chroma Crew"
-                width={65}
-                height={65}
-                className="w-[60px] md:w-[65px] h-auto object-contain"
+                width={70}
+                height={70}
+                className="w-[65px] md:w-[70px] h-auto object-contain"
                 priority
               />
             </Link>
@@ -240,8 +240,8 @@ export function Header({ currentPage = "home" }: HeaderProps) {
                 {item.name}
                 <span
                   className={`absolute -bottom-[11px] left-0 right-0 h-[2px] bg-red-600 rounded-full transition-all duration-200 ${isActive(item.key)
-                      ? "opacity-100 scale-x-100"
-                      : "opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-100"
+                    ? "opacity-100 scale-x-100"
+                    : "opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-100"
                     }`}
                 />
               </Link>
@@ -259,8 +259,8 @@ export function Header({ currentPage = "home" }: HeaderProps) {
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
                   className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${isActive(item.key)
-                      ? "text-white bg-white/5"
-                      : "text-white/65 hover:text-white hover:bg-white/5"
+                    ? "text-white bg-white/5"
+                    : "text-white/65 hover:text-white hover:bg-white/5"
                     }`}
                 >
                   {item.name}
