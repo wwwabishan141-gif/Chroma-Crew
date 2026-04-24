@@ -48,7 +48,7 @@ export function CustomDesignSection() {
                   ✏️ Start Custom Order
                 </Link>
                 <a
-                  href="https://wa.me/94763425409?text=Hi%2C+I+want+to+place+a+custom+t-shirt+order+with+ChromaCrew!"
+                  href="https://wa.me/94751297637?text=Hi%2C+I+want+to+place+a+custom+t-shirt+order+with+ChromaCrew!"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-7 py-3.5 rounded-xl border border-green-600/40 bg-green-600/10 text-green-400 hover:bg-green-600/20 font-bold transition-colors text-center text-sm flex items-center justify-center gap-2"

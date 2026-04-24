@@ -28,7 +28,7 @@ export function WhatsAppButton() {
 
       {/* WhatsApp FAB */}
       <a
-        href="https://wa.me/94763425409?text=Hi%2C+I%27m+interested+in+ordering+from+ChromaCrew!"
+        href="https://wa.me/94751297637?text=Hi%2C+I%27m+interested+in+ordering+from+ChromaCrew!"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"

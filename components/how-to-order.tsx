@@ -46,7 +46,7 @@ const steps = [
     ),
     action: {
       label: "Chat on WhatsApp",
-      href: "https://wa.me/94763425409?text=Hi%2C+I%27d+like+to+confirm+my+ChromaCrew+order!",
+      href: "https://wa.me/94751297637?text=Hi%2C+I%27d+like+to+confirm+my+ChromaCrew+order!",
       external: true,
     },
   },

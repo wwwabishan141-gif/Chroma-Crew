@@ -143,7 +143,7 @@ export default function CheckoutPage() {
                    (allImageUrls.length > 0 ? allImageUrls.join('\n') : "None") + `\n\n` +
                    `Please confirm my order. Thank you! 🙏`
       
-      const link = `https://wa.me/94763425409?text=${encodeURIComponent(text)}`
+      const link = `https://wa.me/94751297637?text=${encodeURIComponent(text)}`
       setWaLink(link)
       setOrderId(newOrderId)
       setSubmitted(true)

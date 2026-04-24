@@ -20,7 +20,7 @@ export default function ContactsPage() {
     setLoading(true)
     
     try {
-      const waLink = `https://wa.me/94763425409?text=${encodeURIComponent(
+      const waLink = `https://wa.me/94751297637?text=${encodeURIComponent(
         `Hi ChromaCrew, I'm ${formData.name}. \nSubject: ${formData.subject}\nMessage: ${formData.message}`
       )}`
       
@@ -89,7 +89,7 @@ export default function ContactsPage() {
                 </div>
                 <div>
                   <h3 className="text-white font-semibold mb-1">Phone</h3>
-                  <p className="text-white/60">076 342 5409 or 075 129 7637</p>
+                  <p className="text-white/60">075 129 7637</p>
                 </div>
               </div>
 
