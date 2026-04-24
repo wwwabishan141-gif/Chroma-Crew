@@ -24,25 +24,44 @@ export interface Review {
   created_at?: string
 }
 
+// ⚙️ Exact bucket name as shown in Supabase Storage dashboard (case-sensitive, spaces matter)
+const BUCKET_NAME = 'Chroma bucket'
+
 /**
  * Uploads a design image to Supabase Storage
+ * Throws on failure so caller can handle
  */
-export const uploadDesign = async (orderId: string, file: File) => {
-  const fileExt = file.name.split('.').pop()
+export const uploadDesign = async (orderId: string, file: File): Promise<string> => {
+  const fileExt = file.name.split('.').pop() || 'png'
   const fileName = `${orderId}-${Date.now()}.${fileExt}`
-  const filePath = `${fileName}`
 
-  const { data, error } = await supabase.storage
-    .from('designs')
-    .upload(filePath, file)
+  const { error } = await supabase.storage
+    .from(BUCKET_NAME)
+    .upload(fileName, file, { upsert: true })
 
-  if (error) throw error
+  if (error) {
+    console.error('Upload error:', error)
+    throw new Error(`Upload failed: ${error.message}`)
+  }
 
   const { data: { publicUrl } } = supabase.storage
-    .from('designs')
-    .getPublicUrl(filePath)
+    .from(BUCKET_NAME)
+    .getPublicUrl(fileName)
 
   return publicUrl
+}
+
+/**
+ * Attempts upload but DOES NOT block order creation if it fails
+ * Returns the public URL or null
+ */
+export const tryUploadDesign = async (orderId: string, file: File): Promise<string | null> => {
+  try {
+    return await uploadDesign(orderId, file)
+  } catch (err: any) {
+    console.error('Non-blocking upload error:', err.message)
+    return null
+  }
 }
 
 /**

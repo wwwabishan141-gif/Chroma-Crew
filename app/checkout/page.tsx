@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { getCartItemKey, useShop } from "@/components/shop-provider"
-import { createOrder, uploadDesign, base64ToFile } from "@/lib/supabase-service"
+import { createOrder, tryUploadDesign, base64ToFile } from "@/lib/supabase-service"
 import { toast } from "sonner"
 import { validateShippingForm } from "@/lib/validators"
 import { supabase } from "@/lib/supabase"
@@ -55,18 +55,16 @@ export default function CheckoutPage() {
     const newOrderId = generateOrderId()
 
     try {
-      let imageUrl = null
+      let imageUrl: string | null = null
       if (customItem && customItem.customImage) {
-        const uploadToast = toast.loading("Uploading design to Supabase...")
-        try {
-          const file = base64ToFile(customItem.customImage, "design.png")
-          imageUrl = await uploadDesign(newOrderId, file)
-          toast.dismiss(uploadToast)
+        const uploadToast = toast.loading("Uploading your design...")
+        const file = base64ToFile(customItem.customImage, "design.png")
+        imageUrl = await tryUploadDesign(newOrderId, file)
+        toast.dismiss(uploadToast)
+        if (imageUrl) {
           toast.success("Design uploaded!")
-        } catch (uploadErr: any) {
-          toast.dismiss(uploadToast)
-          toast.error("Design upload failed. Check Supabase Storage rules.")
-          throw uploadErr
+        } else {
+          toast.warning("Design upload failed — order will continue without image.")
         }
       }
 

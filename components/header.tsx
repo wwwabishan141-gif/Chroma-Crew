@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Heart, Search, ShoppingCart, User, Menu, X } from "lucide-react"
+import { Heart, Search, ShoppingCart, Menu, X } from "lucide-react"
 import { useShop } from "@/components/shop-provider"
 import { supabase } from "@/lib/supabase"
 
@@ -68,6 +68,8 @@ export function Header({ currentPage = "home" }: HeaderProps) {
     { name: "Shop", href: "/shop", key: "shop" },
     { name: "Custom Design", href: "/custom-design", key: "custom-design" },
     { name: "About Us", href: "/about", key: "about" },
+    { name: "Blog", href: "/blog", key: "blog" },
+    { name: "FAQ", href: "/faq", key: "faq" },
     { name: "Account", href: "/account", key: "account" },
     { name: "Contacts", href: "/contacts", key: "contacts" },
   ]
@@ -80,8 +82,11 @@ export function Header({ currentPage = "home" }: HeaderProps) {
         ? "bg-background/95 backdrop-blur-lg border-b border-white/10 shadow-lg"
         : "bg-background/80 border-b border-transparent shadow-none"
         }`}>
-        <div className={`max-w-7xl mx-auto px-4 md:px-6 py-4 transition-all duration-300`}>
-          <div className="flex items-center justify-between gap-4 relative">
+
+        {/* ── ROW 1: Logo │ Search │ Login + Wishlist + Cart ── */}
+        <div className="max-w-7xl mx-auto px-4 md:px-6 pt-3 pb-2">
+          <div className="flex items-center justify-between gap-4">
+
             {/* Logo */}
             <Link href="/" className="flex items-center hover:opacity-80 transition-opacity shrink-0">
               <Image
@@ -94,103 +99,186 @@ export function Header({ currentPage = "home" }: HeaderProps) {
               />
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`text-sm font-bold transition-all duration-300 ${isActive(item.key) ? "text-white" : "text-white/60 hover:text-white"}`}
+            {/* Search – center (desktop) */}
+            <div className="hidden lg:flex flex-1 justify-center">
+              {showSearch ? (
+                <div className="flex gap-2 w-full max-w-md animate-in slide-in-from-top duration-200">
+                  <input
+                    type="text"
+                    placeholder="Search for products..."
+                    autoFocus
+                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:border-red-600 transition-colors"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        router.push(`/shop?search=${searchQuery}`)
+                        setShowSearch(false)
+                      }
+                    }}
+                  />
+                  <button
+                    className="bg-red-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-red-700 transition-colors"
+                    onClick={() => { router.push(`/shop?search=${searchQuery}`); setShowSearch(false) }}
+                  >
+                    Go
+                  </button>
+                  <button onClick={() => setShowSearch(false)} className="text-white/40 hover:text-white p-2 transition-colors">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowSearch(true)}
+                  className="text-white/60 hover:text-white transition-colors p-2"
+                  aria-label="Open search"
                 >
-                  {item.name}
+                  <Search className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+
+            {/* Right icons: Login + Wishlist + Cart + Hamburger */}
+            <div className="flex items-center gap-3">
+              {/* Login / Logout – desktop */}
+              {user ? (
+                <button
+                  onClick={handleLogout}
+                  className="hidden sm:flex items-center gap-1.5 text-xs font-bold text-white/70 hover:text-white border border-white/15 hover:border-white/30 px-4 py-2 rounded-full transition-all"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="hidden sm:flex items-center gap-1.5 text-xs font-bold text-white border border-white/15 hover:border-red-600 hover:text-red-400 px-4 py-2 rounded-full transition-all"
+                >
+                  Login
                 </Link>
-              ))}
-            </nav>
+              )}
 
-            {/* Icons */}
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={() => setShowSearch(!showSearch)}
-                className="text-white hover:text-red-500 transition-colors p-2"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-
-              <Link href="/wishlist" className="hidden sm:flex text-white hover:text-red-500 transition-colors p-2">
+              {/* Wishlist */}
+              <Link href="/wishlist" className="hidden sm:flex text-white/70 hover:text-red-400 transition-colors p-1.5" aria-label="Wishlist">
                 <Heart className="w-5 h-5" />
               </Link>
 
-              <Link href="/cart" className={`relative text-white hover:text-red-500 transition-all p-2 ${cartBump ? "scale-110" : ""}`}>
+              {/* Cart */}
+              <Link href="/cart" className={`relative text-white/70 hover:text-red-400 transition-all p-1.5 ${cartBump ? "scale-110" : ""}`} aria-label="Cart">
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-red-600 rounded-full text-[10px] flex items-center justify-center font-bold">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-600 rounded-full text-[9px] flex items-center justify-center font-bold text-white">
                     {cartCount}
                   </span>
                 )}
               </Link>
 
-              {user ? (
-                <button onClick={handleLogout} className="hidden sm:flex text-xs font-bold bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors">
-                  Logout
-                </button>
-              ) : (
-                <Link href="/login" className="hidden sm:flex text-xs font-bold bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors">
-                  Login
-                </Link>
-              )}
+              {/* Mobile search */}
+              <button
+                onClick={() => setShowSearch(!showSearch)}
+                className="lg:hidden text-white/70 hover:text-white transition-colors p-1.5"
+                aria-label="Search"
+              >
+                <Search className="w-5 h-5" />
+              </button>
 
-              <button className="lg:hidden text-white p-2" onClick={() => setMenuOpen(!menuOpen)}>
-                {menuOpen ? <X /> : <Menu />}
+              {/* Hamburger */}
+              <button
+                className="lg:hidden text-white/70 hover:text-white p-1.5 transition-colors"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label="Menu"
+              >
+                {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* ── ROW 2: Nav Links (desktop only) ── */}
+        <div className="hidden lg:block border-t border-white/5">
+          <nav className="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center justify-center gap-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`text-sm font-semibold transition-all duration-200 relative group ${
+                  isActive(item.key)
+                    ? "text-white"
+                    : "text-white/55 hover:text-white"
+                }`}
+              >
+                {item.name}
+                {/* Active underline */}
+                <span className={`absolute -bottom-[9px] left-0 right-0 h-[2px] bg-red-600 transition-all duration-200 ${
+                  isActive(item.key) ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-60 group-hover:scale-x-100"
+                }`} />
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* Mobile search bar drop-down */}
+        {showSearch && (
+          <div className="lg:hidden border-t border-white/10 p-3 animate-in slide-in-from-top duration-200">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Search products..."
+                autoFocus
+                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:border-red-600"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    router.push(`/shop?search=${searchQuery}`)
+                    setShowSearch(false)
+                    setMenuOpen(false)
+                  }
+                }}
+              />
+              <button
+                className="bg-red-600 px-4 py-2 rounded-xl font-bold text-sm"
+                onClick={() => { router.push(`/shop?search=${searchQuery}`); setShowSearch(false) }}
+              >
+                Go
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Mobile full menu */}
         {menuOpen && (
-          <div className="lg:hidden bg-background border-b border-white/10 animate-in slide-in-from-top duration-300">
-            <nav className="flex flex-col p-4 gap-2">
+          <div className="lg:hidden bg-background/98 border-t border-white/10 animate-in slide-in-from-top duration-300">
+            <nav className="flex flex-col p-4 gap-1">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="px-4 py-3 rounded-xl text-white/80 hover:bg-white/5 font-medium"
+                  className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
+                    isActive(item.key)
+                      ? "text-white bg-white/5"
+                      : "text-white/65 hover:text-white hover:bg-white/5"
+                  }`}
                 >
                   {item.name}
                 </Link>
               ))}
-              {!user && (
-                <Link href="/login" className="mt-2 bg-red-600 text-center py-3 rounded-xl font-bold">
-                  Login
-                </Link>
-              )}
-            </nav>
-          </div>
-        )}
 
-        {/* Search Bar Overlay */}
-        {showSearch && (
-          <div className="absolute top-full left-0 w-full bg-background border-b border-white/10 p-4 animate-in slide-in-from-top duration-200">
-            <div className="max-w-3xl mx-auto flex gap-2">
-              <input 
-                type="text" 
-                placeholder="Search for products..."
-                autoFocus
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 outline-none focus:border-red-600"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button 
-                className="bg-red-600 px-6 py-2 rounded-xl font-bold"
-                onClick={() => {
-                  router.push(`/shop?search=${searchQuery}`)
-                  setShowSearch(false)
-                }}
-              >
-                Search
-              </button>
-            </div>
+              <div className="mt-3 pt-3 border-t border-white/10 flex gap-3">
+                <Link href="/wishlist" onClick={() => setMenuOpen(false)} className="flex-1 text-center py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors">
+                  ♡ Wishlist
+                </Link>
+                {user ? (
+                  <button onClick={() => { handleLogout(); setMenuOpen(false) }} className="flex-1 py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors">
+                    Logout
+                  </button>
+                ) : (
+                  <Link href="/login" onClick={() => setMenuOpen(false)} className="flex-1 text-center py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-sm font-bold text-white transition-colors">
+                    Login
+                  </Link>
+                )}
+              </div>
+            </nav>
           </div>
         )}
       </header>
