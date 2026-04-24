@@ -345,13 +345,26 @@ export default function CustomDesignPage() {
                 }`}
                 onClick={() => {
                   let placementStr = []
-                  if (frontDesigns.center.image) placementStr.push("Front Center")
-                  if (frontDesigns.leftChest.image) placementStr.push("Front Left Chest")
-                  if (frontDesigns.rightChest.image) placementStr.push("Front Right Chest")
-                  if (backDesigns.center.image) placementStr.push("Back Center")
+                  let customImagesList = []
+                  if (frontDesigns.center.image) {
+                    placementStr.push("Front Center")
+                    customImagesList.push({ placement: "Front Center", image: frontDesigns.center.image })
+                  }
+                  if (frontDesigns.leftChest.image) {
+                    placementStr.push("Front Left Chest")
+                    customImagesList.push({ placement: "Front Left Chest", image: frontDesigns.leftChest.image })
+                  }
+                  if (frontDesigns.rightChest.image) {
+                    placementStr.push("Front Right Chest")
+                    customImagesList.push({ placement: "Front Right Chest", image: frontDesigns.rightChest.image })
+                  }
+                  if (backDesigns.center.image) {
+                    placementStr.push("Back Center")
+                    customImagesList.push({ placement: "Back Center", image: backDesigns.center.image })
+                  }
                   const placement = placementStr.join(" + ") || "Unknown"
 
-                  const combinedDesign = frontDesigns.center.image || frontDesigns.leftChest.image || frontDesigns.rightChest.image || backDesigns.center.image
+                  const combinedDesign = customImagesList.length > 0 ? customImagesList[0].image : undefined
                   
                   addToCart(
                     {
@@ -362,6 +375,7 @@ export default function CustomDesignPage() {
                       size: selectedSize,
                       dtfSize: selectedDtfSize,
                       customImage: combinedDesign ?? undefined,
+                      customImages: customImagesList,
                       customPlacement: combinedDesign ? placement : undefined,
                     },
                     quantity,

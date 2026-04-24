@@ -56,18 +56,41 @@ export default function CheckoutPage() {
 
     try {
       let imageUrl: string | null = null
-      if (customItem && customItem.customImage) {
-        const uploadToast = toast.loading("Uploading your design...")
-        const file = base64ToFile(customItem.customImage, "design.png")
-        try {
-          imageUrl = await uploadDesign(newOrderId, file)
-          toast.dismiss(uploadToast)
-          toast.success("Design uploaded!")
-        } catch (uploadErr: any) {
-          toast.dismiss(uploadToast)
-          const msg = uploadErr?.message || "Unknown error"
-          toast.error(`Upload failed: ${msg}`, { duration: 10000 })
-          console.error("UPLOAD DEBUG:", uploadErr)
+      let allImageUrls: string[] = []
+      
+      if (customItem) {
+        if (customItem.customImages && customItem.customImages.length > 0) {
+          const uploadToast = toast.loading(`Uploading ${customItem.customImages.length} design(s)...`)
+          try {
+            for (let i = 0; i < customItem.customImages.length; i++) {
+              const design = customItem.customImages[i]
+              const file = base64ToFile(design.image, `design-${i}.png`)
+              const uploadedUrl = await uploadDesign(`${newOrderId}-${design.placement.replace(/\s+/g, '')}`, file)
+              allImageUrls.push(`${design.placement}: ${uploadedUrl}`)
+            }
+            imageUrl = allImageUrls[0].split(': ')[1] // Fallback single URL for DB if needed
+            toast.dismiss(uploadToast)
+            toast.success("Designs uploaded!")
+          } catch (uploadErr: any) {
+            toast.dismiss(uploadToast)
+            const msg = uploadErr?.message || "Unknown error"
+            toast.error(`Upload failed: ${msg}`, { duration: 10000 })
+            console.error("UPLOAD DEBUG:", uploadErr)
+          }
+        } else if (customItem.customImage) {
+           const uploadToast = toast.loading("Uploading your design...")
+           const file = base64ToFile(customItem.customImage, "design.png")
+           try {
+             imageUrl = await uploadDesign(newOrderId, file)
+             allImageUrls.push(`Design: ${imageUrl}`)
+             toast.dismiss(uploadToast)
+             toast.success("Design uploaded!")
+           } catch (uploadErr: any) {
+             toast.dismiss(uploadToast)
+             const msg = uploadErr?.message || "Unknown error"
+             toast.error(`Upload failed: ${msg}`, { duration: 10000 })
+             console.error("UPLOAD DEBUG:", uploadErr)
+           }
         }
       }
 
@@ -116,7 +139,8 @@ export default function CheckoutPage() {
                    `*Products:*\n${productList}\n\n` +
                    `*Total: Rs. ${finalTotal.toFixed(2)}*\n` +
                    `Payment: ${paymentLabel}\n\n` +
-                   `*Design Image:* ${imageUrl || "None"}\n\n` +
+                   `*Design Images:*\n` +
+                   (allImageUrls.length > 0 ? allImageUrls.join('\n') : "None") + `\n\n` +
                    `Please confirm my order. Thank you! 🙏`
       
       const link = `https://wa.me/94763425409?text=${encodeURIComponent(text)}`

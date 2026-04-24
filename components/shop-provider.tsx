@@ -12,6 +12,7 @@ export type CartItem = {
   size?: string
   dtfSize?: "A4" | "A3"
   customImage?: string
+  customImages?: { placement: string, image: string }[]
   customPlacement?: string
 }
 
