@@ -35,6 +35,7 @@ export default function CartPage() {
                     <p className="text-white/60 text-sm">
                       {item.color ?? "Default"} / {item.size ?? "Default"}
                       {item.dtfSize ? ` / ${item.dtfSize}` : ""}
+                      {item.customPlacement ? ` / ${item.customPlacement}` : ""}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">

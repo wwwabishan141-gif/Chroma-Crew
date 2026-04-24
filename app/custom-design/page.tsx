@@ -344,6 +344,13 @@ export default function CustomDesignPage() {
                   cartPressed ? "bg-green-600 text-white scale-[0.98]" : "bg-white text-black"
                 }`}
                 onClick={() => {
+                  let placementStr = []
+                  if (frontDesigns.center.image) placementStr.push("Front Center")
+                  if (frontDesigns.leftChest.image) placementStr.push("Front Left Chest")
+                  if (frontDesigns.rightChest.image) placementStr.push("Front Right Chest")
+                  if (backDesigns.center.image) placementStr.push("Back Center")
+                  const placement = placementStr.join(" + ") || "Unknown"
+
                   const combinedDesign = frontDesigns.center.image || frontDesigns.leftChest.image || frontDesigns.rightChest.image || backDesigns.center.image
                   
                   addToCart(
@@ -355,6 +362,7 @@ export default function CustomDesignPage() {
                       size: selectedSize,
                       dtfSize: selectedDtfSize,
                       customImage: combinedDesign ?? undefined,
+                      customPlacement: combinedDesign ? placement : undefined,
                     },
                     quantity,
                   )

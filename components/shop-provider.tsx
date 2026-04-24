@@ -12,6 +12,7 @@ export type CartItem = {
   size?: string
   dtfSize?: "A4" | "A3"
   customImage?: string
+  customPlacement?: string
 }
 
 export type WishlistItem = {
@@ -21,8 +22,8 @@ export type WishlistItem = {
   image?: string
 }
 
-function cartItemKey(item: Pick<CartItem, "id" | "color" | "size" | "dtfSize">) {
-  return [item.id, item.color ?? "", item.size ?? "", item.dtfSize ?? ""].join("::")
+function cartItemKey(item: Pick<CartItem, "id" | "color" | "size" | "dtfSize" | "customPlacement">) {
+  return [item.id, item.color ?? "", item.size ?? "", item.dtfSize ?? "", item.customPlacement ?? ""].join("::")
 }
 
 type ShopContextType = {

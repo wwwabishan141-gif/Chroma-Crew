@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { getCartItemKey, useShop } from "@/components/shop-provider"
-import { createOrder, tryUploadDesign, base64ToFile } from "@/lib/supabase-service"
+import { createOrder, uploadDesign, base64ToFile } from "@/lib/supabase-service"
 import { toast } from "sonner"
 import { validateShippingForm } from "@/lib/validators"
 import { supabase } from "@/lib/supabase"
@@ -59,12 +59,15 @@ export default function CheckoutPage() {
       if (customItem && customItem.customImage) {
         const uploadToast = toast.loading("Uploading your design...")
         const file = base64ToFile(customItem.customImage, "design.png")
-        imageUrl = await tryUploadDesign(newOrderId, file)
-        toast.dismiss(uploadToast)
-        if (imageUrl) {
+        try {
+          imageUrl = await uploadDesign(newOrderId, file)
+          toast.dismiss(uploadToast)
           toast.success("Design uploaded!")
-        } else {
-          toast.warning("Design upload failed — order will continue without image.")
+        } catch (uploadErr: any) {
+          toast.dismiss(uploadToast)
+          const msg = uploadErr?.message || "Unknown error"
+          toast.error(`Upload failed: ${msg}`, { duration: 10000 })
+          console.error("UPLOAD DEBUG:", uploadErr)
         }
       }
 
@@ -93,7 +96,16 @@ export default function CheckoutPage() {
       await createOrder(orderData)
       
       // Build WhatsApp Message
-      const productList = cart.map(i => `• ${i.name} (${i.size}/${i.color}) x${i.quantity}`).join("\n")
+      const productList = cart.map(i => {
+        let details = `• ${i.name} (${i.size || 'N/A'}/${i.color || 'N/A'}) x${i.quantity}`
+        if (i.dtfSize || i.customPlacement) {
+          let customDetails = []
+          if (i.dtfSize) customDetails.push(`DTF: ${i.dtfSize}`)
+          if (i.customPlacement) customDetails.push(`Pos: ${i.customPlacement}`)
+          details += `\n  ↳ [ ${customDetails.join(" | ")} ]`
+        }
+        return details
+      }).join("\n")
       const paymentLabel = paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'
       
       const text = `*New Order: ${newOrderId}*\n\n` +
