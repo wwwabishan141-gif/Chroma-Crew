@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { subscribeToNewsletter } from "@/lib/supabase-service"
 import { toast } from "sonner"
 import { Send, Instagram, Facebook, Twitter } from "lucide-react"
 
@@ -40,7 +41,7 @@ export function SiteFooter() {
     }
     setLoading(true)
     try {
-      // await submitNewsletterEmail(email)
+      await subscribeToNewsletter(email)
       toast.success("Subscribed! Stay tuned for drops.")
       setEmail("")
     } catch (error: any) {
