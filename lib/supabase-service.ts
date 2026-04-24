@@ -24,8 +24,8 @@ export interface Review {
   created_at?: string
 }
 
-// ⚙️ Exact bucket name as shown in Supabase Storage dashboard (case-sensitive, spaces matter)
-const BUCKET_NAME = 'Chroma bucket'
+// ⚙️ Bucket name must have NO SPACES — create "chroma-designs" in Supabase Storage
+const BUCKET_NAME = 'chroma-designs'
 
 /**
  * Uploads a design image to Supabase Storage

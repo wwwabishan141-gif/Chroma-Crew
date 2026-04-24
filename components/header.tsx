@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Heart, Search, ShoppingCart, Menu, X } from "lucide-react"
+import { Heart, ShoppingCart, Menu, X, User, Search } from "lucide-react"
 import { useShop } from "@/components/shop-provider"
 import { supabase } from "@/lib/supabase"
 
@@ -12,246 +12,253 @@ interface HeaderProps {
   currentPage?: string
 }
 
+const ICON_SIZE = "w-[22px] h-[22px]"
+
 export function Header({ currentPage = "home" }: HeaderProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [showSearch, setShowSearch] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [cartBump, setCartBump] = useState(false)
   const [user, setUser] = useState<any>(null)
+  const searchRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const { cartCount } = useShop()
 
+  /* ── Auth ── */
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-    }
-    fetchUser()
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user || null)
-    })
-
-    return () => {
-      authListener.subscription.unsubscribe()
-    }
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user))
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) =>
+      setUser(session?.user ?? null)
+    )
+    return () => listener.subscription.unsubscribe()
   }, [])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
     router.refresh()
-    router.push('/')
+    router.push("/")
   }
 
+  /* ── Scroll ── */
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10)
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    const onScroll = () => setIsScrolled(window.scrollY > 10)
+    window.addEventListener("scroll", onScroll)
+    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  useEffect(() => {
-    setIsLoaded(true)
-  }, [])
-
+  /* ── Cart bump animation ── */
   useEffect(() => {
     if (cartCount > 0) {
       setCartBump(true)
-      const timer = setTimeout(() => setCartBump(false), 300)
-      return () => clearTimeout(timer)
+      const t = setTimeout(() => setCartBump(false), 300)
+      return () => clearTimeout(t)
     }
   }, [cartCount])
 
+  /* ── Close search on outside click ── */
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setShowSearch(false)
+      }
+    }
+    if (showSearch) {
+      document.addEventListener("mousedown", handler)
+      setTimeout(() => inputRef.current?.focus(), 50)
+    }
+    return () => document.removeEventListener("mousedown", handler)
+  }, [showSearch])
+
   const navItems = [
-    { name: "Home", href: "/", key: "home" },
-    { name: "Shop", href: "/shop", key: "shop" },
-    { name: "Custom Design", href: "/custom-design", key: "custom-design" },
-    { name: "About Us", href: "/about", key: "about" },
-    { name: "Blog", href: "/blog", key: "blog" },
-    { name: "FAQ", href: "/faq", key: "faq" },
-    { name: "Account", href: "/account", key: "account" },
-    { name: "Contacts", href: "/contacts", key: "contacts" },
+    { name: "Home",          href: "/",              key: "home" },
+    { name: "Shop",          href: "/shop",           key: "shop" },
+    { name: "Custom Design", href: "/custom-design",  key: "custom-design" },
+    { name: "About Us",      href: "/about",          key: "about" },
+    { name: "Blog",          href: "/blog",           key: "blog" },
+    { name: "FAQ",           href: "/faq",            key: "faq" },
+    { name: "Account",       href: "/account",        key: "account" },
+    { name: "Contacts",      href: "/contacts",       key: "contacts" },
   ]
 
   const isActive = (key: string) => currentPage === key
 
   return (
     <>
-      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ease-in-out ${isScrolled
-        ? "bg-background/95 backdrop-blur-lg border-b border-white/10 shadow-lg"
-        : "bg-background/80 border-b border-transparent shadow-none"
-        }`}>
+      <header
+        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+          isScrolled
+            ? "bg-background/95 backdrop-blur-lg border-b border-white/10 shadow-lg"
+            : "bg-background/80 border-b border-transparent"
+        }`}
+      >
+        {/* ══════════════ ROW 1 ══════════════ */}
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 grid grid-cols-3 items-center">
 
-        {/* ── ROW 1: Logo │ Search │ Login + Wishlist + Cart ── */}
-        <div className="max-w-7xl mx-auto px-4 md:px-6 pt-3 pb-2">
-          <div className="flex items-center justify-between gap-4">
-
-            {/* Logo */}
-            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity shrink-0">
+          {/* Left – Logo */}
+          <div className="flex items-center">
+            <Link href="/" className="hover:opacity-80 transition-opacity">
               <Image
                 src="/website-logo-what-01.png"
-                alt="Chroma Crew Logo"
-                width={50}
-                height={50}
-                className="w-[50px] md:w-[60px] h-auto object-contain"
+                alt="Chroma Crew"
+                width={56}
+                height={56}
+                className="w-[50px] md:w-[56px] h-auto object-contain"
                 priority
               />
             </Link>
+          </div>
 
-            {/* Search – center (desktop) */}
-            <div className="hidden lg:flex flex-1 justify-center">
-              {showSearch ? (
-                <div className="flex gap-2 w-full max-w-md animate-in slide-in-from-top duration-200">
-                  <input
-                    type="text"
-                    placeholder="Search for products..."
-                    autoFocus
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:border-red-600 transition-colors"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        router.push(`/shop?search=${searchQuery}`)
-                        setShowSearch(false)
-                      }
-                    }}
-                  />
-                  <button
-                    className="bg-red-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-red-700 transition-colors"
-                    onClick={() => { router.push(`/shop?search=${searchQuery}`); setShowSearch(false) }}
-                  >
-                    Go
-                  </button>
-                  <button onClick={() => setShowSearch(false)} className="text-white/40 hover:text-white p-2 transition-colors">
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ) : (
+          {/* Centre – Search */}
+          <div className="flex justify-center" ref={searchRef}>
+            {showSearch ? (
+              /* ── Animated white search popup ── */
+              <div
+                className="
+                  flex items-center gap-2
+                  bg-white text-black
+                  rounded-2xl px-4 py-2
+                  shadow-2xl
+                  w-[260px] md:w-[340px]
+                  animate-in zoom-in-75 slide-in-from-top-1 duration-200
+                "
+              >
+                <Search className="w-4 h-4 text-black/50 shrink-0" />
+                <input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && searchQuery.trim()) {
+                      router.push(`/shop?search=${encodeURIComponent(searchQuery.trim())}`)
+                      setShowSearch(false)
+                      setSearchQuery("")
+                    }
+                    if (e.key === "Escape") setShowSearch(false)
+                  }}
+                  className="flex-1 outline-none bg-transparent text-sm text-black placeholder:text-black/40 font-medium"
+                />
                 <button
-                  onClick={() => setShowSearch(true)}
-                  className="text-white/60 hover:text-white transition-colors p-2"
-                  aria-label="Open search"
+                  onClick={() => setShowSearch(false)}
+                  className="text-black/30 hover:text-black transition-colors"
                 >
-                  <Search className="w-5 h-5" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
-              )}
-            </div>
-
-            {/* Right icons: Login + Wishlist + Cart + Hamburger */}
-            <div className="flex items-center gap-3">
-              {/* Login / Logout – desktop */}
-              {user ? (
-                <button
-                  onClick={handleLogout}
-                  className="hidden sm:flex items-center gap-1.5 text-xs font-bold text-white/70 hover:text-white border border-white/15 hover:border-white/30 px-4 py-2 rounded-full transition-all"
-                >
-                  Logout
-                </button>
-              ) : (
-                <Link
-                  href="/login"
-                  className="hidden sm:flex items-center gap-1.5 text-xs font-bold text-white border border-white/15 hover:border-red-600 hover:text-red-400 px-4 py-2 rounded-full transition-all"
-                >
-                  Login
-                </Link>
-              )}
-
-              {/* Wishlist */}
-              <Link href="/wishlist" className="hidden sm:flex text-white/70 hover:text-red-400 transition-colors p-1.5" aria-label="Wishlist">
-                <Heart className="w-5 h-5" />
-              </Link>
-
-              {/* Cart */}
-              <Link href="/cart" className={`relative text-white/70 hover:text-red-400 transition-all p-1.5 ${cartBump ? "scale-110" : ""}`} aria-label="Cart">
-                <ShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-600 rounded-full text-[9px] flex items-center justify-center font-bold text-white">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-
-              {/* Mobile search */}
+              </div>
+            ) : (
+              /* ── Search icon ── */
               <button
-                onClick={() => setShowSearch(!showSearch)}
-                className="lg:hidden text-white/70 hover:text-white transition-colors p-1.5"
+                onClick={() => setShowSearch(true)}
                 aria-label="Search"
+                className="flex items-center justify-center text-white/70 hover:text-white transition-colors p-1"
               >
-                <Search className="w-5 h-5" />
+                <Search className={ICON_SIZE} />
               </button>
+            )}
+          </div>
 
-              {/* Hamburger */}
+          {/* Right – Login + Wishlist + Cart + Hamburger */}
+          <div className="flex items-center justify-end gap-4">
+
+            {/* Login / Logout (person icon on desktop, link on mobile) */}
+            {user ? (
               <button
-                className="lg:hidden text-white/70 hover:text-white p-1.5 transition-colors"
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label="Menu"
+                onClick={handleLogout}
+                aria-label="Logout"
+                className="hidden sm:flex flex-col items-center gap-0.5 text-white/70 hover:text-red-400 transition-colors"
               >
-                {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                <User className={ICON_SIZE} />
+                <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
+                  Logout
+                </span>
               </button>
-            </div>
+            ) : (
+              <Link
+                href="/login"
+                aria-label="Login"
+                className="hidden sm:flex flex-col items-center gap-0.5 text-white/70 hover:text-white transition-colors"
+              >
+                <User className={ICON_SIZE} />
+                <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
+                  Login
+                </span>
+              </Link>
+            )}
+
+            {/* Wishlist */}
+            <Link
+              href="/wishlist"
+              aria-label="Wishlist"
+              className="hidden sm:flex flex-col items-center gap-0.5 text-white/70 hover:text-red-400 transition-colors"
+            >
+              <Heart className={ICON_SIZE} />
+              <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
+                Wishlist
+              </span>
+            </Link>
+
+            {/* Cart */}
+            <Link
+              href="/cart"
+              aria-label="Cart"
+              className={`relative flex flex-col items-center gap-0.5 text-white/70 hover:text-red-400 transition-all ${cartBump ? "scale-110" : ""}`}
+            >
+              <ShoppingCart className={ICON_SIZE} />
+              <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
+                Cart
+              </span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1.5 w-4 h-4 bg-red-600 rounded-full text-[9px] flex items-center justify-center font-bold text-white">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+
+            {/* Hamburger – mobile only */}
+            <button
+              className="lg:hidden text-white/70 hover:text-white p-1 transition-colors"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu"
+            >
+              {menuOpen ? <X className={ICON_SIZE} /> : <Menu className={ICON_SIZE} />}
+            </button>
           </div>
         </div>
 
-        {/* ── ROW 2: Nav Links (desktop only) ── */}
-        <div className="hidden lg:block border-t border-white/5">
-          <nav className="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center justify-center gap-8">
+        {/* ══════════════ ROW 2 – Desktop Nav ══════════════ */}
+        <div className="hidden lg:block border-t border-white/[0.06]">
+          <nav className="max-w-7xl mx-auto px-4 md:px-6 py-2.5 flex items-center justify-center gap-8">
             {navItems.map((item) => (
               <Link
-                key={item.name}
+                key={item.key}
                 href={item.href}
-                className={`text-sm font-semibold transition-all duration-200 relative group ${
-                  isActive(item.key)
-                    ? "text-white"
-                    : "text-white/55 hover:text-white"
+                className={`relative text-sm font-semibold transition-colors duration-200 group ${
+                  isActive(item.key) ? "text-white" : "text-white/55 hover:text-white"
                 }`}
               >
                 {item.name}
-                {/* Active underline */}
-                <span className={`absolute -bottom-[9px] left-0 right-0 h-[2px] bg-red-600 transition-all duration-200 ${
-                  isActive(item.key) ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-60 group-hover:scale-x-100"
-                }`} />
+                <span
+                  className={`absolute -bottom-[11px] left-0 right-0 h-[2px] bg-red-600 rounded-full transition-all duration-200 ${
+                    isActive(item.key)
+                      ? "opacity-100 scale-x-100"
+                      : "opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-100"
+                  }`}
+                />
               </Link>
             ))}
           </nav>
         </div>
 
-        {/* Mobile search bar drop-down */}
-        {showSearch && (
-          <div className="lg:hidden border-t border-white/10 p-3 animate-in slide-in-from-top duration-200">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Search products..."
-                autoFocus
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:border-red-600"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    router.push(`/shop?search=${searchQuery}`)
-                    setShowSearch(false)
-                    setMenuOpen(false)
-                  }
-                }}
-              />
-              <button
-                className="bg-red-600 px-4 py-2 rounded-xl font-bold text-sm"
-                onClick={() => { router.push(`/shop?search=${searchQuery}`); setShowSearch(false) }}
-              >
-                Go
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Mobile full menu */}
+        {/* ══════════════ MOBILE MENU ══════════════ */}
         {menuOpen && (
-          <div className="lg:hidden bg-background/98 border-t border-white/10 animate-in slide-in-from-top duration-300">
+          <div className="lg:hidden border-t border-white/10 bg-background/98 animate-in slide-in-from-top duration-200">
             <nav className="flex flex-col p-4 gap-1">
               {navItems.map((item) => (
                 <Link
-                  key={item.name}
+                  key={item.key}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
                   className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
@@ -264,17 +271,29 @@ export function Header({ currentPage = "home" }: HeaderProps) {
                 </Link>
               ))}
 
-              <div className="mt-3 pt-3 border-t border-white/10 flex gap-3">
-                <Link href="/wishlist" onClick={() => setMenuOpen(false)} className="flex-1 text-center py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors">
-                  ♡ Wishlist
+              {/* Mobile actions */}
+              <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2">
+                <Link
+                  href="/wishlist"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors"
+                >
+                  <Heart className="w-4 h-4" /> Wishlist
                 </Link>
                 {user ? (
-                  <button onClick={() => { handleLogout(); setMenuOpen(false) }} className="flex-1 py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors">
-                    Logout
+                  <button
+                    onClick={() => { handleLogout(); setMenuOpen(false) }}
+                    className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors"
+                  >
+                    <User className="w-4 h-4" /> Logout
                   </button>
                 ) : (
-                  <Link href="/login" onClick={() => setMenuOpen(false)} className="flex-1 text-center py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-sm font-bold text-white transition-colors">
-                    Login
+                  <Link
+                    href="/login"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-sm font-bold text-white transition-colors"
+                  >
+                    <User className="w-4 h-4" /> Login
                   </Link>
                 )}
               </div>
