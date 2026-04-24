@@ -38,7 +38,7 @@ export const products: Product[] = [
   {
     id: "tee-001",
     name: "Cars 2 Edition Minimal Street Wear",
-    price: 2500,
+    price: 2225,
     category: "featured",
     designThemes: ["streetwear", "minimalist"],
     colors: ["Black", "White", "Navy"],
@@ -54,7 +54,7 @@ export const products: Product[] = [
   {
     id: "tee-002",
     name: "Dark Knight Vibes Graphic Tee",
-    price: 2500,
+    price: 2225,
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["White", "Black", "Grey"],
@@ -102,7 +102,7 @@ export const products: Product[] = [
   {
     id: "tee-005",
     name: "Faith Over Fear Street Graphic Tee",
-    price: 2500,
+    price: 2225,
     category: "tshirts",
     designThemes: ["nature", "graphic"],
     colors: ["White", "Green", "Black"],
@@ -118,7 +118,7 @@ export const products: Product[] = [
   {
     id: "tee-006",
     name: "M&M The Real Slim Shady Minimal Street Wear",
-    price: 2500,
+    price: 2225,
     category: "custom",
     designThemes: ["streetwear", "graphic"],
     colors: ["Black", "White", "Navy", "Red", "Grey"],
@@ -134,7 +134,7 @@ export const products: Product[] = [
   {
     id: "tee-007",
     name: "Retro Speed BMW Graphic Tee",
-    price: 2500,
+    price: 2225,
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["White", "Black", "Grey"],
