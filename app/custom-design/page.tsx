@@ -36,8 +36,8 @@ export default function CustomDesignPage() {
 
   const colors = ["Red", "Black", "White", "Navy", "Grey"]
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"]
-  const customPrice = 4500
-  const dtfSurcharge = selectedDtfSize === "A3" ? 500 : 0
+  const customPrice = 2450
+  const dtfSurcharge = selectedDtfSize === "A3" ? 400 : 0
   const finalPrice = customPrice + dtfSurcharge
   const wished = isWishlisted("custom-dtf")
 
@@ -279,7 +279,7 @@ export default function CustomDesignPage() {
                 <div className="px-4 py-2 rounded-xl bg-red-600 text-white text-sm">Rs. {finalPrice.toFixed(2)}</div>
               </div>
               <p className="text-white/60 text-xs text-center">
-                DTF Size: {selectedDtfSize} {selectedDtfSize === "A3" ? "(+ Rs. 8.00)" : "(base price)"}
+                DTF Size: {selectedDtfSize} {selectedDtfSize === "A3" ? "(+ Rs. 400.00)" : "(base price)"}
               </p>
             </div>
 

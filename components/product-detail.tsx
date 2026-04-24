@@ -25,7 +25,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [cartPressed, setCartPressed] = useState(false)
 
   const wished = isWishlisted(product.id)
-  const dtfSurcharge = selectedDtfSize === "A3" ? 500 : 0 // Updated to LKR reasonable surcharge
+  const dtfSurcharge = selectedDtfSize === "A3" ? 400 : 0 // Updated to LKR reasonable surcharge
   const finalPrice = product.price + dtfSurcharge
   const viewOptions: Array<{ key: "front" | "back" | "detail"; label: string }> = [
     { key: "front", label: "Front View" },
@@ -76,7 +76,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                <ProductRatingBadge rating={4.8} count={12} />
             </div>
             <p className="text-white/60 text-sm mt-2">
-              DTF Size: {selectedDtfSize} {selectedDtfSize === "A3" ? "(+ Rs. 500.00)" : "(base price)"}
+              DTF Size: {selectedDtfSize} {selectedDtfSize === "A3" ? "(+ Rs. 400.00)" : "(base price)"}
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-600/15 border border-green-600/30 text-green-400 text-[10px] font-bold uppercase tracking-wider">

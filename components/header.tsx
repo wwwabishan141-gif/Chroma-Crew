@@ -199,11 +199,11 @@ export function Header({ currentPage = "home" }: HeaderProps) {
               </span>
             </Link>
 
-            {/* Cart */}
+            {/* Cart (Hidden on mobile to match design) */}
             <Link
               href="/cart"
               aria-label="Cart"
-              className={`relative flex flex-col items-center gap-0.5 text-white/70 hover:text-red-400 transition-all ${cartBump ? "scale-110" : ""}`}
+              className={`hidden sm:flex relative flex-col items-center gap-0.5 text-white/70 hover:text-red-400 transition-all ${cartBump ? "scale-110" : ""}`}
             >
               <ShoppingCart className={ICON_SIZE} />
               <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
@@ -269,6 +269,14 @@ export function Header({ currentPage = "home" }: HeaderProps) {
 
               {/* Mobile actions */}
               <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2">
+                <Link
+                  href="/cart"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors col-span-2 bg-red-600/10 border-red-600/30"
+                >
+                  <ShoppingCart className="w-4 h-4" /> 
+                  Cart {cartCount > 0 && <span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">{cartCount}</span>}
+                </Link>
                 <Link
                   href="/wishlist"
                   onClick={() => setMenuOpen(false)}
