@@ -1,10 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useLanguage } from "@/components/language-provider"
 
 export function WhatsAppButton() {
   const [visible, setVisible] = useState(false)
   const [tooltip, setTooltip] = useState(true)
+  const { t } = useLanguage()
 
   useEffect(() => {
     // Show after 2 seconds
@@ -21,7 +23,7 @@ export function WhatsAppButton() {
       {/* Tooltip */}
       {tooltip && (
         <div className="bg-white text-black text-xs font-semibold px-3 py-2 rounded-xl shadow-xl max-w-[180px] text-right animate-in fade-in slide-in-from-bottom-2 duration-300">
-          💬 Chat with us on WhatsApp!
+          {t("wa_tooltip")}
           <div className="absolute bottom-[-6px] right-5 w-3 h-3 bg-white rotate-45" />
         </div>
       )}

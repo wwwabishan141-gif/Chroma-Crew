@@ -1,26 +1,28 @@
 "use client"
 
 import Link from "next/link"
-
-const tiers = [
-  { qty: "1–4", label: "Single", discount: "Base price", highlight: false },
-  { qty: "5–9", label: "Starter", discount: "Save 5%", highlight: false },
-  { qty: "10–24", label: "Small batch", discount: "Save 10%", highlight: true },
-  { qty: "25–49", label: "Mid-run", discount: "Save 15%", highlight: false },
-  { qty: "50+", label: "Production", discount: "Save 20%", highlight: false },
-]
+import { useLanguage } from "@/components/language-provider"
 
 export function BulkPricingBanner() {
+  const { t } = useLanguage()
+
+  const tiers = [
+    { qty: "1–4", label: t("tier_label_single") || "Single", discount: t("base_price") || "Base price", highlight: false },
+    { qty: "5–9", label: t("tier_label_starter") || "Starter", discount: t("save_5") || "Save 5%", highlight: false },
+    { qty: "10–24", label: t("tier_label_small_batch") || "Small batch", discount: t("save_10") || "Save 10%", highlight: true },
+    { qty: "25–49", label: t("tier_label_mid_run") || "Mid-run", discount: t("save_15") || "Save 15%", highlight: false },
+    { qty: "50+", label: t("tier_label_production") || "Production", discount: t("save_20") || "Save 20%", highlight: false },
+  ]
   return (
     <section className="py-14 md:py-20 px-4 md:px-6 bg-background">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center space-y-2">
           <span className="inline-block px-3 py-1 rounded-full border border-red-600/40 bg-red-600/10 text-red-400 text-xs uppercase tracking-widest">
-            Volume pricing
+            {t("volume_pricing_label") || "Volume pricing"}
           </span>
-          <h2 className="text-3xl md:text-4xl text-white font-bold">More units, better price</h2>
+          <h2 className="text-3xl md:text-4xl text-white font-bold">{t("more_units_title") || "More units, better price"}</h2>
           <p className="text-white/60 max-w-xl mx-auto text-sm">
-            Ordering more? Discounts apply automatically at checkout. No codes needed.
+            {t("volume_pricing_desc") || "Ordering more? Discounts apply automatically at checkout. No codes needed."}
           </p>
         </div>
 
@@ -47,9 +49,9 @@ export function BulkPricingBanner() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
           {[
-            { icon: "🕐", label: "Turnaround", time: "3–5 business days", note: "After order confirmed" },
-            { icon: "⚡", label: "Express", time: "Contact us", note: "Rush orders on request" },
-            { icon: "📦", label: "Shipping", time: "Island-wide delivery", note: "Sri Lanka only currently" },
+            { icon: "🕐", label: t("turnaround_label") || "Turnaround", time: t("turnaround_time") || "3–5 business days", note: t("turnaround_note") || "After order confirmed" },
+            { icon: "⚡", label: t("express_label") || "Express", time: t("express_time") || "Contact us", note: t("express_note") || "Rush orders on request" },
+            { icon: "📦", label: t("shipping_label") || "Shipping", time: t("shipping_time") || "Island-wide delivery", note: t("shipping_note") || "Sri Lanka only currently" },
           ].map((item) => (
             <div key={item.label} className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 px-5 py-4">
               <span className="text-3xl">{item.icon}</span>
@@ -64,7 +66,7 @@ export function BulkPricingBanner() {
 
         <div className="text-center">
           <Link href="/shop" className="inline-flex px-7 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors">
-            Shop now
+            {t("shop_now")}
           </Link>
         </div>
       </div>

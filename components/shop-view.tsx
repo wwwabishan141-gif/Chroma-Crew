@@ -8,8 +8,8 @@ import {
   products,
   type DesignTheme,
   type Product,
-} from "@/lib/products"
 import { Search } from "lucide-react"
+import { useLanguage } from "@/components/language-provider"
 
 const ALL_SIZES = Array.from(new Set(products.flatMap((p) => p.sizes))).sort((a, b) => {
   const order = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"]
@@ -40,6 +40,7 @@ export function ShopView() {
   const [category, setCategory] = useState("")
   const [suggestOpen, setSuggestOpen] = useState(false)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const { t } = useLanguage()
 
   const syncFromUrl = useCallback(() => {
     setSearchInput(searchParams.get("search") ?? "")
@@ -106,9 +107,9 @@ export function ShopView() {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-white mb-4">Shop Collection</h1>
+        <h1 className="text-4xl font-bold text-white mb-4">{t("shop_collection") || "Shop Collection"}</h1>
         <p className="text-white/60">
-          {filtered.length} product{filtered.length === 1 ? "" : "s"} found
+          {filtered.length} {t("products_found") || `product${filtered.length === 1 ? "" : "s"} found`}
         </p>
       </div>
 
@@ -132,7 +133,7 @@ export function ShopView() {
                   setSuggestOpen(false)
                 }
               }}
-              placeholder="Search designs…"
+              placeholder={t("search_placeholder") || "Search designs…"}
               className="w-full pl-11 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/40"
               autoComplete="off"
             />
@@ -160,7 +161,7 @@ export function ShopView() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:max-w-2xl w-full">
           <div>
-            <label className="block text-xs text-white/50 mb-1">Category</label>
+            <label className="block text-xs text-white/50 mb-1">{t("category_label") || "Category"}</label>
             <select
               value={category}
               onChange={(e) => {
@@ -170,14 +171,14 @@ export function ShopView() {
               }}
               className="w-full rounded-xl bg-white/10 border border-white/20 px-3 py-2 text-white [&>option]:text-black [&>option]:bg-white"
             >
-              <option value="">All categories</option>
-              <option value="featured">Featured</option>
-              <option value="tshirts">T-shirts</option>
-              <option value="custom">Custom</option>
+              <option value="">{t("all_categories") || "All categories"}</option>
+              <option value="featured">{t("featured_products") || "Featured"}</option>
+              <option value="tshirts">{t("tshirts") || "T-shirts"}</option>
+              <option value="custom">{t("custom") || "Custom"}</option>
             </select>
           </div>
           <div>
-            <label className="block text-xs text-white/50 mb-1">Design theme</label>
+            <label className="block text-xs text-white/50 mb-1">{t("design_theme") || "Design theme"}</label>
             <select
               value={theme}
               onChange={(e) => {
@@ -187,16 +188,16 @@ export function ShopView() {
               }}
               className="w-full rounded-xl bg-white/10 border border-white/20 px-3 py-2 text-white [&>option]:text-black [&>option]:bg-white"
             >
-              <option value="">All themes</option>
-              {DESIGN_THEME_OPTIONS.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
+              <option value="">{t("all_themes") || "All themes"}</option>
+              {DESIGN_THEME_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {t(`theme_${opt.value}` as any) !== `theme_${opt.value}` ? t(`theme_${opt.value}` as any) : opt.label}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs text-white/50 mb-1">Garment size</label>
+            <label className="block text-xs text-white/50 mb-1">{t("garment_size") || "Garment size"}</label>
             <select
               value={garmentSize}
               onChange={(e) => {
@@ -206,7 +207,7 @@ export function ShopView() {
               }}
               className="w-full rounded-xl bg-white/10 border border-white/20 px-3 py-2 text-white [&>option]:text-black [&>option]:bg-white"
             >
-              <option value="">Any size</option>
+              <option value="">{t("any_size") || "Any size"}</option>
               {ALL_SIZES.map((s) => (
                 <option key={s} value={s}>
                   {s}

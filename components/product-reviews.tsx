@@ -6,6 +6,7 @@ import { getProductReviews, addReview, type Review } from "@/lib/supabase-servic
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
 import { format } from "date-fns"
+import { useLanguage } from "@/components/language-provider"
 
 interface ProductReviewsProps {
   productId: string
@@ -18,6 +19,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [user, setUser] = useState<any>(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const init = async () => {
@@ -38,7 +40,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!user) {
-      toast.error("Please login to leave a review")
+      toast.error(t("login_required_review"))
       return
     }
     if (!comment.trim()) return
@@ -55,9 +57,9 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
       setReviews([newReview, ...reviews])
       setComment("")
       setRating(5)
-      toast.success("Review posted! Thanks for your feedback.")
+      toast.success(t("review_success"))
     } catch (err) {
-      toast.error("Failed to post review")
+      toast.error(t("review_fail"))
     } finally {
       setSubmitting(false)
     }
@@ -67,7 +69,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
     ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
     : null
 
-  if (loading) return <div className="py-20 text-center text-white/40">Loading reviews...</div>
+  if (loading) return <div className="py-20 text-center text-white/40">{t("loading_dots") || "Loading reviews..."}</div>
 
   return (
     <section className="mt-20 border-t border-white/10 pt-16">
@@ -75,7 +77,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
         {/* Left Side: Summary & Form */}
         <div className="w-full md:w-1/3 space-y-8">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-2">Customer Reviews</h2>
+            <h2 className="text-3xl font-bold text-white mb-2">{t("customer_reviews")}</h2>
             {averageRating ? (
               <div className="flex items-center gap-3">
                 <div className="flex text-amber-400">
@@ -84,15 +86,15 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
                   ))}
                 </div>
                 <span className="text-white font-bold text-xl">{averageRating}</span>
-                <span className="text-white/40 text-sm">({reviews.length} reviews)</span>
+                <span className="text-white/40 text-sm">({reviews.length} {t("reviews_count")})</span>
               </div>
             ) : (
-              <p className="text-white/40">No reviews yet. Be the first!</p>
+              <p className="text-white/40">{t("no_reviews")}</p>
             )}
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/10">
-            <h3 className="text-lg font-bold text-white">Write a Review</h3>
+            <h3 className="text-lg font-bold text-white">{t("write_review")}</h3>
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((n) => (
                 <button
@@ -108,7 +110,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder="Your thoughts on this product..."
+              placeholder={t("review_placeholder")}
               className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-white outline-none focus:border-red-600 transition-colors h-32 resize-none"
               required
             />
@@ -116,9 +118,9 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
               disabled={submitting}
               className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {submitting ? "Posting..." : <><Send className="w-4 h-4" /> Post Review</>}
+              {submitting ? t("posting") : <><Send className="w-4 h-4" /> {t("post_review")}</>}
             </button>
-            {!user && <p className="text-[10px] text-center text-white/40 uppercase tracking-widest pt-2">Login required to post</p>}
+            {!user && <p className="text-[10px] text-center text-white/40 uppercase tracking-widest pt-2">{t("login_required_review")}</p>}
           </form>
         </div>
 
@@ -126,7 +128,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
         <div className="w-full md:w-2/3 space-y-6">
           {reviews.length === 0 ? (
             <div className="h-full flex items-center justify-center py-20 border-2 border-dashed border-white/5 rounded-3xl">
-               <p className="text-white/20 font-medium">No reviews to display</p>
+               <p className="text-white/20 font-medium">{t("no_reviews")}</p>
             </div>
           ) : (
             reviews.map((r) => (

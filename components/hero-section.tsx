@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { useLanguage } from "@/components/language-provider"
 
 export function HeroSection() {
   const [isLoaded, setIsLoaded] = useState(false)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 500)
@@ -50,13 +52,13 @@ export function HeroSection() {
             href="/shop"
             className="group relative w-full sm:w-auto px-10 py-3.5 md:px-12 md:py-4 bg-red-600 text-white font-bold rounded-full overflow-hidden transition-all duration-300 hover:bg-red-700 hover:shadow-xl hover:shadow-red-600/40 hover:scale-105 text-base md:text-lg"
           >
-            <span className="relative z-10">Shop Now</span>
+            <span className="relative z-10">{t("shop_now")}</span>
           </Link>
           <Link
             href="/custom-design"
             className="group w-full sm:w-auto px-10 py-3.5 md:px-12 md:py-4 border-[2px] border-red-600 text-white font-bold rounded-full transition-all duration-300 hover:bg-red-600/10 hover:shadow-lg hover:shadow-red-600/20 hover:scale-105 text-base md:text-lg"
           >
-            Custom Design
+            {t("custom_design_btn")}
           </Link>
         </div>
       </div>

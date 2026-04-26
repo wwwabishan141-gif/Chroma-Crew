@@ -1,10 +1,13 @@
+import { useLanguage } from "@/components/language-provider"
+
 export function FeaturedSection() {
+  const { t } = useLanguage()
   return (
     <section className="py-14 md:py-20 px-4 md:px-6 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10 md:mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white">Featured Categories</h2>
-          <p className="text-white/65 mt-3">Built for DTF quality, comfort, and repeat orders.</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white">{t("featured_categories") || "Featured Categories"}</h2>
+          <p className="text-white/65 mt-3">{t("featured_categories_desc") || "Built for DTF quality, comfort, and repeat orders."}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
@@ -18,8 +21,8 @@ export function FeaturedSection() {
               </svg>
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-white">Featured</h3>
-              <p className="text-white/65 mt-2 text-sm">Top-selling DTF t-shirts selected from current customer favorites.</p>
+              <h3 className="text-2xl font-semibold text-white">{t("featured_products") || "Featured"}</h3>
+              <p className="text-white/65 mt-2 text-sm">{t("featured_card_desc") || "Top-selling DTF t-shirts selected from current customer favorites."}</p>
             </div>
           </a>
 
@@ -33,8 +36,8 @@ export function FeaturedSection() {
               </svg>
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-white">T-Shirts</h3>
-              <p className="text-white/65 mt-2 text-sm">Everyday essentials with clean cuts and premium DTF-ready fabrics.</p>
+              <h3 className="text-2xl font-semibold text-white">{t("tshirts") || "T-Shirts"}</h3>
+              <p className="text-white/65 mt-2 text-sm">{t("tshirts_card_desc") || "Everyday essentials with clean cuts and premium DTF-ready fabrics."}</p>
             </div>
           </a>
 
@@ -49,8 +52,8 @@ export function FeaturedSection() {
               </svg>
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-white">Custom Tees</h3>
-              <p className="text-white/65 mt-2 text-sm">Upload your artwork and order personalized DTF prints with confidence.</p>
+              <h3 className="text-2xl font-semibold text-white">{t("custom_tees") || "Custom Tees"}</h3>
+              <p className="text-white/65 mt-2 text-sm">{t("custom_tees_card_desc") || "Upload your artwork and order personalized DTF prints with confidence."}</p>
             </div>
           </a>
         </div>

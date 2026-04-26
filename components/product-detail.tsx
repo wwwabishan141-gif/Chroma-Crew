@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import { SocialShare } from "@/components/social-share"
 import { ProductReviews, ProductRatingBadge } from "@/components/product-reviews"
 import { RelatedProducts } from "@/components/related-products"
+import { useLanguage } from "@/components/language-provider"
 
 interface ProductDetailProps {
   product: Product
@@ -23,14 +24,15 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [selectedDtfSize, setSelectedDtfSize] = useState<"A4" | "A3">("A4")
   const [quantity, setQuantity] = useState(1)
   const [cartPressed, setCartPressed] = useState(false)
+  const { t } = useLanguage()
 
   const wished = isWishlisted(product.id)
   const dtfSurcharge = selectedDtfSize === "A3" ? 400 : 0 // Updated to LKR reasonable surcharge
   const finalPrice = product.price + dtfSurcharge
   const viewOptions: Array<{ key: "front" | "back" | "detail"; label: string }> = [
-    { key: "front", label: "Front View" },
-    { key: "back", label: "Back View" },
-    { key: "detail", label: "Detail View" },
+    { key: "front", label: t("front_view") },
+    { key: "back", label: t("back_view") },
+    { key: "detail", label: t("view_details") }, // close enough mapping for now
   ]
 
   return (
@@ -70,7 +72,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight">{product.name}</h1>
+            <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight">{t(`prod_${product.id.replace('-', '_')}_name` as any) !== `prod_${product.id.replace('-', '_')}_name` ? t(`prod_${product.id.replace('-', '_')}_name` as any) : product.name}</h1>
             <div className="flex items-center gap-4 mt-3">
                <p className="text-red-500 text-3xl font-bold">Rs. {finalPrice.toLocaleString("en-LK")}</p>
                <ProductRatingBadge rating={4.8} count={12} />
@@ -80,16 +82,16 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-600/15 border border-green-600/30 text-green-400 text-[10px] font-bold uppercase tracking-wider">
-                🎨 Made to order — ships in 3–5 days
+                🎨 {t("made_to_order")}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/15 text-white/60 text-[10px] font-bold uppercase tracking-wider">
-                🇱🇰 Sri Lanka delivery
+                🇱🇰 {t("islandwide_delivery")}
               </span>
             </div>
           </div>
 
           <div className="space-y-4 py-6 border-y border-white/10">
-             <p className="text-white/80 leading-relaxed">{product.description}</p>
+             <p className="text-white/80 leading-relaxed">{t(`prod_${product.id.replace('-', '_')}_desc` as any) !== `prod_${product.id.replace('-', '_')}_desc` ? t(`prod_${product.id.replace('-', '_')}_desc` as any) : product.description}</p>
              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-white/60">
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-red-500" /> Premium Cotton</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-red-500" /> DTF High-Res Print</li>
@@ -100,7 +102,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-white/80 text-xs font-bold uppercase tracking-widest">Color</label>
+              <label className="text-white/80 text-xs font-bold uppercase tracking-widest">{t("color")}</label>
               <select
                 value={selectedColor}
                 onChange={(e) => setSelectedColor(e.target.value)}
@@ -114,7 +116,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-white/80 text-xs font-bold uppercase tracking-widest">Size</label>
+              <label className="text-white/80 text-xs font-bold uppercase tracking-widest">{t("size")}</label>
               <select
                 value={selectedSize}
                 onChange={(e) => setSelectedSize(e.target.value)}
@@ -141,7 +143,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </div>
 
           <div className="flex items-center justify-between rounded-xl border border-white/15 p-3">
-            <span className="text-white/80 font-medium">Quantity</span>
+            <span className="text-white/80 font-medium">{t("quantity")}</span>
             <div className="flex items-center bg-red-600 rounded-lg overflow-hidden p-1">
               <button
                 type="button"
@@ -211,10 +213,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 {cartPressed ? (
                   <span className="inline-flex items-center gap-2">
                     <Check className="w-6 h-6" />
-                    Added!
+                    {t("added")}
                   </span>
                 ) : (
-                  "Add to Cart"
+                  t("add_to_cart")
                 )}
               </button>
             </div>

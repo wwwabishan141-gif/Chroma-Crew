@@ -1,11 +1,14 @@
+import { useLanguage } from "@/components/language-provider"
+
 export function TrustStrip() {
+  const { t } = useLanguage()
   const badges = [
-    { icon: "🎨", text: "Premium DTF prints" },
-    { icon: "✅", text: "Quality checked every order" },
-    { icon: "📦", text: "Ships in 3–5 business days" },
-    { icon: "🇱🇰", text: "Based in Colombo, Sri Lanka" },
-    { icon: "💬", text: "Direct support via contact page" },
-    { icon: "🔁", text: "Issue with your order? We fix it" },
+    { icon: "🎨", text: t("trust_premium") || "Premium DTF prints" },
+    { icon: "✅", text: t("trust_quality") || "Quality checked every order" },
+    { icon: "📦", text: t("trust_ships") || "Ships in 3–5 business days" },
+    { icon: "🇱🇰", text: t("trust_colombo") || "Based in Colombo, Sri Lanka" },
+    { icon: "💬", text: t("trust_support") || "Direct support via contact page" },
+    { icon: "🔁", text: t("trust_issue") || "Issue with your order? We fix it" },
   ]
 
   return (

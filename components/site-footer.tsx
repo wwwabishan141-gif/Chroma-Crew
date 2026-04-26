@@ -5,6 +5,7 @@ import Link from "next/link"
 import { subscribeToNewsletter } from "@/lib/supabase-service"
 import { toast } from "sonner"
 import { Send, Instagram, Facebook, Twitter } from "lucide-react"
+import { useLanguage } from "@/components/language-provider"
 
 const footerLinks = {
   shop: [
@@ -32,6 +33,30 @@ const footerLinks = {
 export function SiteFooter() {
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
+  const { t } = useLanguage()
+
+  const footerLinksState = {
+    shop: [
+      { href: "/shop", label: t("shop_all") },
+      { href: "/custom-design", label: t("custom_design_btn") },
+      { href: "/cart", label: t("my_cart") },
+      { href: "/checkout", label: t("checkout") },
+    ],
+    support: [
+      { href: "/faq", label: t("faq") },
+      { href: "/file-requirements", label: t("file_requirements") },
+      { href: "/shipping-returns", label: t("shipping_returns") },
+      { href: "/contacts", label: t("contact_us") },
+      { href: "/reviews-gallery", label: t("reviews_gallery") },
+    ],
+    company: [
+      { href: "/about", label: t("about_us") },
+      { href: "/blog", label: t("blog_tips") },
+      { href: "/affiliate", label: t("affiliate") },
+      { href: "/privacy", label: t("privacy_policy") },
+      { href: "/terms", label: t("terms_of_service") },
+    ],
+  }
 
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -58,11 +83,11 @@ export function SiteFooter() {
           <div className="lg:col-span-2 space-y-4">
             <p className="text-white font-bold text-xl">ChromaCrew</p>
             <p className="text-white/55 text-sm leading-relaxed">
-              Premium custom DTF t-shirts, made to order. Based in Colombo, Sri Lanka. Online orders only — we deliver island-wide.
+              {t("footer_about")}
             </p>
 
             <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-green-600/30 bg-green-600/10 text-green-400 text-xs font-semibold">
-              💵 Cash on Delivery Available
+              💵 {t("cod_available")}
             </div>
 
             <div className="space-y-2 pt-1">
@@ -106,9 +131,9 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="text-white font-semibold mb-4">Shop</p>
+            <p className="text-white font-semibold mb-4">{t("shop")}</p>
             <ul className="space-y-2.5">
-              {footerLinks.shop.map((l) => (
+              {footerLinksState.shop.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-white/55 hover:text-red-400 text-sm transition-colors">
                     {l.label}
@@ -121,7 +146,7 @@ export function SiteFooter() {
           <div>
             <p className="text-white font-semibold mb-4">Support</p>
             <ul className="space-y-2.5">
-              {footerLinks.support.map((l) => (
+              {footerLinksState.support.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-white/55 hover:text-red-400 text-sm transition-colors">
                     {l.label}
@@ -134,7 +159,7 @@ export function SiteFooter() {
           <div>
             <p className="text-white font-semibold mb-4">Company</p>
             <ul className="space-y-2.5">
-              {footerLinks.company.map((l) => (
+              {footerLinksState.company.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-white/55 hover:text-red-400 text-sm transition-colors">
                     {l.label}
@@ -147,8 +172,8 @@ export function SiteFooter() {
 
         <div className="mt-12 pt-10 border-t border-white/10 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="max-w-md w-full">
-            <p className="text-white font-bold mb-2">Subscribe to our newsletter</p>
-            <p className="text-white/50 text-sm mb-4">Get the latest design drops and exclusive offers delivered to your inbox.</p>
+            <p className="text-white font-bold mb-2">{t("subscribe_newsletter")}</p>
+            <p className="text-white/50 text-sm mb-4">{t("newsletter_desc")}</p>
             <form onSubmit={handleNewsletter} className="flex gap-2">
               <input
                 type="email"
@@ -178,14 +203,14 @@ export function SiteFooter() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-10 pt-8 border-t border-white/10">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1 text-white/35 text-xs">
-            <span>🇱🇰 Islandwide delivery</span>
+            <span>🇱🇰 {t("islandwide_delivery")}</span>
             <span className="text-white/15">·</span>
-            <span>💵 Cash on Delivery</span>
+            <span>💵 {t("cash_on_delivery")}</span>
             <span className="text-white/15">·</span>
-            <span>Made to order</span>
+            <span>{t("made_to_order")}</span>
           </div>
           <p className="text-white/30 text-xs text-center sm:text-right">
-            &copy; {new Date().getFullYear()} ChromaCrew. All rights reserved.
+            &copy; {new Date().getFullYear()} ChromaCrew. {t("all_rights_reserved")}
           </p>
         </div>
       </div>

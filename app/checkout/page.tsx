@@ -62,7 +62,7 @@ export default function CheckoutPage() {
     if (cart.length === 0) return
     
     // 1. Validation
-    const validation = validateShippingForm(shipping)
+    const validation = validateShippingForm(shipping, t)
     if (!validation.valid) {
       validation.errors.forEach(err => toast.error(err))
       return
@@ -194,14 +194,14 @@ export default function CheckoutPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-4xl font-bold mb-2">{t("order_confirmed")}</h1>
+           <h1 className="text-4xl font-bold mb-2">{t("order_confirmed")}</h1>
           <p className="text-white/70 text-lg">
-            Your reference: <strong className="text-white">{orderId}</strong>
+            {t("order_reference")}: <strong className="text-white">{orderId}</strong>
           </p>
           <div className="mt-8 rounded-2xl border border-green-600/30 bg-green-600/10 p-6 text-left">
-            <p className="font-bold text-green-400 mb-2">📲 Action Required: {t("confirm_whatsapp")}</p>
+            <p className="font-bold text-green-400 mb-2">📲 {t("action_required")}: {t("confirm_whatsapp")}</p>
             <p className="text-white/70 text-sm mb-4">
-              Your order has been saved in our system. To finalize and start production, please send the confirmation to our WhatsApp.
+              {t("order_saved_msg")}
             </p>
             <a
               href={waLink}
@@ -212,12 +212,12 @@ export default function CheckoutPage() {
               {t("confirm_whatsapp")}
             </a>
           </div>
-          <div className="flex flex-wrap gap-3 justify-center pt-6">
+           <div className="flex flex-wrap gap-3 justify-center pt-6">
             <Link href="/account" className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 font-medium transition-all">
-              Track Order
+              {t("track_order")}
             </Link>
             <Link href="/shop" className="px-6 py-3 rounded-xl border border-white/10 hover:bg-white/5 transition-all">
-              Continue Shopping
+              {t("continue_shopping")}
             </Link>
           </div>
         </div>
@@ -230,9 +230,9 @@ export default function CheckoutPage() {
       <Header currentPage="shop" />
       <div className="max-w-6xl mx-auto px-4 md:px-6 py-10 grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8">
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-2">
+           <div className="space-y-2">
             <h1 className="text-4xl font-bold">{t("checkout")}</h1>
-            <p className="text-white/60">Using Supabase Backend for secure processing.</p>
+            <p className="text-white/60">{t("secure_processing")}</p>
           </div>
 
           <div className="grid grid-cols-1 gap-4">
@@ -306,9 +306,9 @@ export default function CheckoutPage() {
                   onChange={() => setPaymentMethod("cod")}
                   className="w-5 h-5 accent-red-600"
                 />
-                <div className="flex flex-col">
-                  <span className="font-bold">Cash on Delivery</span>
-                  <span className="text-xs text-white/50">Pay when you receive</span>
+                 <div className="flex flex-col">
+                  <span className="font-bold">{t("cash_on_delivery")}</span>
+                  <span className="text-xs text-white/50">{t("cod_desc")}</span>
                 </div>
               </label>
               <label className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'bank' ? 'border-red-600 bg-red-600/5' : 'border-white/10 bg-white/5 hover:border-white/20'}`}>
@@ -319,20 +319,20 @@ export default function CheckoutPage() {
                   onChange={() => setPaymentMethod("bank")}
                   className="w-5 h-5 accent-red-600"
                 />
-                <div className="flex flex-col">
-                  <span className="font-bold">Bank Transfer</span>
-                  <span className="text-xs text-white/50">Details shared after confirm</span>
+                 <div className="flex flex-col">
+                  <span className="font-bold">{t("bank_transfer")}</span>
+                  <span className="text-xs text-white/50">{t("bank_desc")}</span>
                 </div>
               </label>
             </div>
           </div>
 
-          <button 
+           <button 
             type="submit" 
             disabled={isSubmitting}
             className="w-full py-5 rounded-xl bg-red-600 hover:bg-red-700 font-bold text-xl transition-all active:scale-95 disabled:opacity-50 shadow-xl shadow-red-600/20"
           >
-            {isSubmitting ? "Processing..." : t("place_order")}
+            {isSubmitting ? t("checkout_processing") : t("place_order")}
           </button>
         </form>
 
@@ -346,7 +346,9 @@ export default function CheckoutPage() {
                     <p className="font-bold text-white">{item.name}</p>
                     <p className="text-white/40 text-xs">{item.size} / {item.color} x {item.quantity}</p>
                   </div>
-                  <span className="font-medium text-white/80 whitespace-nowrap">Rs. {(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="font-medium text-white/80 whitespace-nowrap">
+                    {item.id === "custom-dtf" ? t("contact_us_info") : `Rs. ${(item.price * item.quantity).toFixed(2)}`}
+                  </span>
                 </div>
               ))}
             </div>

@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Heart } from "lucide-react"
 import { useShop } from "@/components/shop-provider"
+import { useLanguage } from "@/components/language-provider"
 
 interface ProductCardProps {
   id: string
@@ -16,6 +17,7 @@ interface ProductCardProps {
 export function ProductCard({ id, name, price, image }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
   const { toggleWishlist, isWishlisted } = useShop()
+  const { t } = useLanguage()
   const wished = isWishlisted(id)
 
   return (
@@ -58,7 +60,7 @@ export function ProductCard({ id, name, price, image }: ProductCardProps) {
             />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-muted to-background flex items-center justify-center">
-            <span className="text-muted-foreground text-sm">No Image</span>
+            <span className="text-muted-foreground text-sm">{t("no_image")}</span>
           </div>
         )}
 
@@ -68,12 +70,12 @@ export function ProductCard({ id, name, price, image }: ProductCardProps) {
             isHovered ? "opacity-100" : "opacity-0"
           }`}
         >
-          <span className="text-white font-semibold text-lg">{name}</span>
+          <span className="text-white font-semibold text-lg text-center px-4">{t(`prod_${id.replace('-', '_')}_name` as any) !== `prod_${id.replace('-', '_')}_name` ? t(`prod_${id.replace('-', '_')}_name` as any) : name}</span>
           <span className="text-red-500 font-bold text-xl mt-2">
             Rs. {price.toFixed(2)}
           </span>
           <button className="mt-4 px-6 py-2 bg-red-600 text-white rounded-full text-sm font-medium hover:bg-red-700 transition-colors">
-            View Details
+            {t("view_details")}
           </button>
         </div>
       </div>
@@ -84,8 +86,8 @@ export function ProductCard({ id, name, price, image }: ProductCardProps) {
           isHovered ? "opacity-0" : "opacity-100"
         }`}
       >
-        <h3 className="text-white font-medium">{name}</h3>
-        <span className="inline-block px-2 py-0.5 rounded-full bg-red-600/20 border border-red-600/30 text-red-400 text-[10px] mt-1">New</span>
+        <h3 className="text-white font-medium">{t(`prod_${id.replace('-', '_')}_name` as any) !== `prod_${id.replace('-', '_')}_name` ? t(`prod_${id.replace('-', '_')}_name` as any) : name}</h3>
+        <span className="inline-block px-2 py-0.5 rounded-full bg-red-600/20 border border-red-600/30 text-red-400 text-[10px] mt-1">{t("new_badge")}</span>
         <p className="text-red-500 font-semibold">Rs. {price.toFixed(2)}</p>
       </div>
     </Link>
