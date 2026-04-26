@@ -8,6 +8,7 @@ import {
   products,
   type DesignTheme,
   type Product,
+} from "@/lib/products"
 import { Search } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 
