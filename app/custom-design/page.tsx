@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react"
 import { Header } from "@/components/header"
 import { useShop } from "@/components/shop-provider"
-import { useLanguage } from "@/components/language-provider"
+import { useShop } from "@/components/shop-provider"
 import { Heart, Check } from "lucide-react"
 import { toast } from "sonner"
 import {
@@ -17,7 +17,6 @@ import { compressImage } from "@/lib/image-utils"
 
 export default function CustomDesignPage() {
   const { addToCart, toggleWishlist, isWishlisted } = useShop()
-  const { t } = useLanguage()
   const [selectedColor, setSelectedColor] = useState("Black")
   const [selectedSize, setSelectedSize] = useState("XL")
   const [selectedDtfSize, setSelectedDtfSize] = useState<"A4" | "A3">("A4")
@@ -208,7 +207,7 @@ export default function CustomDesignPage() {
             {/* Color picker — visual swatches + dropdown */}
             <div className="space-y-3">
               <div>
-                <label className="block text-white text-xs mb-2">{t("color")}</label>
+                <label className="block text-white text-xs mb-2">Color</label>
                 <div className="flex gap-2 mb-2">
                   {colors.map((c) => {
                     const swatchMap: Record<string, string> = {
@@ -238,7 +237,7 @@ export default function CustomDesignPage() {
               </div>
 
               <div>
-                <label className="block text-white text-xs mb-1">{t("size")}</label>
+                <label className="block text-white text-xs mb-1">Size</label>
                 <select
                   value={selectedSize}
                   onChange={(e) => setSelectedSize(e.target.value)}
@@ -279,7 +278,7 @@ export default function CustomDesignPage() {
                   </button>
                 </div>
                 <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm font-medium">
-                   {t("contact_us_info")}
+                 Contact us for more information
                 </div>
               </div>
               <p className="text-white/60 text-[10px] text-center">
@@ -290,7 +289,7 @@ export default function CustomDesignPage() {
             {/* Upload section */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-white/80 text-sm">{t("upload_design")}</p>
+                <p className="text-white/80 text-sm">Upload Design</p>
                 <span className="text-xs text-red-400 font-medium px-2 py-0.5 rounded-md bg-red-600/10 border border-red-600/20">
                   → {zoneLabels[activeZone]} ({activeSide})
                 </span>
@@ -398,10 +397,10 @@ export default function CustomDesignPage() {
                 {cartPressed ? (
                   <span className="inline-flex items-center gap-2">
                     <Check className="w-5 h-5" />
-                    {t("added")}
+                    Added!
                   </span>
                 ) : (
-                  t("add_to_cart")
+                  "Add to Cart"
                 )}
               </button>
             </div>

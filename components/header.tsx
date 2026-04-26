@@ -4,11 +4,9 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Heart, ShoppingCart, Menu, X, User, Search, Languages } from "lucide-react"
+import { Heart, ShoppingCart, Menu, X, User, Search } from "lucide-react"
 import { useShop } from "@/components/shop-provider"
-import { useLanguage } from "@/components/language-provider"
 import { supabase } from "@/lib/supabase"
-import { Language } from "@/lib/translations"
 
 interface HeaderProps {
   currentPage?: string
@@ -27,8 +25,6 @@ export function Header({ currentPage = "home" }: HeaderProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const { cartCount } = useShop()
-  const { language, setLanguage, t } = useLanguage()
-  const [langOpen, setLangOpen] = useState(false)
 
   /* ── Auth ── */
   useEffect(() => {
@@ -163,38 +159,8 @@ export function Header({ currentPage = "home" }: HeaderProps) {
             )}
           </div>
 
-          {/* Right – Login + Wishlist + Cart + Language + Hamburger */}
+          {/* Right – Login + Wishlist + Cart + Hamburger */}
           <div className="flex items-center justify-end gap-3 md:gap-4">
-            {/* Language Switcher */}
-            <div className="relative">
-              <button
-                onClick={() => setLangOpen(!langOpen)}
-                className="flex flex-col items-center gap-0.5 text-white/70 hover:text-white transition-colors"
-                aria-label="Change Language"
-              >
-                <Languages className={ICON_SIZE} />
-                <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
-                  {language}
-                </span>
-              </button>
-              {langOpen && (
-                <div className="absolute top-full right-0 mt-2 w-32 bg-background border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 animate-in zoom-in-95 duration-200">
-                  {(["en", "ta", "si"] as Language[]).map((lang) => (
-                    <button
-                      key={lang}
-                      onClick={() => {
-                        setLanguage(lang);
-                        setLangOpen(false);
-                      }}
-                      className={`w-full px-4 py-2 text-left text-xs font-semibold hover:bg-white/5 transition-colors ${language === lang ? "text-red-500 bg-white/5" : "text-white/70"
-                        }`}
-                    >
-                      {lang === "en" ? "English" : lang === "ta" ? "தமிழ்" : "සිංහල"}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
 
             {/* Login / Logout (person icon on desktop, link on mobile) */}
             {user ? (

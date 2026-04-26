@@ -38,7 +38,7 @@ export const products: Product[] = [
   {
     id: "tee-001",
     name: "Cars 2 Edition Minimal Street Wear",
-    price: 2225,
+    price: 1750,
     category: "featured",
     designThemes: ["streetwear", "minimalist"],
     colors: ["Black", "White", "Navy"],
