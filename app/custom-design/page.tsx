@@ -3,7 +3,6 @@
 import { useCallback, useState } from "react"
 import { Header } from "@/components/header"
 import { useShop } from "@/components/shop-provider"
-import { useShop } from "@/components/shop-provider"
 import { Heart, Check } from "lucide-react"
 import { toast } from "sonner"
 import {
@@ -118,7 +117,7 @@ export default function CustomDesignPage() {
                     : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10"
                 }`}
               >
-                👕 {t("front_view")}
+                👕 Front View
               </button>
               <button
                 type="button"
@@ -132,7 +131,7 @@ export default function CustomDesignPage() {
                     : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10"
                 }`}
               >
-                🔄 {t("back_view")}
+                🔄 Back View
               </button>
             </div>
 

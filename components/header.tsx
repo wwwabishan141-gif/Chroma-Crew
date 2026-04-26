@@ -237,7 +237,7 @@ export function Header({ currentPage = "home" }: HeaderProps) {
                 className={`relative text-sm font-semibold transition-colors duration-200 group ${isActive(item.key) ? "text-white" : "text-white/55 hover:text-white"
                   }`}
               >
-                {t(item.key as any)}
+                {item.name}
                 <span
                   className={`absolute -bottom-[11px] left-0 right-0 h-[2px] bg-red-600 rounded-full transition-all duration-200 ${isActive(item.key)
                     ? "opacity-100 scale-x-100"
@@ -263,7 +263,7 @@ export function Header({ currentPage = "home" }: HeaderProps) {
                     : "text-white/65 hover:text-white hover:bg-white/5"
                     }`}
                 >
-                  {t(item.key as any)}
+                  {item.name}
                 </Link>
               ))}
 
