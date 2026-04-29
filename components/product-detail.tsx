@@ -126,6 +126,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   </option>
                 ))}
               </select>
+              <p className="text-[10px] text-white/40 mt-1 italic">
+                * Currently available in <span className="text-white/60">Regular Fit</span> only. Baggy (Oversized) fits coming soon!
+              </p>
             </div>
             <div className="space-y-2 sm:col-span-2">
               <label className="text-white/80 text-xs font-bold uppercase tracking-widest">DTF Print Size</label>

@@ -85,8 +85,11 @@ export function ProductCard({ id, name, price, image }: ProductCardProps) {
         }`}
       >
         <h3 className="text-white font-medium">{name}</h3>
-        <span className="inline-block px-2 py-0.5 rounded-full bg-red-600/20 border border-red-600/30 text-red-400 text-[10px] mt-1">New</span>
-        <p className="text-red-500 font-semibold">Rs. {price.toFixed(2)}</p>
+        <div className="flex items-center justify-center gap-2 mt-1">
+          <span className="inline-block px-2 py-0.5 rounded-full bg-red-600/20 border border-red-600/30 text-red-400 text-[10px]">New</span>
+          <span className="inline-block px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/40 text-[10px]">Regular Fit</span>
+        </div>
+        <p className="text-red-500 font-semibold mt-1">Rs. {price.toFixed(2)}</p>
       </div>
     </Link>
   )

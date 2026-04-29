@@ -87,7 +87,10 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
                 <span className="text-white/40 text-sm">({reviews.length} reviews)</span>
               </div>
             ) : (
-              <p className="text-white/40">No reviews yet. Be the first!</p>
+              <div className="space-y-2">
+                <p className="text-white/40">Honest Truth: We currently have 0 reviews.</p>
+                <p className="text-red-500/80 text-sm font-medium italic">Be the very first to share your experience!</p>
+              </div>
             )}
           </div>
 
@@ -125,8 +128,9 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
         {/* Right Side: List */}
         <div className="w-full md:w-2/3 space-y-6">
           {reviews.length === 0 ? (
-            <div className="h-full flex items-center justify-center py-20 border-2 border-dashed border-white/5 rounded-3xl">
-               <p className="text-white/20 font-medium">No reviews to display</p>
+            <div className="h-full flex items-center justify-center py-20 border-2 border-dashed border-white/5 rounded-3xl flex-col gap-2">
+               <p className="text-white/20 font-medium italic text-lg">Still Zero Reviews</p>
+               <p className="text-white/10 text-xs uppercase tracking-[0.2em]">Authenticity is our priority</p>
             </div>
           ) : (
             reviews.map((r) => (
