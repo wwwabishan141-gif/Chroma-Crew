@@ -42,9 +42,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
               src={product.images[selectedView]} 
               alt={`${product.name} ${selectedView}`} 
               fill 
-              priority={true}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover" 
+              priority={selectedView === "front"}
+              loading={selectedView === "front" ? "eager" : "lazy"}
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 55vw, 600px"
+              className="object-cover transition-opacity duration-300" 
             />
             <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 text-white text-xs">
               {viewOptions.find((v) => v.key === selectedView)?.label}
