@@ -13,9 +13,12 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="relative min-h-[95vh] flex flex-col items-center justify-center px-6 py-12 md:py-20 overflow-hidden bg-[#0a0000]">
+    <section className="relative min-h-[95vh] flex flex-col items-center justify-center px-6 py-12 md:py-20 overflow-hidden bg-black">
 
-      {/* ── Background: Flowing Red Wave Ribbons (inspired by reference) ── */}
+      {/* ══════════════════════════════════════
+          BACKGROUND: Sharp Geometric Streetwear
+          Diagonal slashes + diamond lattice + circuit traces
+         ══════════════════════════════════════ */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
         viewBox="0 0 1440 900"
@@ -23,54 +26,115 @@ export function HeroSection() {
         preserveAspectRatio="xMidYMid slice"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Deep ambient glow blobs */}
-        <ellipse cx="200" cy="700" rx="500" ry="300" fill="rgba(120,10,10,0.18)" />
-        <ellipse cx="1300" cy="200" rx="400" ry="250" fill="rgba(100,5,5,0.14)" />
-        <ellipse cx="720" cy="450" rx="600" ry="350" fill="rgba(80,0,0,0.10)" />
+        {/* ── Deep glow cores ── */}
+        <radialGradient id="glowLeft" cx="0%" cy="100%" r="60%">
+          <stop offset="0%" stopColor="#7f0000" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="glowRight" cx="100%" cy="0%" r="55%">
+          <stop offset="0%" stopColor="#5c0000" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+        </radialGradient>
+        <rect width="1440" height="900" fill="url(#glowLeft)" />
+        <rect width="1440" height="900" fill="url(#glowRight)" />
 
-        {/* Flowing ribbon waves — bottom-left origin */}
-        <path d="M-100 900 C 100 700, 300 600, 500 750 S 800 900, 1000 700 S 1200 500, 1600 600" stroke="rgba(180,20,20,0.35)" strokeWidth="2" fill="none"/>
-        <path d="M-100 850 C 150 650, 350 550, 550 700 S 850 850, 1050 650 S 1250 450, 1600 550" stroke="rgba(200,30,30,0.25)" strokeWidth="1.5" fill="none"/>
-        <path d="M-100 800 C 200 580, 400 480, 600 640 S 900 800, 1100 580 S 1300 380, 1600 480" stroke="rgba(160,15,15,0.20)" strokeWidth="1" fill="none"/>
+        {/* ── Large angled slash blocks (corners) ── */}
+        {/* Bottom-left slash */}
+        <polygon points="0,900 320,900 0,520" fill="rgba(180,0,0,0.06)" />
+        <polygon points="0,900 180,900 0,680" fill="rgba(220,10,10,0.08)" />
+        {/* Top-right slash */}
+        <polygon points="1440,0 1120,0 1440,380" fill="rgba(180,0,0,0.06)" />
+        <polygon points="1440,0 1260,0 1440,220" fill="rgba(220,10,10,0.08)" />
 
-        {/* Upper waves */}
-        <path d="M-100 300 C 200 150, 500 250, 700 100 S 1000 -50, 1300 150 S 1500 300, 1600 200" stroke="rgba(180,20,20,0.30)" strokeWidth="2" fill="none"/>
-        <path d="M-100 350 C 200 200, 500 300, 700 150 S 1000 0, 1300 200 S 1500 350, 1600 250" stroke="rgba(200,30,30,0.18)" strokeWidth="1.5" fill="none"/>
-        <path d="M-100 400 C 250 250, 550 350, 750 200 S 1050 50, 1350 250 S 1550 400, 1600 300" stroke="rgba(150,10,10,0.15)" strokeWidth="1" fill="none"/>
+        {/* ── Diagonal red slash lines ── */}
+        {/* Bottom-left to upper zone */}
+        <line x1="-50" y1="950" x2="750" y2="-50" stroke="rgba(220,38,38,0.12)" strokeWidth="80" strokeLinecap="butt" />
+        <line x1="-50" y1="850" x2="650" y2="-50" stroke="rgba(200,20,20,0.08)" strokeWidth="40" strokeLinecap="butt" />
+        <line x1="200" y1="950" x2="1000" y2="-50" stroke="rgba(180,10,10,0.06)" strokeWidth="30" strokeLinecap="butt" />
+        {/* Top-right descending */}
+        <line x1="1490" y1="-50" x2="700" y2="950" stroke="rgba(220,38,38,0.09)" strokeWidth="60" strokeLinecap="butt" />
+        <line x1="1490" y1="150" x2="900" y2="950" stroke="rgba(200,20,20,0.06)" strokeWidth="35" strokeLinecap="butt" />
 
-        {/* Diagonal cross ribbons */}
-        <path d="M0 0 C 300 200, 600 600, 900 900" stroke="rgba(140,10,10,0.12)" strokeWidth="60" fill="none" strokeLinecap="round"/>
-        <path d="M200 0 C 500 200, 800 600, 1100 900" stroke="rgba(120,8,8,0.08)" strokeWidth="80" fill="none" strokeLinecap="round"/>
-        <path d="M1440 0 C 1100 200, 800 600, 500 900" stroke="rgba(140,10,10,0.10)" strokeWidth="50" fill="none" strokeLinecap="round"/>
+        {/* ── Sharp red outline lines (neon streaks) ── */}
+        <line x1="0" y1="600" x2="400" y2="200" stroke="rgba(220,38,38,0.35)" strokeWidth="1" />
+        <line x1="0" y1="650" x2="420" y2="230" stroke="rgba(220,38,38,0.15)" strokeWidth="0.5" />
+        <line x1="1440" y1="300" x2="1040" y2="700" stroke="rgba(220,38,38,0.35)" strokeWidth="1" />
+        <line x1="1440" y1="250" x2="1010" y2="680" stroke="rgba(220,38,38,0.15)" strokeWidth="0.5" />
 
-        {/* Fine contour lines (fabric-texture feel) */}
-        {[...Array(12)].map((_, i) => (
-          <path
-            key={i}
-            d={`M-200 ${650 - i * 55} C 300 ${500 - i * 40}, 700 ${800 - i * 60}, 1100 ${550 - i * 45} S 1400 ${350 - i * 35}, 1700 ${500 - i * 50}`}
-            stroke={`rgba(180,15,15,${0.06 - i * 0.003})`}
-            strokeWidth="1"
-            fill="none"
-          />
+        {/* ── Diamond lattice (centre zone) ── */}
+        {[...Array(7)].map((_, col) =>
+          [...Array(5)].map((_, row) => {
+            const cx = 420 + col * 90
+            const cy = 250 + row * 90
+            const size = 18
+            return (
+              <polygon
+                key={`d-${col}-${row}`}
+                points={`${cx},${cy - size} ${cx + size},${cy} ${cx},${cy + size} ${cx - size},${cy}`}
+                stroke="rgba(220,38,38,0.18)"
+                strokeWidth="0.8"
+                fill="none"
+              />
+            )
+          })
+        )}
+        {/* Larger accent diamonds */}
+        <polygon points="160,820 210,770 160,720 110,770" stroke="rgba(220,38,38,0.4)" strokeWidth="1.2" fill="rgba(220,38,38,0.04)" />
+        <polygon points="1280,80 1330,30 1280,-20 1230,30" stroke="rgba(220,38,38,0.4)" strokeWidth="1.2" fill="rgba(220,38,38,0.04)" />
+        <polygon points="80,200 120,160 80,120 40,160" stroke="rgba(220,38,38,0.25)" strokeWidth="1" fill="none" />
+        <polygon points="1360,700 1400,660 1360,620 1320,660" stroke="rgba(220,38,38,0.25)" strokeWidth="1" fill="none" />
+
+        {/* ── Circuit board traces (horizontal + right-angle) ── */}
+        {/* Left side trace */}
+        <path d="M80 500 L 180 500 L 180 420 L 320 420 L 320 380" stroke="rgba(220,38,38,0.30)" strokeWidth="1" fill="none" />
+        <circle cx="80" cy="500" r="3" fill="rgba(220,38,38,0.5)" />
+        <circle cx="320" cy="380" r="3" fill="rgba(220,38,38,0.5)" />
+        <circle cx="180" cy="500" r="2" fill="rgba(220,38,38,0.3)" />
+        <circle cx="180" cy="420" r="2" fill="rgba(220,38,38,0.3)" />
+
+        {/* Right side trace */}
+        <path d="M1360 400 L 1260 400 L 1260 480 L 1120 480 L 1120 520" stroke="rgba(220,38,38,0.30)" strokeWidth="1" fill="none" />
+        <circle cx="1360" cy="400" r="3" fill="rgba(220,38,38,0.5)" />
+        <circle cx="1120" cy="520" r="3" fill="rgba(220,38,38,0.5)" />
+        <circle cx="1260" cy="400" r="2" fill="rgba(220,38,38,0.3)" />
+        <circle cx="1260" cy="480" r="2" fill="rgba(220,38,38,0.3)" />
+
+        {/* Bottom trace */}
+        <path d="M400 860 L 400 800 L 500 800 L 500 840 L 700 840" stroke="rgba(220,38,38,0.20)" strokeWidth="0.8" fill="none" />
+        <circle cx="400" cy="860" r="2" fill="rgba(220,38,38,0.4)" />
+        <circle cx="700" cy="840" r="2" fill="rgba(220,38,38,0.4)" />
+
+        {/* ── Halftone dot cluster (bottom-right corner) ── */}
+        {[...Array(8)].map((_, row) =>
+          [...Array(10)].map((_, col) => {
+            const r = 1.5 - (row + col) * 0.07
+            if (r <= 0.2) return null
+            return (
+              <circle
+                key={`h-${row}-${col}`}
+                cx={1200 + col * 28}
+                cy={720 + row * 28}
+                r={Math.max(0.3, r)}
+                fill={`rgba(220,38,38,${0.25 - (row + col) * 0.012})`}
+              />
+            )
+          })
+        )}
+
+        {/* ── Scanline overlay (horizontal micro-lines) ── */}
+        {[...Array(30)].map((_, i) => (
+          <line key={`sl-${i}`} x1="0" y1={i * 30} x2="1440" y2={i * 30} stroke="rgba(255,255,255,0.012)" strokeWidth="0.5" />
         ))}
       </svg>
 
-      {/* ── Subtle mesh grid overlay ── */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)",
-          backgroundSize: "55px 55px",
-        }}
-      />
-
-      {/* ── Vignette edges ── */}
+      {/* ── Vignette ── */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%)"
+        background: "radial-gradient(ellipse 80% 70% at center, transparent 30%, rgba(0,0,0,0.75) 100%)"
       }} />
 
-      {/* ── Center Content ── */}
+      {/* ══════════════════════════════════════
+          CENTER CONTENT
+         ══════════════════════════════════════ */}
       <div
         className={`relative z-10 text-center transition-all duration-1000 max-w-4xl mx-auto ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -89,16 +153,13 @@ export function HeroSection() {
           />
         </div>
 
-        {/* "PREMIUM DTF PRINTS" divider — matching first image reference */}
+        {/* "PREMIUM DTF PRINTS" divider */}
         <div className="flex items-center gap-3 justify-center my-6">
-          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent via-red-700 to-red-600" />
-          <span
-            className="text-red-500 text-[10px] font-black uppercase tracking-[0.45em]"
-            style={{ letterSpacing: "0.45em" }}
-          >
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-red-600" />
+          <span className="text-red-500 text-[10px] font-black uppercase tracking-[0.45em]">
             Premium DTF Prints
           </span>
-          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent via-red-700 to-red-600" />
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-red-600" />
         </div>
 
         {/* CTA Buttons */}
@@ -108,7 +169,6 @@ export function HeroSection() {
             className="group relative w-full sm:w-auto px-10 py-3.5 md:px-12 md:py-4 bg-red-600 text-white font-bold rounded-full overflow-hidden transition-all duration-300 hover:bg-red-700 hover:shadow-xl hover:shadow-red-600/40 hover:scale-105 text-base md:text-lg"
           >
             <span className="relative z-10">Shop Now</span>
-            {/* shimmer */}
             <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
           </Link>
           <Link
@@ -128,7 +188,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Bottom fade into site background */}
+      {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </section>
   )
