@@ -230,7 +230,7 @@ export default function CheckoutPage() {
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <h1 className="text-4xl font-bold">Checkout</h1>
-            <p className="text-white/60">Using Supabase Backend for secure processing.</p>
+            <p className="text-white/60">Finalizing your order on <span className="text-white font-bold">chromacrew.lk</span></p>
           </div>
 
           <div className="grid grid-cols-1 gap-4">

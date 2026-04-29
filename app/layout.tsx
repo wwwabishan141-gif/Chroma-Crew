@@ -14,12 +14,16 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://chromacrew.lk'),
   title: 'ChromaCrew - Custom DTF T-Shirts | Sri Lanka',
   description: 'Premium DTF printed custom t-shirts delivered island-wide in Sri Lanka. Upload your design or shop our collection. Based in Colombo.',
   keywords: ['DTF printing', 'custom t-shirts', 'Sri Lanka', 'Colombo', 'custom apparel', 'heat transfer'],
   openGraph: {
     title: 'ChromaCrew - Custom DTF T-Shirts',
     description: 'Premium DTF printed custom t-shirts delivered island-wide in Sri Lanka.',
+    url: 'https://chromacrew.lk',
+    siteName: 'ChromaCrew',
+    locale: 'en_LK',
     type: 'website',
   },
   icons: {

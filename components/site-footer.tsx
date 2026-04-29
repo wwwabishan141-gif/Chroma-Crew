@@ -184,8 +184,8 @@ export function SiteFooter() {
             <span className="text-white/15">·</span>
             <span>Made to order</span>
           </div>
-          <p className="text-white/30 text-xs text-center sm:text-right">
-            &copy; {new Date().getFullYear()} ChromaCrew. All rights reserved.
+          <p className="text-white/30 text-[10px] uppercase tracking-widest text-center sm:text-right">
+            &copy; {new Date().getFullYear()} <span className="text-white/60 font-bold">chromacrew.lk</span> • All rights reserved.
           </p>
         </div>
       </div>

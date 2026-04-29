@@ -97,15 +97,19 @@ export function Header({ currentPage = "home" }: HeaderProps) {
 
           {/* Left – Logo */}
           <div className="flex items-center">
-            <Link href="/" className="hover:opacity-80 transition-opacity">
+            <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
               <Image
                 src="/website-logo-what-01.png"
                 alt="Chroma Crew"
                 width={70}
                 height={70}
-                className="w-[65px] md:w-[70px] h-auto object-contain"
+                className="w-[60px] md:w-[65px] h-auto object-contain"
                 priority
               />
+              <div className="hidden sm:flex flex-col">
+                <span className="text-white font-black text-xl tracking-tighter leading-none">ChromaCrew</span>
+                <span className="text-red-500 font-bold text-[10px] tracking-[0.2em] leading-tight group-hover:text-white transition-colors">.LK</span>
+              </div>
             </Link>
           </div>
 
