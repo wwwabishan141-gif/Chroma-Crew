@@ -165,9 +165,9 @@ export function ProductRatingBadge({ rating, count }: { rating: number; count: n
   return (
     <div className="flex items-center gap-2">
       <div className="flex text-amber-400">
-        <Star className="w-4 h-4 fill-current" />
+        <Star className={`w-4 h-4 ${count > 0 ? "fill-current" : "text-white/20"}`} />
       </div>
-      <span className="text-white font-bold">{rating.toFixed(1)}</span>
+      <span className="text-white font-bold">{count > 0 ? rating.toFixed(1) : "0.0"}</span>
       <span className="text-white/40 text-xs">({count})</span>
     </div>
   )

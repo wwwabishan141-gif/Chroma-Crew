@@ -73,7 +73,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight">{product.name}</h1>
             <div className="flex items-center gap-4 mt-3">
                <p className="text-red-500 text-3xl font-bold">Rs. {finalPrice.toLocaleString("en-LK")}</p>
-               <ProductRatingBadge rating={4.8} count={12} />
+               <ProductRatingBadge rating={0.0} count={0} />
             </div>
             <p className="text-white/60 text-sm mt-2">
               DTF Size: {selectedDtfSize} {selectedDtfSize === "A3" ? "(+ Rs. 400.00)" : "(base price)"}
