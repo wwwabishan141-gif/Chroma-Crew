@@ -40,6 +40,7 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             fill
             className="object-contain"
             priority
+            sizes="128px"
           />
         </div>
         {/* Orbiting ring */}

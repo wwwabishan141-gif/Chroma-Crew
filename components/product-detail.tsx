@@ -37,17 +37,26 @@ export function ProductDetail({ product }: ProductDetailProps) {
     <div className="max-w-7xl mx-auto px-4 md:px-6 pb-20">
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 py-8">
         <div className="space-y-4">
-          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-red-600/70 bg-white/5 shadow-2xl shadow-red-600/5">
-            <Image 
-              src={product.images[selectedView]} 
-              alt={`${product.name} ${selectedView}`} 
-              fill 
-              priority={selectedView === "front"}
-              loading={selectedView === "front" ? "eager" : "lazy"}
-              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 55vw, 600px"
-              className="object-cover transition-opacity duration-300" 
-            />
-            <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 text-white text-xs">
+          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-red-600/70 bg-black/40 shadow-2xl shadow-red-600/5">
+            {viewOptions.map((view) => (
+              <div 
+                key={view.key}
+                className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                  selectedView === view.key ? "opacity-100 z-10" : "opacity-0 z-0"
+                }`}
+              >
+                <Image 
+                  src={product.images[view.key]} 
+                  alt={`${product.name} ${view.label}`} 
+                  fill 
+                  priority={view.key === "front"}
+                  loading={view.key === "front" ? "eager" : "lazy"}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 55vw, 600px"
+                  className="object-cover" 
+                />
+              </div>
+            ))}
+            <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 text-white text-[10px] uppercase font-bold tracking-widest z-20">
               {viewOptions.find((v) => v.key === selectedView)?.label}
             </div>
           </div>
