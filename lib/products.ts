@@ -163,6 +163,22 @@ export const products: Product[] = [
       detail: "/dtf-008-detail.png",
     },
   },
+  {
+    id: "tee-009",
+    name: "Vintage Speed Beetle Graphic Tee",
+    price: 1750,
+    category: "tshirts",
+    designThemes: ["minimalist", "typography"],
+    colors: ["White", "Black", "Grey"],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    description: "Car print t-shirts Clean lines, simple design, maximum impact. The everyday minimalist tee Round Neck Regular Fit.",
+    image: "/dtf-009-front.png",
+    images: {
+      front: "/dtf-009-front.png",
+      back: "/dtf-009-back.png",
+      detail: "/dtf-009-detail.png",
+    },
+  },
 ]
 
 export function getProductById(id: string): Product | undefined {
