@@ -35,7 +35,7 @@ export default function CustomDesignPage() {
   })
 
   const colors = ["Black", "White"]
-  const sizes = ["XS", "S", "M", "L", "XL", "XXL"]
+  const sizes = ["M", "L", "XL"]
   const customPrice = 2450
   const dtfSurcharge = selectedDtfSize === "A3" ? 400 : 0
   const finalPrice = customPrice + dtfSurcharge

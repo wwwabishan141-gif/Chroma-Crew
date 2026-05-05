@@ -42,7 +42,7 @@ export const products: Product[] = [
     category: "featured",
     designThemes: ["streetwear", "minimalist"],
     colors: ["Black", "White"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
+    sizes: ["M", "L", "XL"],
     description: "A clean everyday tee with premium DTF print. Vibrant colours, soft feel, built to last Round Neck Regular Fit.",
     image: "/dtf-001-back.png",
     images: {
@@ -58,7 +58,7 @@ export const products: Product[] = [
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["Black", "White"],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    sizes: ["M", "L", "XL"],
     description: "Stylish casual wear, trendy printed tees, breathable cotton t-shirt, unisex Round Neck Regular Fit.",
     image: "/dtf-002-back.png",
     images: {
@@ -74,7 +74,7 @@ export const products: Product[] = [
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["Black", "White"],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    sizes: ["M", "L", "XL"],
     description: "Clean lines, simple design, maximum impact. The everyday minimalist tee Round Neck Regular Fit.",
     image: "/dtf-003-front.png",
     images: {
@@ -90,7 +90,7 @@ export const products: Product[] = [
     category: "featured",
     designThemes: ["abstract", "graphic"],
     colors: ["Black", "White"],
-    sizes: ["S", "M", "L", "XL"],
+    sizes: ["M", "L", "XL"],
     description: "Motivation artwork DTF-printed on premium cotton. One-of-a-kind wearable art Round Neck Regular Fit.",
     image: "/dtf-004-front.png",
     images: {
@@ -106,7 +106,7 @@ export const products: Product[] = [
     category: "tshirts",
     designThemes: ["nature", "graphic"],
     colors: ["Black", "White"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
+    sizes: ["M", "L", "XL"],
     description: "Inspired by Rome's natural beauty. DTF printed with rich, fade-resistant colours Round Neck Regular Fit.",
     image: "/dtf-005-back.png",
     images: {
@@ -122,7 +122,7 @@ export const products: Product[] = [
     category: "custom",
     designThemes: ["streetwear", "graphic"],
     colors: ["Black", "White"],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    sizes: ["M", "L", "XL"],
     description: "Inspried by Real Slim Shady M&M Street wear Round Neck Regular Fit.",
     image: "/dtf-006-back.png",
     images: {
@@ -138,7 +138,7 @@ export const products: Product[] = [
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["Black", "White"],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    sizes: ["M", "L", "XL"],
     description: "Car print t-shirts Clean lines, simple design, maximum impact. The everyday minimalist tee Round Neck Regular Fit.",
     image: "/dtf-007-back.png",
     images: {
@@ -154,7 +154,7 @@ export const products: Product[] = [
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["Black", "White"],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    sizes: ["M", "L", "XL"],
     description: "Car print t-shirts Clean lines, simple design, maximum impact. The everyday minimalist tee Round Neck Regular Fit.",
     image: "/dtf-008-front.png",
     images: {
