@@ -34,7 +34,7 @@ export default function CustomDesignPage() {
     center: defaultDesign(),
   })
 
-  const colors = ["Red", "Black", "White", "Navy", "Grey"]
+  const colors = ["Black", "White"]
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"]
   const customPrice = 2450
   const dtfSurcharge = selectedDtfSize === "A3" ? 400 : 0
@@ -210,11 +210,8 @@ export default function CustomDesignPage() {
                 <div className="flex gap-2 mb-2">
                   {colors.map((c) => {
                     const swatchMap: Record<string, string> = {
-                      Red: "#c53030",
                       Black: "#1f1f1f",
                       White: "#ebebeb",
-                      Navy: "#1e3a5f",
-                      Grey: "#71717a",
                     }
                     return (
                       <button

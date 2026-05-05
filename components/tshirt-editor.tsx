@@ -21,11 +21,8 @@ export const defaultDesign = (): DesignState => ({
 
 /* ── color map ── */
 const SHIRT_COLORS: Record<string, { body: string; shadow: string; hi: string }> = {
-  Red:   { body: "#c53030", shadow: "#9b2c2c", hi: "#e53e3e" },
   Black: { body: "#1f1f1f", shadow: "#111",    hi: "#333" },
   White: { body: "#ebebeb", shadow: "#d4d4d4", hi: "#fff" },
-  Navy:  { body: "#1e3a5f", shadow: "#152940", hi: "#2d5a8a" },
-  Grey:  { body: "#71717a", shadow: "#52525b", hi: "#a1a1aa" },
 }
 
 /* ── zone geometry (% of container) ── */
