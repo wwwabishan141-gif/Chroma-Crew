@@ -179,6 +179,22 @@ export const products: Product[] = [
       detail: "/dtf-010-detail.png",
     },
   },
+  {
+    id: "tee-011",
+    name: "BMW M4 GT3 EVO Graphic Tee",
+    price: 1799,
+    category: "tshirts",
+    designThemes: ["minimalist", "typography"],
+    colors: ["Black", "White"],
+    sizes: ["M", "L", "XL"],
+    description: "Car Enthusiast t-shirts Clean lines, simple design, maximum impact. The everyday minimalist tee Round Neck Regular Fit.",
+    image: "/dtf-011-back.png",
+    images: {
+      front: "/dtf-011-front.png",
+      back: "/dtf-011-back.png",
+      detail: "/dtf-011-detail.png",
+    },
+  },
 ]
 
 export function getProductById(id: string): Product | undefined {
