@@ -14,6 +14,7 @@ export type CartItem = {
   customImage?: string
   customImages?: { placement: string, image: string }[]
   customPlacement?: string
+  fit?: "Regular Fit" | "Oversized"
 }
 
 export type WishlistItem = {
@@ -23,8 +24,8 @@ export type WishlistItem = {
   image?: string
 }
 
-function cartItemKey(item: Pick<CartItem, "id" | "color" | "size" | "dtfSize" | "customPlacement">) {
-  return [item.id, item.color ?? "", item.size ?? "", item.dtfSize ?? "", item.customPlacement ?? ""].join("::")
+function cartItemKey(item: Pick<CartItem, "id" | "color" | "size" | "dtfSize" | "customPlacement" | "fit">) {
+  return [item.id, item.color ?? "", item.size ?? "", item.dtfSize ?? "", item.customPlacement ?? "", item.fit ?? ""].join("::")
 }
 
 type ShopContextType = {
@@ -74,7 +75,8 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
           p.id === item.id &&
           p.color === item.color &&
           p.size === item.size &&
-          p.dtfSize === item.dtfSize,
+          p.dtfSize === item.dtfSize &&
+          p.fit === item.fit,
       )
       if (existing) {
         return prev.map((p) =>

@@ -15,19 +15,27 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
   const [reviews, setReviews] = useState<Review[]>([])
   const [rating, setRating] = useState(5)
   const [comment, setComment] = useState("")
+  const [guestName, setGuestName] = useState("")
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
     const init = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+      try {
+        const { data, error } = await supabase.auth.getUser()
+        if (data && data.user) {
+          setUser(data.user)
+        }
+      } catch (authErr) {
+        console.error("Failed to get authenticated user", authErr)
+      }
+
       try {
         const data = await getProductReviews(productId)
         setReviews(data)
       } catch (err) {
-        console.error("Failed to load reviews")
+        console.error("Failed to load reviews", err)
       } finally {
         setLoading(false)
       }
@@ -37,27 +45,29 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!user) {
-      toast.error("Please login to leave a review")
-      return
-    }
     if (!comment.trim()) return
+
+    const finalName = user 
+      ? (user.user_metadata?.display_name || user.email?.split("@")[0] || "Customer")
+      : (guestName.trim() || "Guest Customer")
 
     setSubmitting(true)
     try {
       const newReview = await addReview({
         product_id: productId,
-        user_id: user.id,
-        user_name: user.user_metadata?.display_name || user.email?.split("@")[0] || "Customer",
+        user_id: user ? user.id : null,
+        user_name: finalName,
         rating,
         comment: comment.trim(),
       })
       setReviews([newReview, ...reviews])
       setComment("")
+      setGuestName("")
       setRating(5)
       toast.success("Review posted! Thanks for your feedback.")
-    } catch (err) {
-      toast.error("Failed to post review")
+    } catch (err: any) {
+      console.error("Failed to post review", err)
+      toast.error(err?.message || "Failed to post review")
     } finally {
       setSubmitting(false)
     }
@@ -108,6 +118,15 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
                 </button>
               ))}
             </div>
+            {!user && (
+              <input
+                type="text"
+                value={guestName}
+                onChange={(e) => setGuestName(e.target.value)}
+                placeholder="Your Name (Optional)"
+                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-red-600 transition-colors"
+              />
+            )}
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
@@ -121,7 +140,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
             >
               {submitting ? "Posting..." : <><Send className="w-4 h-4" /> Post Review</>}
             </button>
-            {!user && <p className="text-[10px] text-center text-white/40 uppercase tracking-widest pt-2">Login required to post</p>}
+            {!user && <p className="text-[10px] text-center text-white/40 uppercase tracking-widest pt-2">Posting as Guest</p>}
           </form>
         </div>
 

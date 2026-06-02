@@ -17,7 +17,7 @@ export interface Order {
 export interface Review {
   id?: string
   product_id: string
-  user_id: string
+  user_id?: string | null
   user_name: string
   rating: number
   comment: string
@@ -133,24 +133,82 @@ export const base64ToFile = (base64: string, filename: string) => {
  * Reviews System
  */
 export const addReview = async (review: Omit<Review, "id" | "created_at">) => {
-  const { data, error } = await supabase
-    .from('reviews')
-    .insert([review])
-    .select()
+  const fallbackReview: Review = {
+    ...review,
+    id: Math.random().toString(36).substring(2, 11),
+    created_at: new Date().toISOString()
+  }
 
-  if (error) throw error
-  return data[0]
+  try {
+    const { data, error } = await supabase
+      .from('reviews')
+      .insert([review])
+      .select()
+
+    if (error) throw error
+    if (data && data.length > 0) {
+      return data[0]
+    }
+  } catch (dbError) {
+    console.warn("Supabase addReview failed, falling back to localStorage", dbError)
+  }
+
+  // Local Storage Fallback
+  if (typeof window !== 'undefined') {
+    const key = `reviews_${review.product_id}`
+    const existing = localStorage.getItem(key)
+    const list = existing ? JSON.parse(existing) : []
+    list.unshift(fallbackReview)
+    localStorage.setItem(key, JSON.stringify(list))
+  }
+
+  return fallbackReview
 }
 
 export const getProductReviews = async (productId: string) => {
-  const { data, error } = await supabase
-    .from('reviews')
-    .select('*')
-    .eq('product_id', productId)
-    .order('created_at', { ascending: false })
+  let dbReviews: Review[] = []
+  let dbSuccess = false
 
-  if (error) throw error
-  return data as Review[]
+  try {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*')
+      .eq('product_id', productId)
+      .order('created_at', { ascending: false })
+
+    if (error) throw error
+    dbReviews = data as Review[]
+    dbSuccess = true
+  } catch (dbError) {
+    console.warn("Supabase getProductReviews failed, falling back to localStorage", dbError)
+  }
+
+  if (typeof window !== 'undefined') {
+    const key = `reviews_${productId}`
+    const localReviewsStr = localStorage.getItem(key)
+    const localReviews = localReviewsStr ? JSON.parse(localReviewsStr) : []
+    
+    if (dbSuccess) {
+      // Merge unique reviews (by user_name & comment or id if exists)
+      const merged = [...dbReviews]
+      localReviews.forEach((lr: Review) => {
+        const exists = merged.some(dr => 
+          dr.comment === lr.comment && 
+          dr.user_name === lr.user_name &&
+          dr.rating === lr.rating
+        )
+        if (!exists) {
+          merged.push(lr)
+        }
+      })
+      // Sort merged by created_at descending
+      merged.sort((a, b) => new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime())
+      return merged
+    }
+    return localReviews
+  }
+
+  return dbReviews
 }
 
 /**

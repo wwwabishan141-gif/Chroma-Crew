@@ -33,7 +33,7 @@ export default function CartPage() {
                   <div>
                     <h2 className="text-xl">{item.name}</h2>
                     <p className="text-white/60 text-sm">
-                      {item.color ?? "Default"} / {item.size ?? "Default"}
+                      {item.color ?? "Default"} / {item.size ?? "Default"} / {item.fit ?? "Regular Fit"}
                       {item.dtfSize ? ` / ${item.dtfSize}` : ""}
                       {item.customPlacement ? ` / ${item.customPlacement}` : ""}
                     </p>

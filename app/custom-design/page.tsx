@@ -18,6 +18,7 @@ export default function CustomDesignPage() {
   const { addToCart, toggleWishlist, isWishlisted } = useShop()
   const [selectedColor, setSelectedColor] = useState("Black")
   const [selectedSize, setSelectedSize] = useState("XL")
+  const [selectedFit, setSelectedFit] = useState<"Regular Fit" | "Oversized">("Regular Fit")
   const [selectedDtfSize, setSelectedDtfSize] = useState<"A4" | "A3">("A4")
   const [quantity, setQuantity] = useState(1)
   const [cartPressed, setCartPressed] = useState(false)
@@ -248,6 +249,18 @@ export default function CustomDesignPage() {
               </div>
 
               <div>
+                <label className="block text-white text-xs mb-1">Fit</label>
+                <select
+                  value={selectedFit}
+                  onChange={(e) => setSelectedFit(e.target.value as "Regular Fit" | "Oversized")}
+                  className="w-full bg-black/80 border-2 border-red-600 rounded-xl px-3 py-2 text-white"
+                >
+                  <option value="Regular Fit">Regular Fit</option>
+                  <option value="Oversized">Oversized</option>
+                </select>
+              </div>
+
+              <div>
                 <label className="block text-white text-xs mb-1">DTF Print Size</label>
                 <select
                   value={selectedDtfSize}
@@ -373,6 +386,7 @@ export default function CustomDesignPage() {
                       color: selectedColor,
                       size: selectedSize,
                       dtfSize: selectedDtfSize,
+                      fit: selectedFit,
                       customImage: combinedDesign ?? undefined,
                       customImages: customImagesList,
                       customPlacement: combinedDesign ? placement : undefined,

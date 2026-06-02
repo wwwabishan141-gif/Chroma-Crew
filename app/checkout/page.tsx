@@ -129,7 +129,8 @@ export default function CheckoutPage() {
           price: item.price,
           color: item.color,
           size: item.size,
-          dtfSize: item.dtfSize
+          dtfSize: item.dtfSize,
+          fit: item.fit
         })),
         total: finalTotal,
         image_url: imageUrl,
@@ -141,7 +142,7 @@ export default function CheckoutPage() {
       
       // Build WhatsApp Message
       const productList = cart.map(i => {
-        let details = `• ${i.name} (${i.size || 'N/A'}/${i.color || 'N/A'}) x${i.quantity}`
+        let details = `• ${i.name} (${i.size || 'N/A'}/${i.color || 'N/A'}/${i.fit || 'Regular Fit'}) x${i.quantity}`
         if (i.dtfSize || i.customPlacement) {
           let customDetails = []
           if (i.dtfSize) customDetails.push(`DTF: ${i.dtfSize}`)
@@ -342,7 +343,7 @@ export default function CheckoutPage() {
                 <div key={getCartItemKey(item)} className="flex justify-between text-sm items-start gap-4">
                   <div className="space-y-1 flex-1">
                     <p className="font-bold text-white">{item.name}</p>
-                    <p className="text-white/40 text-xs">{item.size} / {item.color} x {item.quantity}</p>
+                    <p className="text-white/40 text-xs">{item.size} / {item.color} / {item.fit || 'Regular Fit'} x {item.quantity}</p>
                   </div>
                   <span className="font-medium text-white/80 whitespace-nowrap">
                     {item.id === "custom-dtf" ? "Contact us" : `Rs. ${(item.price * item.quantity).toFixed(2)}`}

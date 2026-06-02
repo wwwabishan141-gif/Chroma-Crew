@@ -38,7 +38,7 @@ export const products: Product[] = [
   {
     id: "tee-001",
     name: "Cars 2 Edition Minimal Street Wear",
-    price: 1750,
+    price: 1850,
     category: "featured",
     designThemes: ["streetwear", "minimalist"],
     colors: ["Black", "White"],
@@ -54,7 +54,7 @@ export const products: Product[] = [
   {
     id: "tee-002",
     name: "Dark Knight Vibes Graphic Tee",
-    price: 1750,
+    price: 1850,
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["Black", "White"],
@@ -70,7 +70,7 @@ export const products: Product[] = [
   {
     id: "tee-003",
     name: "Life Is A Game Controller Edition Tee",
-    price: 1750,
+    price: 1850,
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["Black", "White"],
@@ -86,7 +86,7 @@ export const products: Product[] = [
   {
     id: "tee-004",
     name: "Enjoy The Process Classic Tee",
-    price: 1750,
+    price: 1850,
     category: "featured",
     designThemes: ["abstract", "graphic"],
     colors: ["Black", "White"],
@@ -102,7 +102,7 @@ export const products: Product[] = [
   {
     id: "tee-005",
     name: "Faith Over Fear Street Graphic Tee",
-    price: 1750,
+    price: 1850,
     category: "tshirts",
     designThemes: ["nature", "graphic"],
     colors: ["Black", "White"],
@@ -118,7 +118,7 @@ export const products: Product[] = [
   {
     id: "tee-006",
     name: "M&M The Real Slim Shady Minimal Street Wear",
-    price: 1750,
+    price: 1850,
     category: "custom",
     designThemes: ["streetwear", "graphic"],
     colors: ["Black", "White"],
@@ -134,7 +134,7 @@ export const products: Product[] = [
   {
     id: "tee-007",
     name: "Retro Speed BMW Graphic Tee",
-    price: 1750,
+    price: 1850,
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["Black", "White"],
@@ -150,7 +150,7 @@ export const products: Product[] = [
   {
     id: "tee-008",
     name: "Vintage Speed Beetle Graphic Tee",
-    price: 1750,
+    price: 1850,
     category: "tshirts",
     designThemes: ["minimalist", "typography"],
     colors: ["Black", "White"],

@@ -20,6 +20,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [selectedView, setSelectedView] = useState<"front" | "back" | "detail">("front")
   const [selectedColor, setSelectedColor] = useState(product.colors[0] ?? "Black")
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] ?? "M")
+  const [selectedFit, setSelectedFit] = useState<"Regular Fit" | "Oversized">("Regular Fit")
   const [selectedDtfSize, setSelectedDtfSize] = useState<"A4" | "A3">("A4")
   const [quantity, setQuantity] = useState(1)
   const [cartPressed, setCartPressed] = useState(false)
@@ -77,7 +78,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             ))}
           </div>
         </div>
-
+ 
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight">{product.name}</h1>
@@ -97,7 +98,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </span>
             </div>
           </div>
-
+ 
           <div className="space-y-4 py-6 border-y border-white/10">
              <p className="text-white/80 leading-relaxed">{product.description}</p>
              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-white/60">
@@ -107,7 +108,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-red-500" /> Breathable Fabric</li>
              </ul>
           </div>
-
+ 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-white/80 text-xs font-bold uppercase tracking-widest">Color</label>
@@ -136,11 +137,19 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   </option>
                 ))}
               </select>
-              <p className="text-[10px] text-white/40 mt-1 italic">
-                * Currently available in <span className="text-white/60">Regular Fit</span> only. Baggy (Oversized) fits coming soon!
-              </p>
             </div>
-            <div className="space-y-2 sm:col-span-2">
+            <div className="space-y-2">
+              <label className="text-white/80 text-xs font-bold uppercase tracking-widest">Fit</label>
+              <select
+                value={selectedFit}
+                onChange={(e) => setSelectedFit(e.target.value as "Regular Fit" | "Oversized")}
+                className="w-full rounded-xl bg-black/60 border border-red-600/50 hover:border-red-600 px-3 py-3 text-white transition-colors"
+              >
+                <option value="Regular Fit">Regular Fit</option>
+                <option value="Oversized">Oversized</option>
+              </select>
+            </div>
+            <div className="space-y-2">
               <label className="text-white/80 text-xs font-bold uppercase tracking-widest">DTF Print Size</label>
               <select
                 value={selectedDtfSize}
@@ -152,7 +161,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </select>
             </div>
           </div>
-
+ 
           <div className="flex items-center justify-between rounded-xl border border-white/15 p-3">
             <span className="text-white/80 font-medium">Quantity</span>
             <div className="flex items-center bg-red-600 rounded-lg overflow-hidden p-1">
@@ -173,7 +182,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </button>
             </div>
           </div>
-
+ 
           <div className="flex flex-col gap-4 pt-2">
             <div className="flex items-center gap-3">
               <button
@@ -202,10 +211,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     {
                       id: product.id,
                       name: product.name,
-                        price: finalPrice,
+                      price: finalPrice,
                       color: selectedColor,
                       size: selectedSize,
-                        dtfSize: selectedDtfSize,
+                      dtfSize: selectedDtfSize,
+                      fit: selectedFit,
                     },
                     quantity,
                   )
