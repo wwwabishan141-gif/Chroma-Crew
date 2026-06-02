@@ -26,8 +26,12 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [cartPressed, setCartPressed] = useState(false)
 
   const wished = isWishlisted(product.id)
-  const dtfSurcharge = selectedDtfSize === "A3" ? 400 : 0 // Updated to LKR reasonable surcharge
-  const finalPrice = product.price + dtfSurcharge
+  // Base surcharge for A3 size (regular fit)
+  const baseSurcharge = selectedDtfSize === "A3" ? 100 : 0 // A4 base 0, A3 adds 100
+  // Additional surcharge when fit is Oversized
+  const oversizeSurcharge = selectedFit === "Oversized" ? (selectedDtfSize === "A3" ? 300 : 200) : 0 // A3 oversized adds 300, A4 adds 200
+  const dtfSurcharge = baseSurcharge + oversizeSurcharge // total surcharge
+  const finalPrice = product.price + dtfSurcharge // product.price is base 1750
   const viewOptions: Array<{ key: "front" | "back" | "detail"; label: string }> = [
     { key: "front", label: "Front View" },
     { key: "back", label: "Back View" },
@@ -87,7 +91,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                <ProductRatingBadge rating={0.0} count={0} />
             </div>
             <p className="text-white/60 text-sm mt-2">
-              DTF Size: {selectedDtfSize} {selectedDtfSize === "A3" ? "(+ Rs. 400.00)" : "(base price)"}
+              DTF Size: {selectedDtfSize} {dtfSurcharge > 0 ? `(+ Rs. ${dtfSurcharge}.00)` : "(base price)"}
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-600/15 border border-green-600/30 text-green-400 text-[10px] font-bold uppercase tracking-wider">
