@@ -12,6 +12,16 @@ export interface Order {
   status: "Received" | "Processing" | "Printed" | "Shipped" | "Delivered"
   created_at?: string
   user_id?: string | null
+  estimated_delivery?: string | null
+  admin_notes?: string | null
+}
+
+export interface OrderTimelineEntry {
+  id?: string
+  order_id: string
+  status: string
+  note?: string | null
+  created_at?: string
 }
 
 export interface Review {
@@ -105,15 +115,68 @@ export const getAllOrders = async () => {
 }
 
 /**
- * Updates order status
+ * Updates order status and records a timeline entry
  */
-export const updateOrderStatus = async (orderId: string, status: string) => {
+export const updateOrderStatus = async (orderId: string, status: string, note?: string) => {
   const { error } = await supabase
     .from('orders')
     .update({ status })
     .eq('order_id', orderId)
 
   if (error) throw error
+
+  // Try to record timeline entry (non-blocking if table doesn't exist yet)
+  try {
+    await supabase.from('order_timeline').insert([{
+      order_id: orderId,
+      status,
+      note: note || null,
+    }])
+  } catch (_) {
+    // Silently fail if timeline table not yet created
+  }
+}
+
+/**
+ * Updates order estimated delivery date
+ */
+export const updateEstimatedDelivery = async (orderId: string, date: string) => {
+  const { error } = await supabase
+    .from('orders')
+    .update({ estimated_delivery: date })
+    .eq('order_id', orderId)
+
+  if (error) throw error
+}
+
+/**
+ * Updates admin notes on an order (visible to customer)
+ */
+export const updateOrderNotes = async (orderId: string, notes: string) => {
+  const { error } = await supabase
+    .from('orders')
+    .update({ admin_notes: notes })
+    .eq('order_id', orderId)
+
+  if (error) throw error
+}
+
+/**
+ * Fetches the timeline for a specific order
+ */
+export const getOrderTimeline = async (orderId: string): Promise<OrderTimelineEntry[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('order_timeline')
+      .select('*')
+      .eq('order_id', orderId)
+      .order('created_at', { ascending: true })
+
+    if (error) throw error
+    return data as OrderTimelineEntry[]
+  } catch (_) {
+    return []
+  }
 }
 
 // Helper to convert base64 to File
@@ -189,7 +252,6 @@ export const getProductReviews = async (productId: string) => {
     const localReviews = localReviewsStr ? JSON.parse(localReviewsStr) : []
     
     if (dbSuccess) {
-      // Merge unique reviews (by user_name & comment or id if exists)
       const merged = [...dbReviews]
       localReviews.forEach((lr: Review) => {
         const exists = merged.some(dr => 
@@ -201,7 +263,6 @@ export const getProductReviews = async (productId: string) => {
           merged.push(lr)
         }
       })
-      // Sort merged by created_at descending
       merged.sort((a, b) => new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime())
       return merged
     }

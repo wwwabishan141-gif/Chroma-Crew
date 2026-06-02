@@ -2,15 +2,129 @@
 
 import { useEffect, useState } from "react"
 import { Header } from "@/components/header"
-import { getUserOrders, type Order } from "@/lib/supabase-service"
+import {
+  getUserOrders,
+  getOrderTimeline,
+  type Order,
+  type OrderTimelineEntry,
+} from "@/lib/supabase-service"
 import { supabase } from "@/lib/supabase"
 import { format } from "date-fns"
 import Link from "next/link"
+import { OrderInvoice } from "@/components/order-invoice"
+
+const WHATSAPP_NUMBER = "94751297637"
+
+const STATUS_STEPS = ["Received", "Processing", "Printed", "Shipped", "Delivered"] as const
+
+const STATUS_META: Record<string, { icon: string; color: string; bg: string; border: string }> = {
+  Received:   { icon: "📦", color: "text-blue-400",   bg: "bg-blue-500/15",   border: "border-blue-500/30" },
+  Processing: { icon: "⚙️",  color: "text-yellow-400", bg: "bg-yellow-500/15", border: "border-yellow-500/30" },
+  Printed:    { icon: "🖨️",  color: "text-purple-400", bg: "bg-purple-500/15", border: "border-purple-500/30" },
+  Shipped:    { icon: "🚚",  color: "text-orange-400", bg: "bg-orange-500/15", border: "border-orange-500/30" },
+  Delivered:  { icon: "✅",  color: "text-green-400",  bg: "bg-green-500/15",  border: "border-green-500/30" },
+}
+
+function ProgressTracker({ status }: { status: string }) {
+  const currentIdx = STATUS_STEPS.indexOf(status as any)
+
+  return (
+    <div className="pt-2 pb-4 px-1">
+      {/* Step circles */}
+      <div className="relative flex items-center justify-between">
+        {/* Connecting line behind circles */}
+        <div className="absolute top-5 left-0 right-0 h-[2px] bg-white/10 z-0" />
+        <div
+          className="absolute top-5 left-0 h-[2px] bg-gradient-to-r from-red-600 to-red-500 z-0 transition-all duration-700"
+          style={{ width: `${(currentIdx / (STATUS_STEPS.length - 1)) * 100}%` }}
+        />
+
+        {STATUS_STEPS.map((step, idx) => {
+          const done = idx < currentIdx
+          const active = idx === currentIdx
+          const meta = STATUS_META[step]
+          return (
+            <div key={step} className="relative z-10 flex flex-col items-center gap-2">
+              <div
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-lg border-2 transition-all duration-500 ${
+                  done
+                    ? "bg-red-600 border-red-600 shadow-lg shadow-red-600/30"
+                    : active
+                    ? `${meta.bg} ${meta.border} shadow-lg ${meta.color.replace("text-", "shadow-").replace("-400", "-500/40")} animate-pulse`
+                    : "bg-white/5 border-white/10"
+                }`}
+              >
+                {done ? "✓" : meta.icon}
+              </div>
+              <span
+                className={`text-[9px] uppercase tracking-widest font-bold ${
+                  done ? "text-red-400" : active ? meta.color : "text-white/25"
+                }`}
+              >
+                {step}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function TimelineSection({ orderId }: { orderId: string }) {
+  const [timeline, setTimeline] = useState<OrderTimelineEntry[]>([])
+  const [open, setOpen] = useState(false)
+  const [loaded, setLoaded] = useState(false)
+
+  const loadTimeline = async () => {
+    if (loaded) { setOpen(!open); return }
+    const data = await getOrderTimeline(orderId)
+    setTimeline(data)
+    setLoaded(true)
+    setOpen(true)
+  }
+
+  return (
+    <div className="border-t border-white/5 px-6 pt-4 pb-5">
+      <button
+        onClick={loadTimeline}
+        className="flex items-center gap-2 text-xs text-white/40 hover:text-white/70 transition-colors font-medium"
+      >
+        <span>{open ? "▾" : "▸"}</span>
+        Order Timeline
+      </button>
+      {open && (
+        <div className="mt-4 space-y-3">
+          {timeline.length === 0 ? (
+            <p className="text-white/30 text-xs">No timeline entries yet.</p>
+          ) : (
+            timeline.map((entry, i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="mt-1 flex flex-col items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-red-600" />
+                  {i < timeline.length - 1 && <div className="w-px h-6 bg-white/10" />}
+                </div>
+                <div>
+                  <p className="text-white text-xs font-semibold">{entry.status}</p>
+                  {entry.note && <p className="text-white/50 text-xs mt-0.5">{entry.note}</p>}
+                  <p className="text-white/25 text-[10px] mt-0.5">
+                    {entry.created_at ? format(new Date(entry.created_at), "MMM d, yyyy · h:mm a") : ""}
+                  </p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function AccountPage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<any>(null)
+  const [invoiceOrder, setInvoiceOrder] = useState<Order | null>(null)
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -28,6 +142,11 @@ export default function AccountPage() {
     }
     fetchSession()
   }, [])
+
+  const handleContactSupport = (orderId: string) => {
+    const msg = `Hi ChromaCrew! I need help with my order *${orderId}*. Could you please assist me?`
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank")
+  }
 
   if (loading) {
     return (
@@ -47,7 +166,10 @@ export default function AccountPage() {
         <div className="max-w-xl mx-auto px-6 py-20 text-center space-y-6">
           <h1 className="text-3xl font-bold">Please Login</h1>
           <p className="text-white/60">You need to be logged in to view your order tracking.</p>
-          <Link href="/login" className="inline-block px-8 py-3 bg-red-600 rounded-xl font-bold hover:bg-red-700 transition-colors">
+          <Link
+            href="/login"
+            className="inline-block px-8 py-3 bg-red-600 rounded-xl font-bold hover:bg-red-700 transition-colors"
+          >
             Login Now
           </Link>
         </div>
@@ -56,94 +178,150 @@ export default function AccountPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white pb-20">
+    <main className="min-h-screen bg-black text-white pb-24">
       <Header currentPage="account" />
+
+      {invoiceOrder && (
+        <OrderInvoice order={invoiceOrder} onClose={() => setInvoiceOrder(null)} />
+      )}
+
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-10">
-        <div className="flex justify-between items-end mb-10">
+        {/* Page header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10">
           <div>
-            <h1 className="text-4xl font-bold mb-1">My Account</h1>
-            <p className="text-white/50">{user.email}</p>
+            <h1 className="text-4xl font-bold tracking-tight mb-1">My Account</h1>
+            <p className="text-white/40 text-sm">{user.email}</p>
           </div>
-          <div className="text-right">
-            <p className="text-xs text-white/30 uppercase tracking-widest">Total Orders</p>
-            <p className="text-2xl font-bold">{orders.length}</p>
+          <div className="flex items-center gap-3">
+            <div className="text-right px-5 py-3 rounded-2xl bg-white/5 border border-white/10">
+              <p className="text-[10px] text-white/30 uppercase tracking-widest">Total Orders</p>
+              <p className="text-2xl font-bold text-red-500">{orders.length}</p>
+            </div>
           </div>
         </div>
 
+        {/* Orders */}
         <div className="space-y-6">
           {orders.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 p-10 text-center bg-white/5">
+            <div className="rounded-2xl border border-white/10 p-12 text-center bg-white/[0.02]">
+              <p className="text-5xl mb-4">🛒</p>
               <p className="text-white/50 mb-4">You haven't placed any orders yet.</p>
-              <Link href="/shop" className="text-red-500 font-bold hover:underline">Start Shopping →</Link>
+              <Link
+                href="/shop"
+                className="inline-block px-6 py-2 bg-red-600 rounded-xl font-bold text-sm hover:bg-red-700 transition-colors"
+              >
+                Start Shopping →
+              </Link>
             </div>
           ) : (
-            orders.map((order) => (
-              <div key={order.order_id} className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-                <div className="p-6 border-b border-white/5 flex justify-between items-center">
-                  <div>
-                    <p className="text-xl font-bold">{order.order_id}</p>
-                    <p className="text-xs text-white/40">{format(new Date(order.created_at!), "MMMM d, yyyy")}</p>
-                  </div>
-                  <span className={`px-4 py-1 rounded-full text-xs font-bold border ${
-                    order.status === 'Delivered' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 
-                    order.status === 'Processing' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
-                    'bg-blue-500/10 text-blue-400 border-blue-500/20'
-                  }`}>
-                    {order.status}
-                  </span>
-                </div>
-                
-                <div className="p-6 flex flex-col md:flex-row gap-8">
-                  <div className="flex-1 space-y-4">
+            orders.map((order) => {
+              const meta = STATUS_META[order.status] ?? STATUS_META["Received"]
+              return (
+                <div
+                  key={order.order_id}
+                  className="rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden shadow-xl"
+                >
+                  {/* Card header */}
+                  <div className="px-6 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-white/[0.06]">
                     <div>
-                      <p className="text-[10px] text-white/30 uppercase tracking-widest mb-2">Items</p>
-                      <ul className="space-y-1">
-                        {order.products.map((p: any, i: number) => (
-                          <li key={i} className="text-sm">
-                            <span className="text-white font-medium">{p.name}</span>
-                            <span className="text-white/40 ml-2">({p.size}/{p.color}) x{p.quantity}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <p className="text-xl font-bold tracking-tight">{order.order_id}</p>
+                      <p className="text-xs text-white/35 mt-0.5">
+                        Placed {order.created_at ? format(new Date(order.created_at), "MMMM d, yyyy") : ""}
+                      </p>
                     </div>
-                    <div className="pt-2">
-                      <p className="text-lg font-bold text-red-500">Rs. {order.total.toFixed(2)}</p>
-                    </div>
+                    <span
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold border ${meta.bg} ${meta.color} ${meta.border}`}
+                    >
+                      {meta.icon} {order.status}
+                    </span>
                   </div>
 
-                  {order.image_url && (
-                    <div className="shrink-0">
-                      <p className="text-[10px] text-white/30 uppercase tracking-widest mb-2 text-right md:text-left">Design</p>
-                      <div className="w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-black">
-                        <img src={order.image_url} alt="Custom Design" className="w-full h-full object-contain" />
+                  {/* Progress tracker */}
+                  <div className="px-6 pt-5">
+                    <ProgressTracker status={order.status} />
+                  </div>
+
+                  {/* Estimated delivery */}
+                  {order.estimated_delivery && (
+                    <div className="px-6 pb-3">
+                      <p className="inline-flex items-center gap-2 text-xs text-white/50 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5">
+                        📅 Estimated delivery:{" "}
+                        <span className="text-white font-semibold">
+                          {format(new Date(order.estimated_delivery), "EEEE, MMMM d, yyyy")}
+                        </span>
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Admin notes */}
+                  {order.admin_notes && (
+                    <div className="px-6 pb-3">
+                      <div className="rounded-xl bg-yellow-500/5 border border-yellow-500/20 px-4 py-3 text-sm text-yellow-300/80">
+                        <span className="font-bold text-yellow-400 text-xs uppercase tracking-widest block mb-1">
+                          📋 Note from ChromaCrew
+                        </span>
+                        {order.admin_notes}
                       </div>
                     </div>
                   )}
-                </div>
 
-                {/* Progress Tracker */}
-                <div className="px-6 pb-8">
-                  <div className="relative h-1 bg-white/10 rounded-full mt-6">
-                    <div 
-                      className="absolute top-0 left-0 h-full bg-red-600 rounded-full transition-all duration-1000"
-                      style={{ 
-                        width: order.status === 'Delivered' ? '100%' : 
-                               order.status === 'Shipped' ? '75%' : 
-                               order.status === 'Printed' ? '50%' :
-                               order.status === 'Processing' ? '25%' : '5%' 
-                      }}
-                    />
-                    <div className="flex justify-between mt-3 text-[9px] uppercase tracking-tighter text-white/30 font-bold">
-                      <span>Received</span>
-                      <span>Processing</span>
-                      <span>Printed</span>
-                      <span>Shipped</span>
-                      <span>Delivered</span>
+                  {/* Items & design */}
+                  <div className="px-6 pb-5 flex flex-col md:flex-row gap-6 justify-between">
+                    <div className="flex-1 space-y-3">
+                      <p className="text-[10px] text-white/30 uppercase tracking-widest">Items</p>
+                      <ul className="space-y-1.5">
+                        {order.products.map((p: any, i: number) => (
+                          <li key={i} className="text-sm flex items-baseline gap-2">
+                            <span className="text-white font-medium">{p.name}</span>
+                            <span className="text-white/35 text-xs">
+                              ({[p.size, p.color, p.fit, p.dtfSize].filter(Boolean).join(" · ")}) ×{p.quantity}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="text-xl font-bold text-red-500 pt-1">
+                        Rs. {order.total.toLocaleString("en-LK")}
+                      </p>
                     </div>
+                    {order.image_url && (
+                      <div className="shrink-0">
+                        <p className="text-[10px] text-white/30 uppercase tracking-widest mb-2">Design</p>
+                        <div className="w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-black/50">
+                          <img
+                            src={order.image_url}
+                            alt="Custom Design"
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
+
+                  {/* Action buttons */}
+                  <div className="px-6 pb-5 flex flex-wrap gap-2 border-t border-white/[0.06] pt-4">
+                    <button
+                      onClick={() => handleContactSupport(order.order_id)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600/10 border border-green-600/25 text-green-400 text-xs font-bold hover:bg-green-600/20 transition-colors"
+                    >
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.532 5.858L0 24l6.335-1.54A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.847 0-3.575-.5-5.065-1.371l-.363-.214-3.76.915.947-3.657-.236-.375A9.947 9.947 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+                      </svg>
+                      Contact Support
+                    </button>
+                    <button
+                      onClick={() => setInvoiceOrder(order)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/60 text-xs font-bold hover:bg-white/10 hover:text-white transition-colors"
+                    >
+                      🧾 Download Invoice
+                    </button>
+                  </div>
+
+                  {/* Timeline */}
+                  <TimelineSection orderId={order.order_id} />
                 </div>
-              </div>
-            ))
+              )
+            })
           )}
         </div>
       </div>
