@@ -53,7 +53,6 @@ export function validateShippingForm(data: {
   address: string
   city: string
   state: string
-  postal: string
 }): { valid: boolean; errors: string[] } {
   const errors: string[] = []
 
@@ -79,10 +78,6 @@ export function validateShippingForm(data: {
 
   if (sanitizeText(data.state).length < 2) {
     errors.push("Please enter a valid state/province")
-  }
-
-  if (!isValidPostalCode(data.postal)) {
-    errors.push("Please enter a valid 5-digit postal code")
   }
 
   return { valid: errors.length === 0, errors }

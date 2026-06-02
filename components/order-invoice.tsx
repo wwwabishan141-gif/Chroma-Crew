@@ -64,7 +64,7 @@ export function OrderInvoice({ order, onClose }: OrderInvoiceProps) {
           <div className="flex justify-between items-start">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <img src="/website-logo-what-01.png" alt="ChromaCrew Logo" className="w-[60px] h-auto object-contain" />
+                <img src="/invoice-logo.png" alt="ChromaCrew Logo" className="w-[60px] h-auto object-contain" />
                 <span className="text-white font-black text-xl tracking-tight">ChromaCrew</span>
               </div>
               <p className="text-white/40 text-xs">Sri Lanka's Premium DTF Print Studio</p>

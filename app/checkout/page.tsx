@@ -22,7 +22,6 @@ export default function CheckoutPage() {
     address: "",
     city: "",
     state: "",
-    postal: "",
   })
   const [waLink, setWaLink] = useState("")
   const [isLoaded, setIsLoaded] = useState(false)
@@ -122,7 +121,7 @@ export default function CheckoutPage() {
         user_id: user ? user.id : null,
         name: shipping.fullName,
         phone: shipping.phone,
-        address: `${shipping.address}, ${shipping.city}, ${shipping.state}, ${shipping.postal}`,
+        address: `${shipping.address}, ${shipping.city}, ${shipping.state}`,
         products: cart.map(item => ({
           name: item.name,
           quantity: item.quantity,
@@ -157,7 +156,7 @@ export default function CheckoutPage() {
                    `*Customer Details:*\n` +
                    `Name: ${shipping.fullName}\n` +
                    `Phone: ${shipping.phone}\n` +
-                   `Address: ${shipping.address}, ${shipping.city}, ${shipping.state}, ${shipping.postal}\n\n` +
+                   `Address: ${shipping.address}, ${shipping.city}, ${shipping.state}\n\n` +
                    `*Products:*\n${productList}\n\n` +
                    `*Total: Rs. ${finalTotal.toFixed(2)}*\n` +
                    `Payment: ${paymentLabel}\n\n` +
@@ -268,7 +267,7 @@ export default function CheckoutPage() {
                 onChange={(e) => setShipping((s) => ({ ...s, address: e.target.value }))}
                 className="w-full rounded-xl bg-white/5 border border-white/10 p-4 min-h-24 outline-none focus:border-red-600 transition-all"
               />
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input
                   required
                   placeholder="City"
@@ -281,13 +280,6 @@ export default function CheckoutPage() {
                   placeholder="State"
                   value={shipping.state}
                   onChange={(e) => setShipping((s) => ({ ...s, state: e.target.value }))}
-                  className="rounded-xl bg-white/5 border border-white/10 p-4 outline-none focus:border-red-600 transition-all"
-                />
-                <input
-                  required
-                  placeholder="Postal Code"
-                  value={shipping.postal}
-                  onChange={(e) => setShipping((s) => ({ ...s, postal: e.target.value }))}
                   className="rounded-xl bg-white/5 border border-white/10 p-4 outline-none focus:border-red-600 transition-all"
                 />
               </div>
