@@ -27,6 +27,12 @@ export function OrderInvoice({ order, onClose }: OrderInvoiceProps) {
             background: white !important;
             color: black !important;
             padding: 40px !important;
+            filter: grayscale(100%) !important;
+          }
+          #invoice-print-area * {
+            color: black !important;
+            border-color: #000 !important;
+            background: transparent !important;
           }
           .no-print { display: none !important; }
         }
@@ -57,8 +63,8 @@ export function OrderInvoice({ order, onClose }: OrderInvoiceProps) {
           {/* Header */}
           <div className="flex justify-between items-start">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white font-black text-sm">C</div>
+              <div className="flex items-center gap-3 mb-2">
+                <img src="/website-logo-what-01.png" alt="ChromaCrew Logo" className="w-[60px] h-auto object-contain" />
                 <span className="text-white font-black text-xl tracking-tight">ChromaCrew</span>
               </div>
               <p className="text-white/40 text-xs">Sri Lanka's Premium DTF Print Studio</p>
