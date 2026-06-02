@@ -18,7 +18,7 @@ export default function BlogPage() {
               <Link href={`/blog/${post.slug}`} className="block group">
                 <h2 className="text-xl font-semibold text-white group-hover:text-red-400 mb-2">{post.title}</h2>
                 <p className="text-white/60 text-sm mb-2">{format(new Date(post.date), "MMMM d, yyyy")}</p>
-                <p className="text-white/75">{post.description}</p>
+                <p className="text-white/75">{post.excerpt}</p>
                 <span className="inline-block mt-3 text-red-500 text-sm font-medium">Read more →</span>
               </Link>
             </li>

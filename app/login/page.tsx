@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/header"
-import { supabase } from "@/lib/supabase"
+import { supabase, isSupabaseConfigured } from "@/lib/supabase"
 import { toast } from "sonner"
 
 export default function LoginPage() {
@@ -13,12 +13,26 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<any>(null)
+  const [configError, setConfigError] = useState<string | null>(null)
   const router = useRouter()
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setConfigError("Supabase credentials are missing. Please verify that your .env.local file exists and contains NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.")
+      return
+    }
+
     const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser()
+        if (error) throw error
+        setUser(user)
+      } catch (err: any) {
+        console.error("Auth check failed:", err)
+        if (err.message === "Failed to fetch" || err.message?.includes("fetch")) {
+          setConfigError("Failed to connect to Supabase. This can happen if your development server needs a restart to load environment variables, or if an ad-blocker/firewall is blocking supabase.co.")
+        }
+      }
     }
     checkUser()
   }, [])
@@ -27,6 +41,9 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     try {
+      if (!isSupabaseConfigured) {
+        throw new Error("Supabase is not configured. Please add the required keys to your .env.local file and restart your server.")
+      }
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
@@ -44,7 +61,12 @@ export default function LoginPage() {
       }
       router.push("/shop")
     } catch (error: any) {
-      toast.error(error.message)
+      console.error("Authentication failed:", error)
+      if (error.message === "Failed to fetch" || error.message?.includes("fetch")) {
+        toast.error("Failed to connect to Supabase. If you just created .env.local, please restart your development server. Also, verify that no ad-blocker is blocking supabase.co.")
+      } else {
+        toast.error(error.message)
+      }
     } finally {
       setLoading(false)
     }
@@ -79,6 +101,18 @@ export default function LoginPage() {
       <Header currentPage="login" />
       <div className="max-w-xl mx-auto px-6 py-16">
         <h1 className="text-4xl mb-6">{isLogin ? "Login" : "Sign Up"}</h1>
+
+        {configError && (
+          <div className="mb-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm space-y-2">
+            <p className="font-semibold flex items-center gap-2 text-amber-400">
+              ⚠️ Connection/Configuration Error
+            </p>
+            <p>{configError}</p>
+            <p className="text-xs text-amber-300/70">
+              Tip: If you recently created or edited the <code>.env.local</code> file, you <strong>must stop and restart</strong> your Next.js development server process (run <code>npm run dev</code> again) so the new environment variables can be loaded.
+            </p>
+          </div>
+        )}
 
         {user ? (
           <div className="space-y-4">
