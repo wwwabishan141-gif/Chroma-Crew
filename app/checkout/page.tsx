@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Script from "next/script"
 import { Header } from "@/components/header"
 import { getCartItemKey, useShop } from "@/components/shop-provider"
 import { createOrder, uploadDesign, base64ToFile } from "@/lib/supabase-service"
@@ -9,9 +10,15 @@ import { toast } from "sonner"
 import { validateShippingForm } from "@/lib/validators"
 import { supabase } from "@/lib/supabase"
 
+const PAYHERE_MERCHANT_ID = process.env.NEXT_PUBLIC_PAYHERE_MERCHANT_ID || ""
+// Use sandbox for testing, switch to www.payhere.lk for live
+const PAYHERE_BASE = process.env.NEXT_PUBLIC_PAYHERE_SANDBOX === "true"
+  ? "https://sandbox.payhere.lk/pay/checkout"
+  : "https://www.payhere.lk/pay/checkout"
+
 export default function CheckoutPage() {
   const { cart, cartTotal, clearCart } = useShop()
-  const [paymentMethod, setPaymentMethod] = useState<"cod" | "bank">("cod")
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "bank" | "payhere">("cod")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [orderId, setOrderId] = useState<string | null>(null)
@@ -88,7 +95,7 @@ export default function CheckoutPage() {
               const uploadedUrl = await uploadDesign(`${newOrderId}-${design.placement.replace(/\s+/g, '')}`, file)
               allImageUrls.push(`${design.placement}: ${uploadedUrl}`)
             }
-            imageUrl = allImageUrls[0].split(': ')[1] // Fallback single URL for DB if needed
+            imageUrl = allImageUrls[0].split(': ')[1]
             toast.dismiss(uploadToast)
             toast.success("Designs uploaded!")
           } catch (uploadErr: any) {
@@ -133,13 +140,80 @@ export default function CheckoutPage() {
         })),
         total: finalTotal,
         image_url: imageUrl,
-        status: "Received" as const
+        status: "Received" as const,
+        payment_method: paymentMethod,
+        payment_status: paymentMethod === "payhere" ? "pending" : "unpaid",
       }
 
       // Save to Supabase
       await createOrder(orderData)
+
+      // ─── PayHere online payment flow ───
+      if (paymentMethod === "payhere") {
+        try {
+          // Get hash from server
+          const hashRes = await fetch("/api/payhere-hash", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              merchant_id: PAYHERE_MERCHANT_ID,
+              order_id: newOrderId,
+              amount: finalTotal,
+              currency: "LKR",
+            }),
+          })
+          const { hash } = await hashRes.json()
+
+          if (!hash) {
+            toast.error("Payment setup failed. Please try again or use another payment method.")
+            setIsSubmitting(false)
+            return
+          }
+
+          // Build the PayHere form and auto-submit
+          const form = document.createElement("form")
+          form.method = "POST"
+          form.action = PAYHERE_BASE
+
+          const fields: Record<string, string> = {
+            merchant_id: PAYHERE_MERCHANT_ID,
+            return_url: `${window.location.origin}/account`,
+            cancel_url: `${window.location.origin}/checkout`,
+            notify_url: `${window.location.origin}/api/payhere-notify`,
+            order_id: newOrderId,
+            items: cart.map(i => i.name).join(", "),
+            currency: "LKR",
+            amount: finalTotal.toFixed(2),
+            first_name: shipping.fullName.split(" ")[0] || shipping.fullName,
+            last_name: shipping.fullName.split(" ").slice(1).join(" ") || "",
+            email: shipping.email,
+            phone: shipping.phone,
+            address: shipping.address,
+            city: shipping.city,
+            country: "Sri Lanka",
+            hash: hash,
+          }
+
+          Object.entries(fields).forEach(([key, val]) => {
+            const input = document.createElement("input")
+            input.type = "hidden"
+            input.name = key
+            input.value = val
+            form.appendChild(input)
+          })
+
+          document.body.appendChild(form)
+          clearCart()
+          form.submit()
+          return
+        } catch (payErr: any) {
+          toast.error("Payment error: " + payErr.message)
+          setIsSubmitting(false)
+          return
+        }
+      }
       
-      // Build WhatsApp Message
+      // ─── COD / Bank Transfer flow (WhatsApp confirmation) ───
       const productList = cart.map(i => {
         let details = `• ${i.name} (${i.size || 'N/A'}/${i.color || 'N/A'}/${i.fit || 'Regular Fit'}) x${i.quantity}`
         if (i.dtfSize || i.customPlacement) {
@@ -288,7 +362,7 @@ export default function CheckoutPage() {
 
           <div className="space-y-4">
             <p className="text-sm font-semibold text-white/40 uppercase tracking-wider">Payment Method</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <label className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'cod' ? 'border-red-600 bg-red-600/5' : 'border-white/10 bg-white/5 hover:border-white/20'}`}>
                 <input
                   type="radio"
@@ -315,15 +389,46 @@ export default function CheckoutPage() {
                   <span className="text-xs text-white/50">Details shared after confirm</span>
                 </div>
               </label>
+              <label className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'payhere' ? 'border-green-500 bg-green-600/10' : 'border-white/10 bg-white/5 hover:border-white/20'}`}>
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={paymentMethod === "payhere"}
+                  onChange={() => setPaymentMethod("payhere")}
+                  className="w-5 h-5 accent-green-500"
+                />
+                <div className="flex flex-col">
+                  <span className="font-bold">Pay Online</span>
+                  <span className="text-xs text-white/50">Card / Bank — via PayHere</span>
+                </div>
+              </label>
             </div>
+            {paymentMethod === "payhere" && (
+              <div className="p-4 rounded-xl bg-green-500/5 border border-green-500/20 text-green-300/80 text-sm flex items-start gap-3">
+                <span className="text-lg mt-0.5">🔒</span>
+                <div>
+                  <p className="font-bold text-green-400 mb-1">Secure Online Payment</p>
+                  <p className="text-xs text-green-300/60">You'll be redirected to PayHere's secure payment page. Your card details are never stored on our website. Supports Visa, Mastercard, and local bank payments.</p>
+                </div>
+              </div>
+            )}
           </div>
 
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full py-5 rounded-xl bg-red-600 hover:bg-red-700 font-bold text-xl transition-all active:scale-95 disabled:opacity-50 shadow-xl shadow-red-600/20"
+            className={`w-full py-5 rounded-xl font-bold text-xl transition-all active:scale-95 disabled:opacity-50 shadow-xl ${
+              paymentMethod === "payhere" 
+                ? "bg-green-600 hover:bg-green-700 shadow-green-600/20" 
+                : "bg-red-600 hover:bg-red-700 shadow-red-600/20"
+            }`}
           >
-            {isSubmitting ? "Processing..." : "Place Order"}
+            {isSubmitting 
+              ? "Processing..." 
+              : paymentMethod === "payhere" 
+                ? "💳 Pay Online Now" 
+                : "Place Order"
+            }
           </button>
         </form>
 
@@ -338,7 +443,7 @@ export default function CheckoutPage() {
                     <p className="text-white/40 text-xs">{item.size} / {item.color} / {item.fit || 'Regular Fit'} x {item.quantity}</p>
                   </div>
                   <span className="font-medium text-white/80 whitespace-nowrap">
-                    {item.id === "custom-dtf" ? "Contact us" : `Rs. ${(item.price * item.quantity).toFixed(2)}`}
+                    Rs. {(item.price * item.quantity).toLocaleString("en-LK")}
                   </span>
                 </div>
               ))}
@@ -347,7 +452,7 @@ export default function CheckoutPage() {
             <div className="border-t border-white/10 mt-6 pt-6 space-y-3">
               <div className="flex justify-between items-center pt-2">
                 <span className="text-lg text-white/60">Total</span>
-                <span className="text-3xl font-bold text-red-600">Rs. {finalTotal.toFixed(2)}</span>
+                <span className="text-3xl font-bold text-red-600">Rs. {finalTotal.toLocaleString("en-LK")}</span>
               </div>
             </div>
           </div>
