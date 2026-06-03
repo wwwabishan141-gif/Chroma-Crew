@@ -29,7 +29,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   // Base surcharge for A3 size (regular fit)
   const baseSurcharge = selectedDtfSize === "A3" ? 100 : 0 // A4 base 0, A3 adds 100
   // Additional surcharge when fit is Oversized
-  const oversizeSurcharge = selectedFit === "Oversized" ? (selectedDtfSize === "A3" ? 300 : 200) : 0 // A3 oversized adds 300, A4 adds 200
+  const oversizeSurcharge = selectedFit === "Oversized" ? (selectedDtfSize === "A3" ? 400 : 200) : 0 // A3 oversized adds 400, A4 adds 200
   const dtfSurcharge = baseSurcharge + oversizeSurcharge // total surcharge
   const finalPrice = product.price + dtfSurcharge // product.price is base 1750
   const viewOptions: Array<{ key: "front" | "back" | "detail"; label: string }> = [

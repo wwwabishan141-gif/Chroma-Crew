@@ -34,15 +34,17 @@ export default function SizeGuidePage() {
 
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold text-red-500">Product Fit</h2>
-          <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-3">
-            <p className="text-white font-bold">Standard Regular Fit</p>
-            <p className="text-white/70 text-sm leading-relaxed">
-              All our current T-shirt designs are printed on <span className="text-white font-medium italic underline decoration-red-500/50">Regular Fit</span> garments. This provides a classic, comfortable look that is true to size.
-            </p>
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-red-600/10 border border-red-600/20">
-              <span className="text-red-500 font-bold">Note:</span>
-              <p className="text-white/60 text-xs italic">
-                We do <span className="text-white font-medium">not</span> offer Baggy or Oversized fits at this moment. We are working on adding these options in the future—stay tuned!
+          <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+            <div>
+              <p className="text-white font-bold">Standard Regular Fit</p>
+              <p className="text-white/70 text-sm leading-relaxed mt-1">
+                A classic, comfortable look that is true to size. Perfect for standard everyday wear.
+              </p>
+            </div>
+            <div className="border-t border-white/10 pt-4">
+              <p className="text-white font-bold">Oversized Fit</p>
+              <p className="text-white/70 text-sm leading-relaxed mt-1">
+                A baggy, street-style drop-shoulder fit. We recommend ordering your normal size for a loose, comfortable fit.
               </p>
             </div>
           </div>
