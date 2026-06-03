@@ -37,11 +37,12 @@ export default function CustomDesignPage() {
 
   const colors = ["Black", "White"]
   const sizes = ["M", "L", "XL"]
-  const customPrice = 2450
-  const baseSurcharge = selectedDtfSize === "A3" ? 100 : 0 // A4 base 0, A3 adds 100
-  const oversizeSurcharge = selectedFit === "Oversized" ? (selectedDtfSize === "A3" ? 300 : 200) : 0 // A3 oversized adds 300, A4 adds 200
-  const dtfSurcharge = baseSurcharge + oversizeSurcharge
-  const finalPrice = customPrice + dtfSurcharge
+  const BASE_PRICE = 1750
+  const baseSurcharge = selectedDtfSize === "A3" ? 100 : 0        // A4 = 0, A3 = +100
+  const oversizeSurcharge = selectedFit === "Oversized"
+    ? (selectedDtfSize === "A3" ? 400 : 200)                        // Oversized A3 = +400, A4 = +200
+    : 0
+  const finalPrice = BASE_PRICE + baseSurcharge + oversizeSurcharge
   const wished = isWishlisted("custom-dtf")
 
   const currentDesigns = activeSide === "front" ? frontDesigns : backDesigns
@@ -274,7 +275,7 @@ export default function CustomDesignPage() {
                 </select>
               </div>
 
-              <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center bg-red-600 rounded-xl overflow-hidden">
                   <button
                     type="button"
@@ -288,13 +289,20 @@ export default function CustomDesignPage() {
                     +
                   </button>
                 </div>
-                <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm font-medium">
-                 Contact us for more information
+                <div className="flex-1 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-center">
+                  <p className="text-white/40 text-[10px] uppercase tracking-widest">Price</p>
+                  <p className="text-white font-bold text-lg">Rs. {finalPrice.toLocaleString("en-LK")}</p>
                 </div>
               </div>
-              <p className="text-white/60 text-[10px] text-center">
-                Custom orders require direct confirmation for accurate pricing.
-              </p>
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+                <p className="text-white/30 text-[10px] uppercase tracking-widest mb-2 text-center">Pricing Breakdown</p>
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between text-white/60"><span>Base (Regular A4)</span><span>Rs. 1,750</span></div>
+                  {baseSurcharge > 0 && <div className="flex justify-between text-white/60"><span>A3 Print Size</span><span>+Rs. {baseSurcharge}</span></div>}
+                  {oversizeSurcharge > 0 && <div className="flex justify-between text-white/60"><span>Oversized Fit</span><span>+Rs. {oversizeSurcharge}</span></div>}
+                  <div className="flex justify-between text-white font-bold border-t border-white/10 pt-1 mt-1"><span>Total</span><span>Rs. {finalPrice.toLocaleString("en-LK")}</span></div>
+                </div>
+              </div>
             </div>
 
             {/* Upload section */}
