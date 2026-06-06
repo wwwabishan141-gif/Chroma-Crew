@@ -362,7 +362,7 @@ export default function CheckoutPage() {
 
           <div className="space-y-4">
             <p className="text-sm font-semibold text-white/40 uppercase tracking-wider">Payment Method</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <label className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'cod' ? 'border-red-600 bg-red-600/5' : 'border-white/10 bg-white/5 hover:border-white/20'}`}>
                 <input
                   type="radio"
@@ -389,6 +389,7 @@ export default function CheckoutPage() {
                   <span className="text-xs text-white/50">Details shared after confirm</span>
                 </div>
               </label>
+              {/* --- PAYHERE TEMPORARILY DISABLED UNTIL DOMAIN PURCHASE ---
               <label className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'payhere' ? 'border-green-500 bg-green-600/10' : 'border-white/10 bg-white/5 hover:border-white/20'}`}>
                 <input
                   type="radio"
@@ -402,6 +403,7 @@ export default function CheckoutPage() {
                   <span className="text-xs text-white/50">Card / Bank — via PayHere</span>
                 </div>
               </label>
+              */}
             </div>
             {paymentMethod === "payhere" && (
               <div className="p-4 rounded-xl bg-green-500/5 border border-green-500/20 text-green-300/80 text-sm flex items-start gap-3">
