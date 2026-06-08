@@ -8,19 +8,19 @@ export default function TermsPage() {
         <h1 className="text-4xl font-bold text-white">Terms of Service</h1>
         <p>Last updated: April 14, 2026</p>
         <p>
-          These terms apply to use of the ChromaCrew demo site. Products, prices, and SLAs are illustrative until connected to your live commerce stack.
+          These terms apply to your use of the ChromaCrew website and the purchase of our products. By accessing our site, you agree to these terms.
         </p>
         <h2 className="text-xl font-semibold text-white pt-4">Orders & payment</h2>
         <p>
-          Placing an order through this demo confirms you understand fulfillment is simulated. Production sites should integrate real payment processors and tax rules.
+          Placing an order confirms your agreement to purchase the products. All payments and taxes are securely processed according to local regulations.
         </p>
         <h2 className="text-xl font-semibold text-white pt-4">Artwork & IP</h2>
         <p>
-          You warrant you have rights to upload designs. We may refuse jobs that infringe third-party rights.
+          You warrant you have rights to upload designs. We reserve the right to refuse jobs that infringe third-party intellectual property rights.
         </p>
         <h2 className="text-xl font-semibold text-white pt-4">Limitation of liability</h2>
         <p>
-          To the maximum extent permitted by law, ChromaCrew is not liable for indirect damages arising from use of this demo software.
+          To the maximum extent permitted by law, ChromaCrew is not liable for indirect damages arising from the use of our website or products.
         </p>
       </div>
     </main>
