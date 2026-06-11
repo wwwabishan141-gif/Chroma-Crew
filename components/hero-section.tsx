@@ -28,7 +28,7 @@ export function HeroSection() {
       </svg>
 
       <div
-        className={`text-center transition-all duration-1000 max-w-5xl mx-auto -mt-10 md:-mt-20 ${
+        className={`text-center transition duration-1000 max-w-5xl mx-auto -mt-10 md:-mt-20 ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
