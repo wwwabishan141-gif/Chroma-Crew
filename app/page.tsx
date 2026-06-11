@@ -30,7 +30,7 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   }, [onComplete])
 
   return (
-    <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center">
+    <main className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center">
       {/* Animated Logo - Using uploaded logo */}
       <div className="relative mb-8">
         <div className="relative w-32 h-32 animate-pulse">
@@ -43,19 +43,13 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             sizes="128px"
           />
         </div>
-        {/* Orbiting ring */}
-        <div
-          className="absolute inset-[-12px] rounded-full border-2 border-red-600/30"
-          style={{
-            animation: "spin 2s linear infinite",
-          }}
-        />
-        <div
-          className="absolute inset-[-24px] rounded-full border-2 border-red-600/20"
-          style={{
-            animation: "spin 3s linear infinite reverse",
-          }}
-        />
+        {/* Orbiting rings */}
+        <div className="absolute top-1/2 left-1/2 w-[152px] h-[152px] -translate-x-1/2 -translate-y-1/2">
+          <div className="w-full h-full rounded-full border-2 border-red-600/30 animate-[spin_2s_linear_infinite]" />
+        </div>
+        <div className="absolute top-1/2 left-1/2 w-[176px] h-[176px] -translate-x-1/2 -translate-y-1/2">
+          <div className="w-full h-full rounded-full border-2 border-red-600/20 animate-[spin_3s_linear_infinite_reverse]" />
+        </div>
       </div>
 
       {/* Progress Bar */}
@@ -67,7 +61,7 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       </div>
 
       {/* Loading Text */}
-      <p className="text-white/60 mt-4 text-sm">Loading experience...</p>
+      <p className="text-white/75 mt-4 text-sm font-medium">Loading experience...</p>
 
       <style jsx>{`
         @keyframes spin {
@@ -79,21 +73,19 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           }
         }
       `}</style>
-    </div>
+    </main>
   )
 }
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true)
 
+  if (isLoading) {
+    return <LoadingScreen onComplete={() => setIsLoading(false)} />
+  }
+
   return (
-    <>
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-      <main
-        className={`min-h-screen bg-background flex-1 transition-opacity duration-500 ${
-          isLoading ? "opacity-0" : "opacity-100"
-        }`}
-      >
+    <main className="min-h-screen bg-background flex-1 animate-in fade-in duration-500">
         <Header currentPage="home" />
         <HeroSection />
         <PromisesSection />
@@ -103,6 +95,5 @@ export default function HomePage() {
         <BulkPricingBanner />
         <ElevateSection />
       </main>
-    </>
   )
 }
