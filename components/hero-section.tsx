@@ -29,34 +29,46 @@ export function HeroSection() {
 
       {/* ── Left T-Shirt: Luffy Anime Tee ── */}
       <div
-        className={`absolute left-0 bottom-0 w-[240px] md:w-[340px] lg:w-[420px] pointer-events-none select-none transition-all duration-1000 delay-200 ${
+        className={`absolute left-0 bottom-0 w-[260px] md:w-[360px] lg:w-[460px] pointer-events-none select-none transition-all duration-1000 delay-200 ${
           isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
         }`}
+        style={{
+          transform: isLoaded
+            ? "perspective(800px) rotateY(15deg) rotate(-8deg) translateX(-20px)"
+            : "perspective(800px) rotateY(15deg) rotate(-8deg) translateX(-80px)",
+          transformOrigin: "bottom right",
+          transition: "all 1s ease 0.2s",
+        }}
       >
         <Image
-          src="/dtf-012-front.png"
+          src="/Home page tee 1.png"
           alt="Luffy Anime Graphic Tee"
-          width={420}
-          height={500}
+          width={460}
+          height={540}
           className="w-full h-auto object-contain drop-shadow-2xl"
-          style={{ mixBlendMode: "screen" }}
           priority
         />
       </div>
 
-      {/* ── Right T-Shirt: Retro Speed BMW Tee ── */}
+      {/* ── Right T-Shirt: Pride Goes Before a Fall Tee ── */}
       <div
-        className={`absolute right-0 bottom-0 w-[240px] md:w-[340px] lg:w-[420px] pointer-events-none select-none transition-all duration-1000 delay-200 ${
+        className={`absolute right-0 bottom-0 w-[260px] md:w-[360px] lg:w-[460px] pointer-events-none select-none transition-all duration-1000 delay-200 ${
           isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"
         }`}
+        style={{
+          transform: isLoaded
+            ? "perspective(800px) rotateY(-15deg) rotate(8deg) translateX(20px)"
+            : "perspective(800px) rotateY(-15deg) rotate(8deg) translateX(80px)",
+          transformOrigin: "bottom left",
+          transition: "all 1s ease 0.2s",
+        }}
       >
         <Image
-          src="/dtf-007-front.png"
-          alt="Retro Speed BMW Graphic Tee"
-          width={420}
-          height={500}
+          src="/Home page tee 2.png"
+          alt="Pride Goes Before a Fall Graphic Tee"
+          width={460}
+          height={540}
           className="w-full h-auto object-contain drop-shadow-2xl"
-          style={{ mixBlendMode: "screen" }}
           priority
         />
       </div>
