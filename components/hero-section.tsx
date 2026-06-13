@@ -14,7 +14,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-6 py-12 md:py-20 overflow-hidden">
-      {/* Background subtle pattern — original design */}
+      {/* Background subtle pattern */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none opacity-10"
         viewBox="0 0 1000 600"
@@ -27,8 +27,43 @@ export function HeroSection() {
         <circle cx="100" cy="500" r="150" stroke="rgba(220,38,38,0.1)" strokeWidth="1" />
       </svg>
 
+      {/* ── Left T-Shirt: Luffy Anime Tee ── */}
       <div
-        className={`text-center transition duration-1000 max-w-5xl mx-auto -mt-10 md:-mt-20 ${
+        className={`absolute left-0 bottom-0 w-[240px] md:w-[340px] lg:w-[420px] pointer-events-none select-none transition-all duration-1000 delay-200 ${
+          isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
+        }`}
+      >
+        <Image
+          src="/dtf-012-front.png"
+          alt="Luffy Anime Graphic Tee"
+          width={420}
+          height={500}
+          className="w-full h-auto object-contain drop-shadow-2xl"
+          style={{ mixBlendMode: "screen" }}
+          priority
+        />
+      </div>
+
+      {/* ── Right T-Shirt: Retro Speed BMW Tee ── */}
+      <div
+        className={`absolute right-0 bottom-0 w-[240px] md:w-[340px] lg:w-[420px] pointer-events-none select-none transition-all duration-1000 delay-200 ${
+          isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"
+        }`}
+      >
+        <Image
+          src="/dtf-007-front.png"
+          alt="Retro Speed BMW Graphic Tee"
+          width={420}
+          height={500}
+          className="w-full h-auto object-contain drop-shadow-2xl"
+          style={{ mixBlendMode: "screen" }}
+          priority
+        />
+      </div>
+
+      {/* ── Centre Content ── */}
+      <div
+        className={`text-center transition duration-1000 max-w-3xl mx-auto relative z-10 ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
@@ -39,37 +74,37 @@ export function HeroSection() {
             alt="ChromaCrew"
             width={1024}
             height={207}
-            sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 700px"
-            className="w-full max-w-[300px] sm:max-w-[500px] md:max-w-[700px] lg:max-w-[900px] h-auto mx-auto"
+            sizes="(max-width: 640px) 280px, (max-width: 1024px) 460px, 620px"
+            className="w-full max-w-[280px] sm:max-w-[460px] md:max-w-[620px] h-auto mx-auto"
             priority
           />
         </div>
 
-        {/* ── Streetwear Tagline divider ── */}
-        <div className="flex items-center gap-3 justify-center mt-2 mb-6">
-          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-red-600" />
+        {/* Tagline divider */}
+        <div className="flex items-center gap-3 justify-center mt-2 mb-5">
+          <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-transparent to-red-600" />
           <span className="text-red-500 text-[11px] font-black uppercase tracking-[0.4em]">
             RAW SUB-CULTURE • HEAVY COTTON
           </span>
-          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-red-600" />
+          <div className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-transparent to-red-600" />
         </div>
 
-        {/* Brand Subheadline — 3 second value proposition */}
-        <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg md:text-xl font-medium leading-relaxed mb-10 px-4">
+        {/* Subheadline */}
+        <p className="text-white/75 max-w-xl mx-auto text-sm sm:text-base md:text-lg font-medium leading-relaxed mb-8 px-2">
           Premium heavyweight graphic t-shirts inspired by anime, gaming, and car culture. Colombo designed. Shipped islandwide with Cash on Delivery.
         </p>
 
-        {/* CTA buttons — street-aligned style */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 px-4">
+        {/* CTA buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4">
           <Link
             href="/shop"
-            className="group relative w-full sm:w-auto px-10 py-4 bg-red-600 text-white font-black rounded-full overflow-hidden transition-all duration-300 hover:bg-red-700 hover:shadow-xl hover:shadow-red-600/40 hover:scale-105 text-base md:text-lg tracking-wider"
+            className="group relative w-full sm:w-auto px-10 py-4 bg-red-600 text-white font-black rounded-full overflow-hidden transition-all duration-300 hover:bg-red-700 hover:shadow-xl hover:shadow-red-600/40 hover:scale-105 text-base tracking-wider"
           >
             <span className="relative z-10">COP THE DROP</span>
           </Link>
           <Link
             href="/custom-design"
-            className="group w-full sm:w-auto px-10 py-4 border-[2px] border-red-600 text-white font-bold rounded-full transition-all duration-300 hover:bg-red-600/10 hover:shadow-lg hover:shadow-red-600/20 hover:scale-105 text-base md:text-lg tracking-wider"
+            className="group w-full sm:w-auto px-10 py-4 border-[2px] border-red-600 text-white font-bold rounded-full transition-all duration-300 hover:bg-red-600/10 hover:shadow-lg hover:shadow-red-600/20 hover:scale-105 text-base tracking-wider"
           >
             CUSTOM REQUESTS
           </Link>
