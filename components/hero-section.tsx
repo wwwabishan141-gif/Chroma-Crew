@@ -45,28 +45,33 @@ export function HeroSection() {
           />
         </div>
 
-        {/* ── Premium DTF Prints divider ── */}
-        <div className="flex items-center gap-3 justify-center mt-2 mb-10">
+        {/* ── Streetwear Tagline divider ── */}
+        <div className="flex items-center gap-3 justify-center mt-2 mb-6">
           <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-red-600" />
-          <span className="text-red-500 text-[10px] font-black uppercase tracking-[0.45em]">
-            Premium DTF Prints
+          <span className="text-red-500 text-[11px] font-black uppercase tracking-[0.4em]">
+            RAW SUB-CULTURE • HEAVY COTTON
           </span>
           <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-red-600" />
         </div>
 
-        {/* CTA buttons — original style */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
+        {/* Brand Subheadline — 3 second value proposition */}
+        <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg md:text-xl font-medium leading-relaxed mb-10 px-4">
+          Premium heavyweight graphic t-shirts inspired by anime, gaming, and car culture. Colombo designed. Shipped islandwide with Cash on Delivery.
+        </p>
+
+        {/* CTA buttons — street-aligned style */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 px-4">
           <Link
             href="/shop"
-            className="group relative w-full sm:w-auto px-10 py-3.5 md:px-12 md:py-4 bg-red-600 text-white font-bold rounded-full overflow-hidden transition-all duration-300 hover:bg-red-700 hover:shadow-xl hover:shadow-red-600/40 hover:scale-105 text-base md:text-lg"
+            className="group relative w-full sm:w-auto px-10 py-4 bg-red-600 text-white font-black rounded-full overflow-hidden transition-all duration-300 hover:bg-red-700 hover:shadow-xl hover:shadow-red-600/40 hover:scale-105 text-base md:text-lg tracking-wider"
           >
-            <span className="relative z-10">Shop Now</span>
+            <span className="relative z-10">COP THE DROP</span>
           </Link>
           <Link
             href="/custom-design"
-            className="group w-full sm:w-auto px-10 py-3.5 md:px-12 md:py-4 border-[2px] border-red-600 text-white font-bold rounded-full transition-all duration-300 hover:bg-red-600/10 hover:shadow-lg hover:shadow-red-600/20 hover:scale-105 text-base md:text-lg"
+            className="group w-full sm:w-auto px-10 py-4 border-[2px] border-red-600 text-white font-bold rounded-full transition-all duration-300 hover:bg-red-600/10 hover:shadow-lg hover:shadow-red-600/20 hover:scale-105 text-base md:text-lg tracking-wider"
           >
-            Custom Design
+            CUSTOM REQUESTS
           </Link>
         </div>
       </div>

@@ -4,45 +4,47 @@ const features = [
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7">
-        <path d="M4 16.5V20h3.5L18 9.5 14.5 6 4 16.5z"/><path d="M13 7.5L16.5 11"/>
+        <path d="M20.38 3.46L16 2.14a2 2 0 00-1.2 0l-4.38 1.32a2 2 0 01-1.2 0L4.82 2.14a2 2 0 00-2.4 1.2v10.33a4 4 0 002.34 3.66l6.38 2.5a2 2 0 001.7 0l6.38-2.5a4 4 0 002.34-3.66V4.82a2 2 0 00-1.18-1.36z"/>
       </svg>
     ),
-    title: "Custom Designs",
-    desc: "Upload your own artwork or describe what you want. We print it exactly as you need it.",
-    badge: null,
+    title: "Heavyweight Cotton",
+    desc: "Sourced locally and pre-shrunk for the perfect boxy drape. Real heavyweight fabrics (240+ GSM) that stand the test of time.",
+    badge: "240+ GSM",
   },
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7">
-        <path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9L12 3z"/>
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
       </svg>
     ),
-    title: "High Quality DTF Prints",
-    desc: "Vibrant colours, sharp edges, soft hand feel. Every print is checked before it leaves us.",
-    badge: null,
+    title: "High-Fidelity Graphics",
+    desc: "Vibrant pigment inks fused directly into the fabric. Deep colors, a soft hand feel, zero plasticky shine, and no wash-out cracking.",
+    badge: "FADE-RESISTANT",
   },
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7">
-        <path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/>
-        <rect x="9" y="11" width="14" height="10" rx="1"/>
-        <path d="M13 16h4"/>
+        <rect x="2" y="5" width="20" height="14" rx="2"/>
+        <line x1="2" y1="10" x2="22" y2="10"/>
+        <path d="M6 14h2M12 14h4"/>
       </svg>
     ),
     title: "Cash on Delivery",
-    desc: "Pay when your order arrives at your door. No cards, no online payments required.",
+    desc: "Pay cash at your door with absolute peace of mind. Shipped via trusted local riders with next-day dispatch in Colombo.",
     badge: "COD Available",
   },
   {
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
       </svg>
     ),
-    title: "Islandwide Delivery",
-    desc: "We deliver to every district in Sri Lanka. Colombo to Jaffna — we've got you covered.",
-    badge: "🇱🇰 Sri Lanka",
+    title: "Streetwear Fit Guarantee",
+    desc: "Drape is everything. If your graphic tee isn't styled exactly how you imagined, we offer a hassle-free 7-day size exchange.",
+    badge: "EASY RETURNS",
   },
 ]
 
@@ -51,9 +53,12 @@ export function PromisesSection() {
     <section className="py-16 md:py-20 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
 
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">Why choose ChromaCrew?</h2>
-          <p className="text-white/50 mt-3 text-sm md:text-base">Built for Sri Lankan customers. Simple, fast, and trustworthy.</p>
+        <div className="text-center mb-12">
+          <span className="inline-block px-3 py-1 rounded-full border border-red-600/40 bg-red-600/10 text-red-400 text-[10px] font-black uppercase tracking-widest mb-3">
+            Built Different
+          </span>
+          <h2 className="text-3xl md:text-4xl font-black text-white tracking-wide uppercase">Uncompromising Quality Standards</h2>
+          <p className="text-white/50 mt-3 text-sm md:text-base">We don&apos;t build generic basics. Every drop is crafted to become your go-to fit.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -63,7 +68,7 @@ export function PromisesSection() {
               className="group relative flex flex-col gap-4 rounded-2xl border border-white/8 bg-white/[0.03] p-6 hover:border-red-600/40 hover:bg-red-600/[0.04] transition-all duration-300"
             >
               {p.badge && (
-                <span className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-red-600/20 border border-red-600/40 text-red-400 text-[10px] font-semibold">
+                <span className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-red-600/20 border border-red-600/40 text-red-400 text-[9px] font-black uppercase tracking-wider">
                   {p.badge}
                 </span>
               )}
@@ -71,7 +76,7 @@ export function PromisesSection() {
                 {p.icon}
               </div>
               <div>
-                <h3 className="text-white font-semibold text-base mb-1.5">{p.title}</h3>
+                <h3 className="text-white font-bold text-base mb-1.5">{p.title}</h3>
                 <p className="text-white/50 text-sm leading-relaxed">{p.desc}</p>
               </div>
             </div>
@@ -80,14 +85,14 @@ export function PromisesSection() {
 
         {/* Bottom trust line */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/35">
-          <span>No minimum order quantity</span>
+          <span>Colombo next-day delivery</span>
           <span className="hidden sm:inline text-white/15">·</span>
-          <span>File reviewed before printing</span>
+          <span>Limited edition graphic drops</span>
           <span className="hidden sm:inline text-white/15">·</span>
-          <span>Defective prints? We reprint free</span>
+          <span>Hassle-free size exchanges</span>
           <span className="hidden sm:inline text-white/15">·</span>
-          <Link href="/about" className="text-red-500/60 hover:text-red-400 transition-colors">
-            About us →
+          <Link href="/about" className="text-red-500/60 hover:text-red-400 transition-colors font-medium">
+            Read Our Manifesto →
           </Link>
         </div>
       </div>

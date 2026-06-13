@@ -16,7 +16,7 @@ export function PromoBanner() {
   return (
     <div className="bg-red-600 text-white text-center text-sm py-2 px-4 relative z-[60]">
       <span>
-        🇱🇰 Islandwide Delivery · 💵 Cash on Delivery Available · DTF files: PNG 300 DPI transparent ·{" "}
+        🇱🇰 Islandwide Delivery · 💵 Cash on Delivery Available · Premium Heavyweight Cotton ·{" "}
         <Link href="/faq" className="underline font-medium">
           Learn more
         </Link>
@@ -108,8 +108,8 @@ export function NewsletterPopup() {
         >
           <X className="w-5 h-5" />
         </button>
-        <h2 className="text-xl font-bold text-white mb-2">Get DTF tips & offers</h2>
-        <p className="text-white/65 text-sm mb-4">File prep guides, seasonal promos, and wholesale news.</p>
+        <h2 className="text-xl font-bold text-white mb-2">Join the Streetwear Drops</h2>
+        <p className="text-white/65 text-sm mb-4">Get first access to limited edition t-shirt drops, styling tips, and members-only offers.</p>
         {submitted ? (
           <p className="text-green-400 text-sm">Thanks! You&apos;re on the list.</p>
         ) : (

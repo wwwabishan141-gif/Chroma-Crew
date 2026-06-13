@@ -15,7 +15,7 @@ const footerLinks = {
   ],
   support: [
     { href: "/faq", label: "FAQ" },
-    { href: "/file-requirements", label: "File Requirements" },
+    { href: "/size-guide", label: "Size Guide" },
     { href: "/shipping-returns", label: "Shipping & Returns" },
     { href: "/contacts", label: "Contact Us" },
     { href: "/reviews-gallery", label: "Reviews & Gallery" },
@@ -56,9 +56,9 @@ export function SiteFooter() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2 space-y-4">
-            <p className="text-white font-bold text-xl">ChromaCrew</p>
+            <p className="text-white font-bold text-xl tracking-tight uppercase">ChromaCrew</p>
             <p className="text-white/70 text-sm leading-relaxed">
-              Premium custom DTF t-shirts, made to order. Based in Colombo, Sri Lanka. Online orders only — we deliver island-wide.
+              Premium streetwear and graphic tees. Inspired by gaming, anime, and car subcultures. Designed in Colombo, Sri Lanka. Shipped islandwide.
             </p>
 
             <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-green-600/30 bg-green-600/10 text-green-400 text-xs font-semibold">
@@ -87,14 +87,14 @@ export function SiteFooter() {
                 076 342 5409
               </a>
               <a
-                href="mailto:www.abiesivan@gmail.com"
+                href="mailto:support@chromacrew.lk"
                 className="flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 shrink-0">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                www.abiesivan@gmail.com
+                support@chromacrew.lk
               </a>
               <p className="flex items-center gap-2 text-white/60 text-xs pt-1">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5 shrink-0">
