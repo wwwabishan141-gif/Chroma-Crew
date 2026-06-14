@@ -8,21 +8,21 @@ const reviews = [
     city: "Colombo",
     rating: 5,
     tag: "Verified Buyer",
-    review: "The cotton is seriously heavy. I washed the Goku tee like 5 times now and the print still looks brand new. Best fit in Sri Lanka hands down.",
+    review: "Bro the cotton is actually heavy. Washed my Goku tee a few times and the print hasn't cracked at all. Fit is exactly what I wanted.",
   },
   {
     name: "Ruvini D.",
     city: "Kandy",
     rating: 5,
     tag: "Verified Buyer",
-    review: "Love the boxy fit. It actually hangs perfectly like high-end streetwear. The detail on the Retro Speed BMW graphic is insane.",
+    review: "Got the BMW speed tee. Boxy fit hangs perfectly, looks way more expensive than it is. Clean drop.",
   },
   {
     name: "Devinda W.",
     city: "Negombo",
     rating: 5,
     tag: "Verified Buyer",
-    review: "COD was super fast. Ordered from Negombo and got it in 2 days. The heavy fabric feels premium and cozy. Definitely copping the next drop.",
+    review: "Ordered COD, arrived in 2 days. The material feels crazy premium. Definitely copping again.",
   },
 ]
 

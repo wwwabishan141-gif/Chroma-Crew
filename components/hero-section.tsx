@@ -110,9 +110,9 @@ export function HeroSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4">
           <Link
             href="/shop"
-            className="group relative w-full sm:w-auto px-10 py-4 bg-red-600 text-white font-black rounded-full overflow-hidden transition-all duration-300 hover:bg-red-700 hover:shadow-xl hover:shadow-red-600/40 hover:scale-105 text-base tracking-wider"
+            className="group relative w-full sm:w-auto px-10 py-4 btn-liquid text-white font-black rounded-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-red-600/40 hover:scale-105 text-base tracking-wider"
           >
-            <span className="relative z-10">COP THE DROP</span>
+            <span className="relative z-10">ORDER NOW</span>
           </Link>
           <Link
             href="/custom-design"

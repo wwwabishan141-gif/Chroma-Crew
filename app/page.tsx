@@ -7,7 +7,6 @@ import { FeaturedSection } from "@/components/featured-section"
 import { BestSellers } from "@/components/best-sellers"
 import { BrandStory } from "@/components/brand-story"
 import { SocialProof } from "@/components/social-proof"
-import { InstagramTikTokSection } from "@/components/instagram-tiktok-section"
 import { FAQSection } from "@/components/faq-section"
 
 export default function HomePage() {
@@ -20,7 +19,6 @@ export default function HomePage() {
       <BestSellers />
       <BrandStory />
       <SocialProof />
-      <InstagramTikTokSection />
       <FAQSection />
     </main>
   )
