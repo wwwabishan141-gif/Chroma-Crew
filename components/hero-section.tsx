@@ -106,21 +106,29 @@ export function HeroSection() {
           Premium heavyweight graphic t-shirts inspired by anime, gaming, and car culture. Colombo designed. Shipped islandwide with Cash on Delivery.
         </p>
 
-        {/* CTA Button */}
-        <div className="flex items-center justify-center px-4 mt-8">
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4 mt-8">
+          <Link
+            href="/shop"
+            className="group btn-ultra-glass-red w-full sm:w-[260px] py-4 sm:py-5 text-xs sm:text-sm"
+          >
+            <span className="relative z-10 flex items-center justify-center w-full gap-2">
+              SHOP NOW
+            </span>
+          </Link>
           <Link
             href="/custom-design"
-            className="group btn-liquid-glass px-12 py-5 sm:px-16 sm:py-6 text-sm sm:text-base tracking-[0.2em]"
+            className="group btn-ultra-glass-red w-full sm:w-[260px] py-4 sm:py-5 text-xs sm:text-sm"
           >
-            <span className="relative z-10 flex items-center gap-3">
+            <span className="relative z-10 flex items-center justify-center w-full gap-2">
               CREATE YOUR TEE
               <svg 
-                className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" 
+                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </span>
           </Link>

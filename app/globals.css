@@ -261,8 +261,8 @@ html {
   background: #b91c1c;
 }
 
-/* ── Apple VisionOS Inspired Liquid Glass Button ── */
-.btn-liquid-glass {
+/* ── Ultra-Premium Liquid Glass Button (Red Stroke) ── */
+.btn-ultra-glass-red {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -270,62 +270,89 @@ html {
   border-radius: 9999px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.03) 100%
+    rgba(220, 38, 38, 0.15) 0%,
+    rgba(220, 38, 38, 0.02) 100%
   );
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(220, 38, 38, 0.4);
   box-shadow: 
-    0 8px 32px 0 rgba(0, 0, 0, 0.3),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.05);
+    0 10px 40px -10px rgba(220, 38, 38, 0.5), /* Outer red glow */
+    inset 0 1px 2px rgba(255, 255, 255, 0.5), /* Top white highlight */
+    inset 0 0 15px rgba(220, 38, 38, 0.4), /* Inner red glow */
+    inset 0 -2px 5px rgba(220, 38, 38, 0.2); /* Bottom red highlight */
   color: white;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
   text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 
-.btn-liquid-glass::before {
+/* Internal glossy top reflection */
+.btn-ultra-glass-red::before {
   content: '';
   position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  border-radius: 9999px 9999px 0 0;
+  pointer-events: none;
+}
+
+/* Sweeping light beam */
+.btn-ultra-glass-red::after {
+  content: '';
+  position: absolute;
+  top: -50%;
   left: -100%;
   width: 50%;
-  height: 100%;
+  height: 200%;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.3),
     transparent
   );
-  transform: skewX(-20deg);
-  animation: glass-shine 6s infinite;
+  transform: rotate(30deg);
+  animation: glass-shine-ultra 6s infinite;
+  pointer-events: none;
 }
 
-.btn-liquid-glass:hover {
+.btn-ultra-glass-red:hover {
   transform: scale(1.03) translateY(-2px);
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 100%
+    rgba(220, 38, 38, 0.2) 0%,
+    rgba(220, 38, 38, 0.05) 100%
   );
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(220, 38, 38, 0.6);
+  backdrop-filter: blur(50px) saturate(220%);
+  -webkit-backdrop-filter: blur(50px) saturate(220%);
   box-shadow: 
-    0 15px 40px -5px rgba(220, 38, 38, 0.25),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.1);
+    0 15px 50px -5px rgba(220, 38, 38, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    inset 0 0 20px rgba(220, 38, 38, 0.5),
+    inset 0 -2px 5px rgba(220, 38, 38, 0.3);
 }
 
-.btn-liquid-glass:active {
+.btn-ultra-glass-red:active {
   transform: scale(0.98);
   box-shadow: 
-    0 5px 15px 0 rgba(0, 0, 0, 0.4),
-    inset 0 2px 5px 0 rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.05);
+    0 5px 20px -5px rgba(220, 38, 38, 0.4),
+    inset 0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 0 10px rgba(220, 38, 38, 0.3);
+  background: rgba(220, 38, 38, 0.1);
 }
 
-@keyframes glass-shine {
+@keyframes glass-shine-ultra {
   0% { left: -100%; }
   20% { left: 200%; }
   100% { left: 200%; }
