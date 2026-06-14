@@ -29,8 +29,8 @@ export function HeroSection() {
 
       {/* ── Left T-Shirt: Luffy Anime Tee ── */}
       <div
-        className={`absolute left-0 bottom-0 w-[260px] md:w-[360px] lg:w-[460px] pointer-events-none select-none transition-all duration-1000 delay-200 ${
-          isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
+        className={`absolute left-0 bottom-0 w-[260px] md:w-[360px] lg:w-[460px] aspect-[46/54] pointer-events-none select-none transition-all duration-1000 delay-200 ${
+          isLoaded ? "opacity-100" : "opacity-0"
         }`}
         style={{
           transform: isLoaded
@@ -38,22 +38,23 @@ export function HeroSection() {
             : "perspective(800px) rotateY(15deg) rotate(-8deg) translateX(-80px)",
           transformOrigin: "bottom right",
           transition: "all 1s ease 0.2s",
+          willChange: "transform, opacity"
         }}
       >
         <Image
           src="/Home page tee 1.png"
           alt="Luffy Anime Graphic Tee"
-          width={460}
-          height={540}
-          className="w-full h-auto object-contain drop-shadow-2xl"
+          fill
+          sizes="(max-width: 768px) 260px, (max-width: 1024px) 360px, 460px"
+          className="object-contain drop-shadow-2xl"
           priority
         />
       </div>
 
       {/* ── Right T-Shirt: Pride Goes Before a Fall Tee ── */}
       <div
-        className={`absolute right-0 bottom-0 w-[260px] md:w-[360px] lg:w-[460px] pointer-events-none select-none transition-all duration-1000 delay-200 ${
-          isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"
+        className={`absolute right-0 bottom-0 w-[260px] md:w-[360px] lg:w-[460px] aspect-[46/54] pointer-events-none select-none transition-all duration-1000 delay-200 ${
+          isLoaded ? "opacity-100" : "opacity-0"
         }`}
         style={{
           transform: isLoaded
@@ -61,14 +62,15 @@ export function HeroSection() {
             : "perspective(800px) rotateY(-15deg) rotate(8deg) translateX(80px)",
           transformOrigin: "bottom left",
           transition: "all 1s ease 0.2s",
+          willChange: "transform, opacity"
         }}
       >
         <Image
           src="/Home page tee 2.png"
           alt="Pride Goes Before a Fall Graphic Tee"
-          width={460}
-          height={540}
-          className="w-full h-auto object-contain drop-shadow-2xl"
+          fill
+          sizes="(max-width: 768px) 260px, (max-width: 1024px) 360px, 460px"
+          className="object-contain drop-shadow-2xl"
           priority
         />
       </div>
