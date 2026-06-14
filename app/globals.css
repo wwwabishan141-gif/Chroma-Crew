@@ -270,17 +270,17 @@ html {
   border-radius: 9999px;
   background: linear-gradient(
     135deg,
-    rgba(220, 38, 38, 0.15) 0%,
-    rgba(220, 38, 38, 0.02) 100%
+    rgba(255, 10, 10, 0.25) 0%,
+    rgba(255, 10, 10, 0.05) 100%
   );
   backdrop-filter: blur(40px) saturate(200%);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
-  border: 1px solid rgba(220, 38, 38, 0.4);
+  border: 1px solid rgba(255, 20, 20, 0.8);
   box-shadow: 
-    0 10px 40px -10px rgba(220, 38, 38, 0.5), /* Outer red glow */
-    inset 0 1px 2px rgba(255, 255, 255, 0.5), /* Top white highlight */
-    inset 0 0 15px rgba(220, 38, 38, 0.4), /* Inner red glow */
-    inset 0 -2px 5px rgba(220, 38, 38, 0.2); /* Bottom red highlight */
+    0 10px 40px -5px rgba(255, 0, 0, 0.8),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    inset 0 0 20px rgba(255, 0, 0, 0.6),
+    inset 0 -2px 5px rgba(255, 50, 50, 0.6);
   color: white;
   font-weight: 800;
   letter-spacing: 0.15em;
@@ -330,26 +330,26 @@ html {
   transform: scale(1.03) translateY(-2px);
   background: linear-gradient(
     135deg,
-    rgba(220, 38, 38, 0.2) 0%,
-    rgba(220, 38, 38, 0.05) 100%
+    rgba(255, 10, 10, 0.3) 0%,
+    rgba(255, 10, 10, 0.1) 100%
   );
-  border-color: rgba(220, 38, 38, 0.6);
+  border-color: rgba(255, 0, 0, 1);
   backdrop-filter: blur(50px) saturate(220%);
   -webkit-backdrop-filter: blur(50px) saturate(220%);
   box-shadow: 
-    0 15px 50px -5px rgba(220, 38, 38, 0.6),
-    inset 0 1px 2px rgba(255, 255, 255, 0.6),
-    inset 0 0 20px rgba(220, 38, 38, 0.5),
-    inset 0 -2px 5px rgba(220, 38, 38, 0.3);
+    0 15px 50px -5px rgba(255, 0, 0, 0.95),
+    inset 0 1px 2px rgba(255, 255, 255, 0.7),
+    inset 0 0 25px rgba(255, 0, 0, 0.8),
+    inset 0 -2px 8px rgba(255, 50, 50, 0.8);
 }
 
 .btn-ultra-glass-red:active {
   transform: scale(0.98);
   box-shadow: 
-    0 5px 20px -5px rgba(220, 38, 38, 0.4),
-    inset 0 2px 8px rgba(0, 0, 0, 0.3),
-    inset 0 0 10px rgba(220, 38, 38, 0.3);
-  background: rgba(220, 38, 38, 0.1);
+    0 5px 20px -5px rgba(255, 0, 0, 0.7),
+    inset 0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 0 15px rgba(255, 0, 0, 0.5);
+  background: rgba(255, 10, 10, 0.15);
 }
 
 @keyframes glass-shine-ultra {
