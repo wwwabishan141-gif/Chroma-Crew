@@ -24,6 +24,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [selectedDtfSize, setSelectedDtfSize] = useState<"A4" | "A3">("A4")
   const [quantity, setQuantity] = useState(1)
   const [cartPressed, setCartPressed] = useState(false)
+  const [ratingStats, setRatingStats] = useState({ rating: 0, count: 0 })
 
   const wished = isWishlisted(product.id)
   // Base surcharge for A3 size (regular fit)
@@ -88,7 +89,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight">{product.name}</h1>
             <div className="flex items-center gap-4 mt-3">
                <p className="text-red-500 text-3xl font-bold">Rs. {finalPrice.toLocaleString("en-LK")}</p>
-               <ProductRatingBadge rating={0.0} count={0} />
+               <ProductRatingBadge rating={ratingStats.rating} count={ratingStats.count} />
             </div>
             <p className="text-white/60 text-sm mt-2">
               DTF Size: {selectedDtfSize} {dtfSurcharge > 0 ? `(+ Rs. ${dtfSurcharge}.00)` : "(base price)"}
@@ -253,7 +254,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
         </div>
       </div>
 
-      <ProductReviews productId={product.id} />
+      <ProductReviews 
+        productId={product.id} 
+        onReviewsChange={setRatingStats}
+      />
       <RelatedProducts currentProductId={product.id} />
     </div>
   )

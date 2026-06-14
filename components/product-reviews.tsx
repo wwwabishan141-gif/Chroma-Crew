@@ -9,9 +9,10 @@ import { format } from "date-fns"
 
 interface ProductReviewsProps {
   productId: string
+  onReviewsChange?: (stats: { rating: number; count: number }) => void
 }
 
-export function ProductReviews({ productId }: ProductReviewsProps) {
+export function ProductReviews({ productId, onReviewsChange }: ProductReviewsProps) {
   const [reviews, setReviews] = useState<Review[]>([])
   const [rating, setRating] = useState(5)
   const [comment, setComment] = useState("")
@@ -19,6 +20,14 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    if (onReviewsChange && !loading) {
+      const count = reviews.length
+      const avgRating = count > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / count : 0
+      onReviewsChange({ rating: avgRating, count })
+    }
+  }, [reviews, loading]) // Intentionally not including onReviewsChange to avoid loop if not memoized
 
   useEffect(() => {
     const init = async () => {
