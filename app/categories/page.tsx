@@ -30,20 +30,20 @@ export default function CategoriesPage() {
             <Link
               key={category.name}
               href={category.href}
-              className="group relative bg-card p-8 rounded-xl border border-white/10 hover:border-red-600 transition-all duration-300"
+              className="group relative bg-card p-8 rounded-xl border border-white/10 hover:border-white transition-all duration-300"
             >
               {/* Corner decorations */}
-              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-red-600 rounded-tl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-red-600 rounded-tr opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-red-600 rounded-bl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-red-600 rounded-br opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-white rounded-tl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-white rounded-tr opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-white rounded-bl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-white rounded-br opacity-0 group-hover:opacity-100 transition-opacity" />
 
-              <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-red-500 transition-colors">
+              <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-white transition-colors">
                 {category.name}
               </h2>
               <p className="text-white/60">{category.count} products</p>
 
-              <div className="mt-4 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="mt-4 text-white opacity-0 group-hover:opacity-100 transition-opacity">
                 View Collection →
               </div>
             </Link>

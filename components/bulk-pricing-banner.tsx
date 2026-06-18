@@ -13,7 +13,7 @@ export function BulkPricingBanner() {
     <section className="py-14 md:py-20 px-4 md:px-6 bg-background">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center space-y-2">
-          <span className="inline-block px-3 py-1 rounded-full border border-red-600/40 bg-red-600/10 text-red-400 text-xs uppercase tracking-widest">
+          <span className="inline-block px-3 py-1 rounded-full border border-white/40 bg-white/10 text-neutral-300 text-xs uppercase tracking-widest">
             Volume pricing
           </span>
           <h2 className="text-3xl md:text-4xl text-white font-bold">More units, better price</h2>
@@ -28,15 +28,15 @@ export function BulkPricingBanner() {
               key={tier.qty}
               className={`rounded-xl p-4 text-center border transition-all ${
                 tier.highlight
-                  ? "border-red-500 bg-red-600/15 scale-105"
+                  ? "border-white bg-white/15 scale-105"
                   : "border-white/10 bg-white/5"
               }`}
             >
-              <p className={`text-2xl font-bold ${tier.highlight ? "text-red-400" : "text-white"}`}>
+              <p className={`text-2xl font-bold ${tier.highlight ? "text-neutral-300" : "text-white"}`}>
                 {tier.qty}
               </p>
               <p className="text-white/50 text-xs mt-1">{tier.label}</p>
-              <p className={`text-sm font-semibold mt-2 ${tier.highlight ? "text-red-300" : "text-white/80"}`}>
+              <p className={`text-sm font-semibold mt-2 ${tier.highlight ? "text-neutral-400" : "text-white/80"}`}>
                 {tier.discount}
               </p>
             </div>
@@ -53,7 +53,7 @@ export function BulkPricingBanner() {
               <span className="text-3xl">{item.icon}</span>
               <div>
                 <p className="font-semibold text-white">{item.label}</p>
-                <p className="text-red-400 text-sm">{item.time}</p>
+                <p className="text-neutral-300 text-sm">{item.time}</p>
                 <p className="text-white/45 text-xs">{item.note}</p>
               </div>
             </div>
@@ -61,7 +61,7 @@ export function BulkPricingBanner() {
         </div>
 
         <div className="text-center">
-          <Link href="/shop" className="inline-flex px-7 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors">
+          <Link href="/shop" className="inline-flex px-7 py-3 rounded-xl btn-primary font-semibold">
             Shop now
           </Link>
         </div>

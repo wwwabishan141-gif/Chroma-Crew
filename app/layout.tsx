@@ -1,4 +1,4 @@
-// ChromaCrew - Final Deployment Trigger
+// ORBYT - Final Deployment Trigger
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { Poppins } from "next/font/google"
@@ -14,34 +14,25 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://chromacrew.lk'),
-  title: 'ChromaCrew - Custom DTF T-Shirts | Sri Lanka',
-  description: 'Premium DTF printed custom t-shirts delivered island-wide in Sri Lanka. Upload your design or shop our collection. Based in Colombo.',
-  keywords: ['DTF printing', 'custom t-shirts', 'Sri Lanka', 'Colombo', 'custom apparel', 'heat transfer'],
+  metadataBase: new URL('https://orbyt.lk'),
+  title: 'ORBYT — Premium Streetwear & Custom DTF Tees | Sri Lanka',
+  description: 'Luxury streetwear graphic tees and custom DTF printing. Premium heavyweight cotton, Colombo designed, islandwide delivery with Cash on Delivery.',
+  keywords: ['ORBYT', 'streetwear Sri Lanka', 'custom t-shirts', 'DTF printing Colombo', 'graphic tees', 'premium streetwear'],
   openGraph: {
-    title: 'ChromaCrew - Custom DTF T-Shirts',
-    description: 'Premium DTF printed custom t-shirts delivered island-wide in Sri Lanka.',
-    url: 'https://chromacrew.lk',
-    siteName: 'ChromaCrew',
+    title: 'ORBYT — Premium Streetwear & Custom DTF Tees',
+    description: 'Luxury streetwear graphic tees and custom DTF printing delivered islandwide in Sri Lanka.',
+    url: 'https://orbyt.lk',
+    siteName: 'ORBYT',
     locale: 'en_LK',
     type: 'website',
+    images: [{ url: '/logo1.png', width: 512, height: 512, alt: 'ORBYT' }],
   },
   icons: {
     icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
+      { url: '/logo1.png', type: 'image/png' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
     ],
-    apple: '/apple-icon.png',
+    apple: '/logo1.png',
   },
 }
 
@@ -49,7 +40,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#0a0a0a',
+  themeColor: '#000000',
 }
 
 export default function RootLayout({

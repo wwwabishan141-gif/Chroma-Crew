@@ -185,7 +185,7 @@ export function TShirtEditor({ color, side, activeZone, designs, onZoneSelect, o
             </span>
             <button
               onClick={() => onDesignUpdate(activeZone, defaultDesign())}
-              className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors"
+              className="text-xs text-neutral-300 hover:text-neutral-400 flex items-center gap-1 transition-colors"
             >
               <Trash2 className="w-3 h-3"/> Remove
             </button>
@@ -196,7 +196,7 @@ export function TShirtEditor({ color, side, activeZone, designs, onZoneSelect, o
             <input
               type="range" min="30" max="250" value={Math.round(active.scale * 100)}
               onChange={(e) => onDesignUpdate(activeZone, { scale: Number(e.target.value) / 100 })}
-              className="flex-1 accent-red-500 h-1"
+              className="flex-1 accent-white h-1"
             />
             <span className="text-[10px] text-white/40 w-8 text-right">{Math.round(active.scale * 100)}%</span>
           </div>
@@ -206,7 +206,7 @@ export function TShirtEditor({ color, side, activeZone, designs, onZoneSelect, o
             <input
               type="range" min="-180" max="180" value={active.rotation}
               onChange={(e) => onDesignUpdate(activeZone, { rotation: Number(e.target.value) })}
-              className="flex-1 accent-red-500 h-1"
+              className="flex-1 accent-white h-1"
             />
             <span className="text-[10px] text-white/40 w-8 text-right">{active.rotation}°</span>
           </div>

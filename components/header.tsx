@@ -99,16 +99,16 @@ export function Header({ currentPage = "home" }: HeaderProps) {
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
               <Image
-                src="/website-logo-what-01.png"
-                alt="Chroma Crew"
+                src="/logo1.png"
+                alt="ORBYT"
                 width={70}
                 height={70}
                 className="w-[60px] md:w-[65px] h-auto object-contain"
                 priority
               />
               <div className="hidden sm:flex flex-col">
-                <span className="text-white font-black text-xl tracking-tighter leading-none">ChromaCrew</span>
-                <span className="text-red-500 font-bold text-[10px] tracking-[0.2em] leading-tight group-hover:text-white transition-colors">.LK</span>
+                <span className="text-white font-black text-xl tracking-tighter leading-none"></span>
+                <span className="text-white/60 font-bold text-[10px] tracking-[0.2em] leading-tight group-hover:text-white/80 transition-colors">.LK</span>
               </div>
             </Link>
           </div>
@@ -171,7 +171,7 @@ export function Header({ currentPage = "home" }: HeaderProps) {
               <button
                 onClick={handleLogout}
                 aria-label="Logout"
-                className="hidden sm:flex flex-col items-center gap-0.5 text-white/70 hover:text-red-400 transition-colors"
+                className="hidden sm:flex flex-col items-center gap-0.5 text-white/70 hover:text-neutral-300 transition-colors"
               >
                 <User className={ICON_SIZE} />
                 <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
@@ -195,7 +195,7 @@ export function Header({ currentPage = "home" }: HeaderProps) {
             <Link
               href="/wishlist"
               aria-label="Wishlist"
-              className="hidden sm:flex flex-col items-center gap-0.5 text-white/70 hover:text-red-400 transition-colors"
+              className="hidden sm:flex flex-col items-center gap-0.5 text-white/70 hover:text-neutral-300 transition-colors"
             >
               <Heart className={ICON_SIZE} />
               <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
@@ -207,7 +207,7 @@ export function Header({ currentPage = "home" }: HeaderProps) {
             <Link
               href="/cart"
               aria-label="Cart"
-              className={`hidden sm:flex relative flex-col items-center gap-0.5 text-white/70 hover:text-red-400 transition-all ${cartBump ? "scale-110" : ""}`}
+              className={`hidden sm:flex relative flex-col items-center gap-0.5 text-white/70 hover:text-neutral-300 transition-all ${cartBump ? "scale-110" : ""}`}
             >
               <ShoppingCart className={ICON_SIZE} />
               <span className="text-[9px] font-semibold uppercase tracking-wider leading-none">
@@ -243,7 +243,7 @@ export function Header({ currentPage = "home" }: HeaderProps) {
               >
                 {item.name}
                 <span
-                  className={`absolute -bottom-[11px] left-0 right-0 h-[2px] bg-red-600 rounded-full transition-all duration-200 ${isActive(item.key)
+                  className={`absolute -bottom-[11px] left-0 right-0 h-[2px] bg-white rounded-full transition-all duration-200 ${isActive(item.key)
                     ? "opacity-100 scale-x-100"
                     : "opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-100"
                     }`}
@@ -276,10 +276,10 @@ export function Header({ currentPage = "home" }: HeaderProps) {
                 <Link
                   href="/cart"
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors col-span-2 bg-red-600/10 border-red-600/30"
+                  className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white/70 hover:text-white transition-colors col-span-2 bg-white/10 border-white/30"
                 >
-                  <ShoppingCart className="w-4 h-4" /> 
-                  Cart {cartCount > 0 && <span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">{cartCount}</span>}
+                  <ShoppingCart className="w-4 h-4" />
+                  Cart {cartCount > 0 && <span className="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">{cartCount}</span>}
                 </Link>
                 <Link
                   href="/wishlist"

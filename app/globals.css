@@ -4,25 +4,25 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.08 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.12 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.12 0 0);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.55 0.22 25);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.15 0 0);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.55 0.22 25);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.55 0.22 25);
-  --input: oklch(0.2 0 0);
-  --ring: oklch(0.55 0.22 25);
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+  --popover: #0a0a0a;
+  --popover-foreground: #ffffff;
+  --primary: #dc2626;
+  --primary-foreground: #ffffff;
+  --secondary: #111111;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #a3a3a3;
+  --accent: #dc2626;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: #1a1a1a;
+  --ring: #dc2626;
   --radius: 0.5rem;
 }
 
@@ -142,62 +142,6 @@
   }
 }
 
-@keyframes float-slow {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-25px) scale(1.03);
-  }
-}
-
-@keyframes float-left {
-  0%, 100% {
-    transform: perspective(800px) rotateY(15deg) rotate(-8deg) translateX(-20px) translateY(0px);
-  }
-  50% {
-    transform: perspective(800px) rotateY(15deg) rotate(-8deg) translateX(-20px) translateY(-16px);
-  }
-}
-
-@keyframes float-right {
-  0%, 100% {
-    transform: perspective(800px) rotateY(-15deg) rotate(8deg) translateX(20px) translateY(0px);
-  }
-  50% {
-    transform: perspective(800px) rotateY(-15deg) rotate(8deg) translateX(20px) translateY(-16px);
-  }
-}
-
-@keyframes glow-pulse-red {
-  0%, 100% {
-    box-shadow: 0 0 40px 10px rgba(220, 38, 38, 0.15);
-  }
-  50% {
-    box-shadow: 0 0 80px 30px rgba(220, 38, 38, 0.28);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
-}
-
-@keyframes slide-up-in {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0%);
-    opacity: 1;
-  }
-}
-
 @keyframes scanLine {
   0% {
     transform: translateY(-90px);
@@ -215,11 +159,6 @@
   }
 }
 
-@keyframes chevron-open {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(180deg); }
-}
-
 .animate-spin-slow {
   animation: spin-slow 15s linear infinite;
 }
@@ -232,26 +171,6 @@
   animation: float 8s ease-in-out infinite;
 }
 
-.animate-float-slow {
-  animation: float-slow 7s ease-in-out infinite;
-}
-
-.animate-float-left {
-  animation: float-left 7s ease-in-out infinite;
-}
-
-.animate-float-right {
-  animation: float-right 7s ease-in-out infinite 0.4s;
-}
-
-.animate-glow-pulse-red {
-  animation: glow-pulse-red 4s ease-in-out infinite;
-}
-
-.animate-slide-up-in {
-  animation: slide-up-in 0.25s ease-out forwards;
-}
-
 .logo-animate {
   animation: logoReveal 1.5s ease-out forwards, logoPulse 2s ease-in-out infinite 1.5s;
 }
@@ -262,42 +181,6 @@
 
 .content-animate {
   animation: fadeInUp 0.8s ease-out forwards;
-}
-
-/* Premium glow shadow utility */
-.shadow-glow-red {
-  box-shadow:
-    0 0 0 1px rgba(220,38,38,0.25),
-    0 8px 40px -8px rgba(220,38,38,0.55),
-    0 20px 60px -20px rgba(220,38,38,0.3);
-}
-
-/* Glass drawer used in product cards */
-.glass-drawer {
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.92) 0%,
-    rgba(10,10,10,0.78) 60%,
-    rgba(10,10,10,0.0) 100%
-  );
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* Shimmer text utility */
-.text-shimmer {
-  background: linear-gradient(
-    90deg,
-    #ffffff 0%,
-    #dc2626 40%,
-    #ffffff 60%,
-    #dc2626 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 4s linear infinite;
 }
 
 .featured-card {
@@ -473,4 +356,123 @@ html {
   0% { left: -100%; }
   20% { left: 200%; }
   100% { left: 200%; }
+}
+
+/* ── ORBYT Button System ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  background-color: #dc2626;
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -4px rgba(220, 38, 38, 0.45);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  background-color: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+/* ── ORBYT Page System ── */
+.page-container {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2.5rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    padding: 3rem 1.5rem;
+  }
+}
+
+.page-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.page-card-hover {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.page-card-hover:hover {
+  border-color: rgba(220, 38, 38, 0.35);
+  background: rgba(220, 38, 38, 0.04);
+}
+
+.input-orbyt {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-orbyt::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.input-orbyt:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.form-label-orbyt {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.empty-state {
+  border-radius: 1rem;
+  border: 1px dashed rgba(220, 38, 38, 0.25);
+  background: rgba(220, 38, 38, 0.04);
+  padding: 3rem 1.5rem;
+  text-align: center;
 }

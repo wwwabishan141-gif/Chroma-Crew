@@ -18,11 +18,11 @@ const WHATSAPP_NUMBER = "94751297637"
 const STATUS_STEPS = ["Received", "Processing", "Printed", "Shipped", "Delivered"] as const
 
 const STATUS_META: Record<string, { icon: string; color: string; bg: string; border: string }> = {
-  Received:   { icon: "📦", color: "text-blue-400",   bg: "bg-blue-500/15",   border: "border-blue-500/30" },
-  Processing: { icon: "⚙️",  color: "text-yellow-400", bg: "bg-yellow-500/15", border: "border-yellow-500/30" },
-  Printed:    { icon: "🖨️",  color: "text-purple-400", bg: "bg-purple-500/15", border: "border-purple-500/30" },
-  Shipped:    { icon: "🚚",  color: "text-orange-400", bg: "bg-orange-500/15", border: "border-orange-500/30" },
-  Delivered:  { icon: "✅",  color: "text-green-400",  bg: "bg-green-500/15",  border: "border-green-500/30" },
+  Received:   { icon: "📦", color: "text-white/70",    bg: "bg-white/5",    border: "border-white/20" },
+  Processing: { icon: "⚙️",  color: "text-red-300",   bg: "bg-red-600/10", border: "border-red-600/25" },
+  Printed:    { icon: "🖨️",  color: "text-red-400",   bg: "bg-red-600/15", border: "border-red-600/30" },
+  Shipped:    { icon: "🚚",  color: "text-red-400",   bg: "bg-red-600/20", border: "border-red-600/35" },
+  Delivered:  { icon: "✅",  color: "text-white",      bg: "bg-red-600",    border: "border-red-600" },
 }
 
 function ProgressTracker({ status }: { status: string }) {
@@ -35,7 +35,7 @@ function ProgressTracker({ status }: { status: string }) {
         {/* Connecting line behind circles */}
         <div className="absolute top-5 left-0 right-0 h-[2px] bg-white/10 z-0" />
         <div
-          className="absolute top-5 left-0 h-[2px] bg-gradient-to-r from-red-600 to-red-500 z-0 transition-all duration-700"
+          className="absolute top-5 left-0 h-[2px] bg-gradient-to-r from-red-900 to-red-500 z-0 transition-all duration-700"
           style={{ width: `${(currentIdx / (STATUS_STEPS.length - 1)) * 100}%` }}
         />
 
@@ -48,9 +48,9 @@ function ProgressTracker({ status }: { status: string }) {
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-lg border-2 transition-all duration-500 ${
                   done
-                    ? "bg-red-600 border-red-600 shadow-lg shadow-red-600/30"
+                    ? "bg-red-600 border-red-600 text-white shadow-lg shadow-red-600/30"
                     : active
-                    ? `${meta.bg} ${meta.border} shadow-lg ${meta.color.replace("text-", "shadow-").replace("-400", "-500/40")} animate-pulse`
+                    ? `${meta.bg} ${meta.border} shadow-lg shadow-red-600/25`
                     : "bg-white/5 border-white/10"
                 }`}
               >
@@ -144,13 +144,13 @@ export default function AccountPage() {
   }, [])
 
   const handleContactSupport = (orderId: string) => {
-    const msg = `Hi ChromaCrew! I need help with my order *${orderId}*. Could you please assist me?`
+    const msg = `Hi ORBYT! I need help with my order *${orderId}*. Could you please assist me?`
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank")
   }
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black">
+      <main className="min-h-screen bg-background flex-1">
         <Header currentPage="account" />
         <div className="flex items-center justify-center h-[50vh]">
           <div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full" />
@@ -161,55 +161,51 @@ export default function AccountPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-black text-white">
+      <main className="min-h-screen bg-background text-white flex-1">
         <Header currentPage="account" />
-        <div className="max-w-xl mx-auto px-6 py-20 text-center space-y-6">
-          <h1 className="text-3xl font-bold">Please Login</h1>
-          <p className="text-white/60">You need to be logged in to view your order tracking.</p>
-          <Link
-            href="/login"
-            className="inline-block px-8 py-3 bg-red-600 rounded-xl font-bold hover:bg-red-700 transition-colors"
-          >
-            Login Now
-          </Link>
+        <div className="page-container max-w-lg text-center">
+          <div className="empty-state space-y-5">
+            <h1 className="text-3xl font-black uppercase tracking-tight">Please Login</h1>
+            <p className="text-white/60">Sign in to view your order tracking and history.</p>
+            <Link href="/login" className="btn-primary">
+              Login Now
+            </Link>
+          </div>
         </div>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen bg-black text-white pb-24">
+    <main className="min-h-screen bg-background text-white flex-1 pb-24">
       <Header currentPage="account" />
 
       {invoiceOrder && (
         <OrderInvoice order={invoiceOrder} onClose={() => setInvoiceOrder(null)} />
       )}
 
-      <div className="max-w-4xl mx-auto px-4 md:px-6 py-10">
-        {/* Page header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10">
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight mb-1">My Account</h1>
-            <p className="text-white/40 text-sm">{user.email}</p>
+      <div className="page-container max-w-4xl">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10 md:mb-12">
+          <div className="space-y-4">
+            <span className="inline-block px-3 py-1 rounded-full border border-red-600/40 bg-red-600/10 text-red-400 text-[10px] font-black uppercase tracking-[0.2em]">
+              Account
+            </span>
+            <h1 className="text-3xl md:text-4xl text-white font-black tracking-tight uppercase">My Orders</h1>
+            <p className="text-white/50 text-sm">{user.email}</p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="text-right px-5 py-3 rounded-2xl bg-white/5 border border-white/10">
-              <p className="text-[10px] text-white/30 uppercase tracking-widest">Total Orders</p>
-              <p className="text-2xl font-bold text-red-500">{orders.length}</p>
-            </div>
+          <div className="text-right px-5 py-3 rounded-2xl page-card border-red-600/20 shrink-0">
+            <p className="text-[10px] text-white/40 uppercase tracking-widest">Total Orders</p>
+            <p className="text-2xl font-black text-red-400">{orders.length}</p>
           </div>
         </div>
 
         {/* Orders */}
         <div className="space-y-6">
           {orders.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 p-12 text-center bg-white/[0.02]">
-              <p className="text-5xl mb-4">🛒</p>
-              <p className="text-white/50 mb-4">You haven't placed any orders yet.</p>
-              <Link
-                href="/shop"
-                className="inline-block px-6 py-2 bg-red-600 rounded-xl font-bold text-sm hover:bg-red-700 transition-colors"
-              >
+            <div className="empty-state space-y-4">
+              <p className="text-4xl">🛒</p>
+              <p className="text-white/60">You haven&apos;t placed any orders yet.</p>
+              <Link href="/shop" className="btn-primary text-sm">
                 Start Shopping →
               </Link>
             </div>
@@ -219,7 +215,7 @@ export default function AccountPage() {
               return (
                 <div
                   key={order.order_id}
-                  className="rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden shadow-xl"
+                  className="page-card overflow-hidden border-red-600/10"
                 >
                   {/* Card header */}
                   <div className="px-6 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-white/[0.06]">
@@ -256,9 +252,9 @@ export default function AccountPage() {
                   {/* Admin notes */}
                   {order.admin_notes && (
                     <div className="px-6 pb-3">
-                      <div className="rounded-xl bg-yellow-500/5 border border-yellow-500/20 px-4 py-3 text-sm text-yellow-300/80">
-                        <span className="font-bold text-yellow-400 text-xs uppercase tracking-widest block mb-1">
-                          📋 Note from ChromaCrew
+                      <div className="rounded-xl bg-red-600/5 border border-red-600/20 px-4 py-3 text-sm text-white/80">
+                        <span className="font-bold text-red-400 text-xs uppercase tracking-widest block mb-1">
+                          📋 Note from ORBYT
                         </span>
                         {order.admin_notes}
                       </div>
@@ -279,7 +275,7 @@ export default function AccountPage() {
                           </li>
                         ))}
                       </ul>
-                      <p className="text-xl font-bold text-red-500 pt-1">
+                      <p className="text-xl font-bold text-white pt-1">
                         Rs. {order.total.toLocaleString("en-LK")}
                       </p>
                     </div>
@@ -301,7 +297,7 @@ export default function AccountPage() {
                   <div className="px-6 pb-5 flex flex-wrap gap-2 border-t border-white/[0.06] pt-4">
                     <button
                       onClick={() => handleContactSupport(order.order_id)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600/10 border border-green-600/25 text-green-400 text-xs font-bold hover:bg-green-600/20 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600/10 border border-red-600/25 text-red-400 text-xs font-bold hover:bg-red-600/20 transition-colors"
                     >
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />

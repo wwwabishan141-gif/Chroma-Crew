@@ -34,7 +34,7 @@ export interface Review {
   created_at?: string
 }
 
-// ⚙️ Bucket name must have NO SPACES — create "chroma-designs" in Supabase Storage
+// ⚙️ Bucket name must have NO SPACES — Supabase Storage bucket for design uploads
 const BUCKET_NAME = 'chroma-designs'
 
 /**

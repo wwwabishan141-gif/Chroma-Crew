@@ -31,7 +31,7 @@ export default function SitemapPage() {
         <ul className="space-y-2">
           {links.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="text-red-400 hover:underline">
+              <Link href={l.href} className="text-neutral-300 hover:underline">
                 {l.label}
               </Link>
             </li>

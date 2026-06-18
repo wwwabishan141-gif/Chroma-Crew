@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
+import { useState } from "react"
 import { subscribeToNewsletter } from "@/lib/supabase-service"
 import { toast } from "sonner"
 import { Send, Instagram, Facebook, Twitter } from "lucide-react"
@@ -56,12 +57,15 @@ export function SiteFooter() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2 space-y-4">
-            <p className="text-white font-bold text-xl tracking-tight uppercase">ChromaCrew</p>
+            <Link href="/" className="inline-flex items-center gap-3 hover:opacity-90 transition-opacity">
+              <Image src="/logo1.png" alt="ORBYT" width={48} height={48} className="w-12 h-12 object-contain" />
+              <p className="text-white font-bold text-xl tracking-tight uppercase">ORBYT</p>
+            </Link>
             <p className="text-white/70 text-sm leading-relaxed">
               Premium streetwear and graphic tees. Inspired by gaming, anime, and car subcultures. Designed in Colombo, Sri Lanka. Shipped islandwide.
             </p>
 
-            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-green-600/30 bg-green-600/10 text-green-400 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-red-600/30 bg-red-600/10 text-red-400 text-xs font-semibold">
               💵 Cash on Delivery Available
             </div>
 
@@ -87,14 +91,14 @@ export function SiteFooter() {
                 076 342 5409
               </a>
               <a
-                href="mailto:support@chromacrew.lk"
+                href="mailto:support@orbyt.lk"
                 className="flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 shrink-0">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                support@chromacrew.lk
+                support@orbyt.lk
               </a>
               <p className="flex items-center gap-2 text-white/60 text-xs pt-1">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5 shrink-0">
@@ -110,7 +114,7 @@ export function SiteFooter() {
             <ul className="space-y-2.5">
               {footerLinks.shop.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-white/70 hover:text-red-400 text-sm transition-colors">
+                  <Link href={l.href} className="text-white/70 hover:text-neutral-300 text-sm transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -123,7 +127,7 @@ export function SiteFooter() {
             <ul className="space-y-2.5">
               {footerLinks.support.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-white/70 hover:text-red-400 text-sm transition-colors">
+                  <Link href={l.href} className="text-white/70 hover:text-neutral-300 text-sm transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -136,7 +140,7 @@ export function SiteFooter() {
             <ul className="space-y-2.5">
               {footerLinks.company.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-white/70 hover:text-red-400 text-sm transition-colors">
+                  <Link href={l.href} className="text-white/70 hover:text-neutral-300 text-sm transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -156,12 +160,12 @@ export function SiteFooter() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-red-600 transition-colors"
+                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-white transition-colors"
               />
               <button
                 disabled={loading}
                 aria-label="Subscribe to newsletter"
-                className="bg-red-600 hover:bg-red-700 text-white p-3 rounded-xl transition-all active:scale-95 disabled:opacity-50"
+                className="btn-primary p-3 rounded-xl active:scale-95 disabled:opacity-50"
               >
                 {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Send className="w-5 h-5" />}
               </button>
@@ -186,7 +190,7 @@ export function SiteFooter() {
             <span>Made to order</span>
           </div>
           <p className="text-white/50 text-[10px] uppercase tracking-widest text-center sm:text-right">
-            &copy; {new Date().getFullYear()} <span className="text-white/60 font-bold">chromacrew.lk</span> • All rights reserved.
+            &copy; {new Date().getFullYear()} <span className="text-white/60 font-bold">orbyt.lk</span> • All rights reserved.
           </p>
         </div>
       </div>

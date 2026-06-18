@@ -86,7 +86,7 @@ export default function AdminDashboard() {
     return { total: orders.length, pending, printed, shipped, delivered, revenue }
   }, [orders])
 
-  if (loading) return <div className="min-h-screen bg-black flex items-center justify-center"><div className="animate-spin w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full" /></div>
+  if (loading) return <div className="min-h-screen bg-black flex items-center justify-center"><div className="animate-spin w-10 h-10 border-4 border-white border-t-transparent rounded-full" /></div>
 
   if (user?.email !== ADMIN_EMAIL) {
     return (
@@ -129,9 +129,9 @@ export default function AdminDashboard() {
               <p className="text-[10px] text-green-400/60 uppercase tracking-widest mb-1">Delivered</p>
               <p className="text-2xl font-bold text-green-400">{stats.delivered}</p>
             </div>
-            <div className="p-4 rounded-2xl bg-red-600/10 border border-red-600/20">
-              <p className="text-[10px] text-red-400/80 uppercase tracking-widest mb-1">Revenue</p>
-              <p className="text-lg font-bold text-red-500">Rs. {(stats.revenue / 1000).toFixed(1)}k</p>
+            <div className="p-4 rounded-2xl bg-white/10 border border-white/20">
+              <p className="text-[10px] text-neutral-300/80 uppercase tracking-widest mb-1">Revenue</p>
+              <p className="text-lg font-bold text-white">Rs. {(stats.revenue / 1000).toFixed(1)}k</p>
             </div>
           </div>
         </div>
@@ -144,14 +144,14 @@ export default function AdminDashboard() {
               placeholder="Search by Order ID or Customer Name..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors"
+              className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white transition-colors"
             />
           </div>
           <div className="w-full md:w-64 shrink-0">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors appearance-none"
+              className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white transition-colors appearance-none"
             >
               <option value="All">All Statuses</option>
               <option value="Received">Received</option>
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
                         <h2 className="text-2xl font-bold tracking-tight">{order.order_id}</h2>
                         <p className="text-sm text-white/40 mt-1">{format(new Date(order.created_at!), "MMM d, yyyy HH:mm")}</p>
                       </div>
-                      <p className="text-3xl font-black text-red-500">Rs. {order.total.toLocaleString("en-LK")}</p>
+                      <p className="text-3xl font-black text-white">Rs. {order.total.toLocaleString("en-LK")}</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 rounded-2xl bg-black/40 border border-white/5">
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
                           type="date"
                           value={order.estimated_delivery ? new Date(order.estimated_delivery).toISOString().split('T')[0] : ''}
                           onChange={(e) => handleDeliveryChange(order.order_id, e.target.value)}
-                          className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors"
+                          className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white transition-colors"
                         />
                       </div>
                       <div className="space-y-2">
@@ -236,7 +236,7 @@ export default function AdminDashboard() {
                                 handleNotesChange(order.order_id, e.target.value)
                               }
                             }}
-                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors"
+                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white transition-colors"
                           />
                         </div>
                       </div>

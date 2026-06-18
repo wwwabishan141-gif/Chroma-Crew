@@ -45,7 +45,7 @@ export function OrderInvoice({ order, onClose }: OrderInvoiceProps) {
           <div className="flex gap-2">
             <button
               onClick={handlePrint}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition-colors"
+              className="px-4 py-2 btn-primary text-sm font-bold rounded-xl"
             >
               🖨️ Print / Save PDF
             </button>
@@ -64,8 +64,8 @@ export function OrderInvoice({ order, onClose }: OrderInvoiceProps) {
           <div className="flex justify-between items-start">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <img src="/invoice-logo.png" alt="ChromaCrew Logo" className="w-[60px] h-auto object-contain" />
-                <span className="text-white font-black text-xl tracking-tight">ChromaCrew</span>
+                <img src="/logo1.png" alt="ORBYT Logo" className="w-[60px] h-auto object-contain" />
+                <span className="text-white font-black text-xl tracking-tight">ORBYT</span>
               </div>
               <p className="text-white/40 text-xs">Sri Lanka's Premium DTF Print Studio</p>
               <p className="text-white/40 text-xs">+94 75 129 7637 · wa.me/94751297637</p>
@@ -155,7 +155,7 @@ export function OrderInvoice({ order, onClose }: OrderInvoiceProps) {
               </div>
               <div className="border-t border-white/10 pt-2 flex justify-between font-bold text-lg">
                 <span className="text-white">Total</span>
-                <span className="text-red-500">Rs. {order.total.toLocaleString("en-LK")}</span>
+                <span className="text-white">Rs. {order.total.toLocaleString("en-LK")}</span>
               </div>
             </div>
           </div>
@@ -164,7 +164,7 @@ export function OrderInvoice({ order, onClose }: OrderInvoiceProps) {
 
           {/* Footer */}
           <p className="text-white/25 text-[10px] text-center">
-            Thank you for shopping with ChromaCrew 🎨 · All sales are final · Custom orders cannot be returned unless defective
+            Thank you for shopping with ORBYT 🎨 · All sales are final · Custom orders cannot be returned unless defective
           </p>
         </div>
       </div>

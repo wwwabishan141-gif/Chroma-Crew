@@ -43,7 +43,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
     <div className="max-w-7xl mx-auto px-4 md:px-6 pb-20">
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 py-8">
         <div className="space-y-4">
-          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-red-600/70 bg-black/40 shadow-2xl shadow-red-600/5">
+          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-white/70 bg-black/40 shadow-2xl shadow-red-600/5">
             {viewOptions.map((view) => (
               <div 
                 key={view.key}
@@ -74,8 +74,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 onClick={() => setSelectedView(view.key)}
                 className={`rounded-xl border px-3 py-2 text-sm transition-all ${
                   selectedView === view.key
-                    ? "border-red-600 bg-red-600/20 text-white"
-                    : "border-white/20 text-white/70 hover:border-red-500"
+                    ? "border-white bg-white/20 text-white"
+                    : "border-white/20 text-white/70 hover:border-white"
                 }`}
               >
                 {view.label}
@@ -88,7 +88,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <div>
             <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight">{product.name}</h1>
             <div className="flex items-center gap-4 mt-3">
-               <p className="text-red-500 text-3xl font-bold">Rs. {finalPrice.toLocaleString("en-LK")}</p>
+               <p className="text-white text-3xl font-bold">Rs. {finalPrice.toLocaleString("en-LK")}</p>
                <ProductRatingBadge rating={ratingStats.rating} count={ratingStats.count} />
             </div>
             <p className="text-white/60 text-sm mt-2">
@@ -107,10 +107,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <div className="space-y-4 py-6 border-y border-white/10">
              <p className="text-white/80 leading-relaxed">{product.description}</p>
              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-white/60">
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-red-500" /> Premium Cotton</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-red-500" /> DTF High-Res Print</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-red-500" /> Durable & Washable</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-red-500" /> Breathable Fabric</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-white" /> Premium Cotton</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-white" /> DTF High-Res Print</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-white" /> Durable & Washable</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-white" /> Breathable Fabric</li>
              </ul>
           </div>
  
@@ -120,7 +120,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <select
                 value={selectedColor}
                 onChange={(e) => setSelectedColor(e.target.value)}
-                className="w-full rounded-xl bg-black/60 border border-red-600/50 hover:border-red-600 px-3 py-3 text-white transition-colors"
+                className="w-full rounded-xl bg-black/60 border border-white/50 hover:border-white px-3 py-3 text-white transition-colors"
               >
                 {product.colors.map((color) => (
                   <option key={color} value={color}>
@@ -134,7 +134,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <select
                 value={selectedSize}
                 onChange={(e) => setSelectedSize(e.target.value)}
-                className="w-full rounded-xl bg-black/60 border border-red-600/50 hover:border-red-600 px-3 py-3 text-white transition-colors"
+                className="w-full rounded-xl bg-black/60 border border-white/50 hover:border-white px-3 py-3 text-white transition-colors"
               >
                 {product.sizes.map((size) => (
                   <option key={size} value={size}>
@@ -148,7 +148,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <select
                 value={selectedFit}
                 onChange={(e) => setSelectedFit(e.target.value as "Regular Fit" | "Oversized")}
-                className="w-full rounded-xl bg-black/60 border border-red-600/50 hover:border-red-600 px-3 py-3 text-white transition-colors"
+                className="w-full rounded-xl bg-black/60 border border-white/50 hover:border-white px-3 py-3 text-white transition-colors"
               >
                 <option value="Regular Fit">Regular Fit</option>
                 <option value="Oversized">Oversized</option>
@@ -159,21 +159,21 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <select
                 value={selectedDtfSize}
                 onChange={(e) => setSelectedDtfSize(e.target.value as "A4" | "A3")}
-                className="w-full rounded-xl bg-black/60 border border-red-600/50 hover:border-red-600 px-3 py-3 text-white transition-colors"
+                className="w-full rounded-xl bg-black/60 border border-white/50 hover:border-white px-3 py-3 text-white transition-colors"
               >
                 <option value="A4">A4 (Standard)</option>
                 <option value="A3">A3 (Large Print)</option>
               </select>
             </div>
           </div>
- 
+
           <div className="flex items-center justify-between rounded-xl border border-white/15 p-3">
             <span className="text-white/80 font-medium">Quantity</span>
-            <div className="flex items-center bg-red-600 rounded-lg overflow-hidden p-1">
+            <div className="flex items-center bg-white/5 border border-white/10 rounded-lg overflow-hidden p-1">
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-8 h-8 flex items-center justify-center text-white hover:bg-red-700 transition-colors"
+                className="w-8 h-8 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <Minus className="w-3 h-3" />
               </button>
@@ -181,13 +181,13 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <button
                 type="button"
                 onClick={() => setQuantity(quantity + 1)}
-                className="w-8 h-8 flex items-center justify-center text-white hover:bg-red-700 transition-colors"
+                className="w-8 h-8 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <Plus className="w-3 h-3" />
               </button>
             </div>
           </div>
- 
+
           <div className="flex flex-col gap-4 pt-2">
             <div className="flex items-center gap-3">
               <button
@@ -200,8 +200,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     image: product.image,
                   })
                 }
-                className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center transition-all ${
-                  wished ? "bg-red-600 border-red-600 text-white" : "border-red-600/50 text-red-500 hover:bg-red-600/10 hover:border-red-600"
+                className={`w-14 h-14 rounded-xl border flex items-center justify-center transition-all ${
+                  wished
+                    ? "bg-red-600 border-red-600 text-white"
+                    : "border-white/10 text-white hover:bg-white/5 hover:border-red-600/50"
                 }`}
                 aria-label="Add to wishlist"
               >
@@ -209,7 +211,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </button>
               <button
                 className={`flex-1 py-4 font-bold text-lg rounded-xl transition-all ${
-                  cartPressed ? "bg-green-600 text-white scale-[0.98]" : "bg-red-600 text-white hover:bg-red-700 shadow-xl shadow-red-600/20"
+                  cartPressed
+                    ? "bg-green-600 text-white scale-[0.98]"
+                    : "bg-red-600 text-white hover:bg-red-700 shadow-xl shadow-red-600/20 hover:shadow-red-600/40 hover:-translate-y-0.5"
                 }`}
                 onClick={() => {
                   addToCart(
@@ -217,6 +221,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       id: product.id,
                       name: product.name,
                       price: finalPrice,
+                      image: product.images.front || product.image,
                       color: selectedColor,
                       size: selectedSize,
                       dtfSize: selectedDtfSize,
@@ -227,7 +232,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   setCartPressed(true)
                   toast.success("Added to Bag!", {
                     description: `${quantity}x ${product.name} ready for checkout.`,
-                    icon: <ShoppingBag className="w-4 h-4 text-red-500" />,
+                    icon: <ShoppingBag className="w-4 h-4 text-white" />,
                     action: {
                       label: "View Cart",
                       onClick: () => window.location.href = "/cart",

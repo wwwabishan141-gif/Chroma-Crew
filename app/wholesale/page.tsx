@@ -25,7 +25,7 @@ export default function WholesalePage() {
         </div>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-red-500">Tiered pricing</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-white">Tiered pricing</h2>
           <div className="rounded-xl border border-white/15 overflow-hidden">
             <table className="w-full text-sm">
               <thead className="bg-white/10">
@@ -50,7 +50,7 @@ export default function WholesalePage() {
 
         <section className="grid md:grid-cols-2 gap-8">
           <div>
-            <h2 className="text-2xl font-semibold mb-4 text-red-500">Quote request</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-white">Quote request</h2>
             {sent ? (
               <p className="text-green-400">Thanks — we&apos;ll reply within one business day.</p>
             ) : (
@@ -65,20 +65,20 @@ export default function WholesalePage() {
                 <input required type="email" placeholder="Email" className="w-full rounded-lg bg-white/10 border border-white/20 p-3" />
                 <input required placeholder="Estimated quantity" className="w-full rounded-lg bg-white/10 border border-white/20 p-3" />
                 <textarea required placeholder="Design description, sizes, deadline" className="w-full rounded-lg bg-white/10 border border-white/20 p-3 min-h-28" />
-                <button type="submit" className="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 font-semibold">
+                <button type="submit" className="w-full py-3 rounded-lg bg-white hover:bg-neutral-800 font-semibold">
                   Request quote
                 </button>
               </form>
             )}
           </div>
           <div>
-            <h2 className="text-2xl font-semibold mb-4 text-red-500">Resellers</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-white">Resellers</h2>
             <p className="text-white/75 leading-relaxed mb-4">
               Stock our catalog prints or white-label DTF rolls. We provide consistent color profiles, pack slips without branding on request, and dropship options in select regions.
             </p>
             <p className="text-white/75 leading-relaxed">
               Join the{" "}
-              <Link href="/affiliate" className="text-red-400 underline">
+              <Link href="/affiliate" className="text-neutral-300 underline">
                 affiliate program
               </Link>{" "}
               for referral commissions, or apply for wholesale NET-30 after your second paid order.

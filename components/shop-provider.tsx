@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
+﻿import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 export const ORDER_STATUS_STEPS = ["Received", "Processing", "Printed", "Shipped", "Delivered"] as const
 export type OrderStatus = (typeof ORDER_STATUS_STEPS)[number]
@@ -8,6 +8,7 @@ export type CartItem = {
   name: string
   price: number
   quantity: number
+  image?: string
   color?: string
   size?: string
   dtfSize?: "A4" | "A3"
@@ -46,8 +47,8 @@ type ShopContextType = {
 
 const ShopContext = createContext<ShopContextType | null>(null)
 
-const CART_KEY = "chromacrew_cart"
-const WISHLIST_KEY = "chromacrew_wishlist"
+const CART_KEY = "ORBYT_cart"
+const WISHLIST_KEY = "ORBYT_wishlist"
 
 export function ShopProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])

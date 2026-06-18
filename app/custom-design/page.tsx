@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react"
 import { Header } from "@/components/header"
+import { PageHeader } from "@/components/page-header"
 import { useShop } from "@/components/shop-provider"
 import { Heart, Check } from "lucide-react"
 import { toast } from "sonner"
@@ -103,8 +104,14 @@ export default function CustomDesignPage() {
     <main className="min-h-screen bg-background flex-1">
       <Header currentPage="custom-design" />
 
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
+      <div className="page-container max-w-6xl">
+        <PageHeader
+          badge="Custom Builder"
+          title="Create Your Tee"
+          description="Upload your design, choose your fit, and build a premium custom DTF tee — crafted to ORBYT standards."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-12 items-start">
           {/* ─── Left: Mockup editor ─── */}
           <div className="space-y-4">
             {/* Front / Back toggle */}
@@ -149,7 +156,7 @@ export default function CustomDesignPage() {
                     onClick={() => setActiveZone(key)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       activeZone === key
-                        ? "bg-white/15 text-white border border-white/25"
+                        ? "bg-red-600/20 text-red-400 border border-red-600/30"
                         : "bg-white/5 text-white/40 border border-white/[0.08] hover:bg-white/10"
                     }`}
                   >
@@ -174,14 +181,14 @@ export default function CustomDesignPage() {
             <div className="flex gap-2 justify-center">
               <span
                 className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
-                  frontHasDesign ? "bg-green-600/80 text-white" : "bg-white/10 text-white/40"
+                  frontHasDesign ? "bg-red-600/80 text-white" : "bg-white/10 text-white/40"
                 }`}
               >
                 Front {frontHasDesign ? "✓" : "—"}
               </span>
               <span
                 className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
-                  backHasDesign ? "bg-green-600/80 text-white" : "bg-white/10 text-white/40"
+                  backHasDesign ? "bg-red-600/80 text-white" : "bg-white/10 text-white/40"
                 }`}
               >
                 Back {backHasDesign ? "✓" : "—"}
@@ -190,19 +197,16 @@ export default function CustomDesignPage() {
           </div>
 
           {/* ─── Right: Controls ─── */}
-          <div className="space-y-5 max-w-md mx-auto w-full">
-            <h1 className="text-3xl text-white text-center">Custom DTF T-Shirt Builder</h1>
-            <p className="text-white/70 text-center">
-              Upload your print-ready design, pick color and size, then add to cart.
-            </p>
-            <div className="flex flex-wrap justify-center gap-2 text-xs">
-              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/55">
-                🎨 Made to order — 3–5 days
+          <div className="space-y-6 max-w-md mx-auto w-full lg:sticky lg:top-24">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 md:p-6 space-y-5">
+            <div className="flex flex-wrap justify-center gap-2 text-[10px] font-semibold uppercase tracking-wider">
+              <span className="px-3 py-1 rounded-full bg-red-600/10 border border-red-600/20 text-red-400">
+                ⚡ Made to order — 3–5 days
               </span>
-              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/55">
-                ✅ File checked before printing
+              <span className="px-3 py-1 rounded-full bg-red-600/10 border border-red-600/20 text-red-400">
+                🛡️ File checked before printing
               </span>
-              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/55">
+              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/60">
                 🇱🇰 Sri Lanka delivery
               </span>
             </div>
@@ -210,7 +214,7 @@ export default function CustomDesignPage() {
             {/* Color picker — visual swatches + dropdown */}
             <div className="space-y-3">
               <div>
-                <label className="block text-white text-xs mb-2">Color</label>
+                <label className="block text-white text-xs mb-2 font-semibold uppercase tracking-wider text-white/60">Color</label>
                 <div className="flex gap-2 mb-2">
                   {colors.map((c) => {
                     const swatchMap: Record<string, string> = {
@@ -224,7 +228,7 @@ export default function CustomDesignPage() {
                         onClick={() => setSelectedColor(c)}
                         className={`w-8 h-8 rounded-full border-2 transition-all ${
                           selectedColor === c
-                            ? "border-red-500 scale-110 shadow-lg shadow-red-600/30"
+                            ? "border-red-600 scale-110 shadow-lg shadow-red-600/50"
                             : "border-white/20 hover:border-white/40"
                         }`}
                         style={{ backgroundColor: swatchMap[c] }}
@@ -237,11 +241,11 @@ export default function CustomDesignPage() {
               </div>
 
               <div>
-                <label className="block text-white text-xs mb-1">Size</label>
+                <label className="form-label-orbyt">Size</label>
                 <select
                   value={selectedSize}
                   onChange={(e) => setSelectedSize(e.target.value)}
-                  className="w-full bg-black/80 border-2 border-red-600 rounded-xl px-3 py-2 text-white"
+                  className="input-orbyt"
                 >
                   {sizes.map((size) => (
                     <option key={size} value={size}>
@@ -252,11 +256,11 @@ export default function CustomDesignPage() {
               </div>
 
               <div>
-                <label className="block text-white text-xs mb-1">Fit</label>
+                <label className="form-label-orbyt">Fit</label>
                 <select
                   value={selectedFit}
                   onChange={(e) => setSelectedFit(e.target.value as "Regular Fit" | "Oversized")}
-                  className="w-full bg-black/80 border-2 border-red-600 rounded-xl px-3 py-2 text-white"
+                  className="input-orbyt"
                 >
                   <option value="Regular Fit">Regular Fit</option>
                   <option value="Oversized">Oversized</option>
@@ -264,11 +268,11 @@ export default function CustomDesignPage() {
               </div>
 
               <div>
-                <label className="block text-white text-xs mb-1">DTF Print Size</label>
+                <label className="form-label-orbyt">DTF Print Size</label>
                 <select
                   value={selectedDtfSize}
                   onChange={(e) => setSelectedDtfSize(e.target.value as "A4" | "A3")}
-                  className="w-full bg-black/80 border-2 border-red-600 rounded-xl px-3 py-2 text-white"
+                  className="input-orbyt"
                 >
                   <option value="A4">A4</option>
                   <option value="A3">A3</option>
@@ -276,26 +280,30 @@ export default function CustomDesignPage() {
               </div>
 
               <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center bg-red-600 rounded-xl overflow-hidden">
+                <div className="flex items-center bg-white/5 border border-white/10 rounded-xl overflow-hidden">
                   <button
                     type="button"
                     onClick={() => setQuantity((p) => Math.max(1, p - 1))}
-                    className="w-8 h-8 text-white"
+                    className="w-8 h-8 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     -
                   </button>
-                  <span className="w-8 text-center text-white">{quantity}</span>
-                  <button type="button" onClick={() => setQuantity((p) => p + 1)} className="w-8 h-8 text-white">
+                  <span className="w-8 text-center text-white font-semibold">{quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((p) => p + 1)}
+                    className="w-8 h-8 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                  >
                     +
                   </button>
                 </div>
                 <div className="flex-1 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-center">
-                  <p className="text-white/40 text-[10px] uppercase tracking-widest">Price</p>
-                  <p className="text-white font-bold text-lg">Rs. {finalPrice.toLocaleString("en-LK")}</p>
+                  <p className="text-white/40 text-[10px] uppercase tracking-widest font-mono">Price</p>
+                  <p className="text-red-500 font-bold text-lg">Rs. {finalPrice.toLocaleString("en-LK")}</p>
                 </div>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
-                <p className="text-white/30 text-[10px] uppercase tracking-widest mb-2 text-center">Pricing Breakdown</p>
+                <p className="text-white/30 text-[10px] uppercase tracking-widest mb-2 text-center font-mono">Pricing Breakdown</p>
                 <div className="space-y-1 text-xs">
                   <div className="flex justify-between text-white/60"><span>Base (Regular A4)</span><span>Rs. 1,750</span></div>
                   {baseSurcharge > 0 && <div className="flex justify-between text-white/60"><span>A3 Print Size</span><span>+Rs. {baseSurcharge}</span></div>}
@@ -308,8 +316,8 @@ export default function CustomDesignPage() {
             {/* Upload section */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-white/80 text-sm">Upload Design</p>
-                <span className="text-xs text-red-400 font-medium px-2 py-0.5 rounded-md bg-red-600/10 border border-red-600/20">
+                <p className="text-white/80 text-sm font-semibold uppercase tracking-wider text-white/60">Upload Design</p>
+                <span className="text-xs text-red-400 font-semibold px-2 py-0.5 rounded-md bg-red-600/10 border border-red-600/20">
                   → {zoneLabels[activeZone]} ({activeSide})
                 </span>
               </div>
@@ -320,8 +328,10 @@ export default function CustomDesignPage() {
                 }}
                 onDragLeave={() => setIsFileDragging(false)}
                 onDrop={handleDrop}
-                className={`relative rounded-xl border-2 border-red-600 transition-all duration-200 ${
-                  isFileDragging ? "bg-red-600/20 scale-[1.02] border-dashed" : "bg-red-600/90"
+                className={`relative rounded-xl border-2 transition-all duration-200 ${
+                  isFileDragging
+                    ? "bg-red-600/20 border-red-500 scale-[1.02] border-dashed"
+                    : "bg-red-600/5 border-red-600/30 hover:border-red-600/60 hover:bg-red-600/10"
                 }`}
               >
                 <input
@@ -330,13 +340,13 @@ export default function CustomDesignPage() {
                   onChange={handleFileUpload}
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
-                <div className="px-3 py-2 text-center text-white text-sm">
+                <div className="px-3 py-3 text-center text-white text-sm font-medium">
                   {currentDesigns[activeZone]?.image
                     ? `✅ ${zoneLabels[activeZone]} uploaded — click to replace`
                     : `Drag & Drop or Browse — uploads to ${zoneLabels[activeZone]}`}
                 </div>
               </div>
-              <p className="text-white/30 text-xs text-center">
+              <p className="text-white/30 text-[10px] text-center font-mono">
                 Select a zone above, then upload. Drag to reposition, use sliders to resize &amp; rotate.
               </p>
             </div>
@@ -353,8 +363,10 @@ export default function CustomDesignPage() {
                     image: frontDesigns.center.image ?? "/placeholder.svg",
                   })
                 }
-                className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
-                  wished ? "bg-red-600 border-red-600 text-white" : "border-red-600 text-red-500 hover:bg-red-600/10"
+                className={`w-12 h-12 rounded-lg border flex items-center justify-center transition-all ${
+                  wished
+                    ? "bg-red-600 border-red-600 text-white"
+                    : "border-white/10 text-white hover:bg-white/5 hover:border-red-600/50"
                 }`}
                 aria-label="Add custom tee to wishlist"
               >
@@ -362,8 +374,8 @@ export default function CustomDesignPage() {
               </button>
               <button
                 type="button"
-                className={`flex-1 rounded-xl py-3 font-semibold transition-all ${
-                  cartPressed ? "bg-green-600 text-white scale-[0.98]" : "bg-white text-black"
+                className={`flex-1 rounded-xl py-3.5 font-semibold transition-all btn-primary ${
+                  cartPressed ? "bg-green-600 hover:bg-green-600 scale-[0.98]" : ""
                 }`}
                 onClick={() => {
                   let placementStr = []
@@ -423,6 +435,7 @@ export default function CustomDesignPage() {
                   "Add to Cart"
                 )}
               </button>
+            </div>
             </div>
           </div>
         </div>

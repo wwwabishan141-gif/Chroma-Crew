@@ -108,7 +108,7 @@ export function ProductReviews({ productId, onReviewsChange }: ProductReviewsPro
             ) : (
               <div className="space-y-2">
                 <p className="text-white/40">Honest Truth: We currently have 0 reviews.</p>
-                <p className="text-red-500/80 text-sm font-medium italic">Be the very first to share your experience!</p>
+                <p className="text-white/80 text-sm font-medium italic">Be the very first to share your experience!</p>
               </div>
             )}
           </div>
@@ -133,19 +133,19 @@ export function ProductReviews({ productId, onReviewsChange }: ProductReviewsPro
                 value={guestName}
                 onChange={(e) => setGuestName(e.target.value)}
                 placeholder="Your Name (Optional)"
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-red-600 transition-colors"
+                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-white transition-colors"
               />
             )}
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Your thoughts on this product..."
-              className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-white outline-none focus:border-red-600 transition-colors h-32 resize-none"
+              className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-white outline-none focus:border-white transition-colors h-32 resize-none"
               required
             />
             <button
               disabled={submitting}
-              className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full py-3 btn-primary font-bold rounded-xl disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {submitting ? "Posting..." : <><Send className="w-4 h-4" /> Post Review</>}
             </button>
@@ -165,7 +165,7 @@ export function ProductReviews({ productId, onReviewsChange }: ProductReviewsPro
               <div key={r.id} className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-red-600/20 flex items-center justify-center text-red-500">
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
                       <User className="w-5 h-5" />
                     </div>
                     <div>

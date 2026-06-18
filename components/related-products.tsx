@@ -50,7 +50,7 @@ export function RelatedProducts({
           <Link
             key={product.id}
             href={`/product/${product.id}`}
-            className="group rounded-xl border border-white/10 overflow-hidden hover:border-red-500/40 transition-all hover:shadow-lg hover:shadow-red-500/5"
+            className="group rounded-xl border border-white/10 overflow-hidden hover:border-white/40 transition-all hover:shadow-lg hover:shadow-red-500/5"
           >
             <div className="relative aspect-square bg-[#151515] overflow-hidden">
               <Image
@@ -61,7 +61,7 @@ export function RelatedProducts({
               />
             </div>
             <div className="p-3">
-              <p className="text-white text-sm font-medium truncate group-hover:text-red-400 transition-colors">
+              <p className="text-white text-sm font-medium truncate group-hover:text-neutral-300 transition-colors">
                 {product.name}
               </p>
               <p className="text-white/60 text-sm mt-1">

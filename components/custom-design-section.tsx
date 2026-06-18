@@ -4,18 +4,18 @@ export function CustomDesignSection() {
   return (
     <section className="py-16 md:py-20 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="rounded-3xl border border-red-600/25 bg-gradient-to-br from-red-600/8 via-background to-background overflow-hidden">
+        <div className="rounded-3xl border border-white/25 bg-gradient-to-br from-neutral-700/8 via-background to-background overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
 
             {/* Left — text */}
             <div className="p-8 md:p-12 flex flex-col justify-center space-y-6">
               <div>
-                <span className="inline-block px-3 py-1 rounded-full border border-red-600/40 bg-red-600/10 text-red-400 text-xs uppercase tracking-widest mb-4">
+                <span className="inline-block px-3 py-1 rounded-full border border-white/40 bg-white/10 text-neutral-300 text-xs uppercase tracking-widest mb-4">
                   Custom orders
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
                   Your design.<br />
-                  <span className="text-red-500">Our print.</span>
+                  <span className="text-white">Our print.</span>
                 </h2>
                 <p className="text-white/60 mt-4 leading-relaxed">
                   Got a logo, artwork, or idea? Upload your file and we'll print it on a premium t-shirt — exactly as you want it. Great for personal use, events, teams, or small businesses.
@@ -30,7 +30,7 @@ export function CustomDesignSection() {
                   "Delivered island-wide in 3–5 days",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm text-white/65">
-                    <span className="mt-0.5 w-4 h-4 rounded-full bg-red-600/20 border border-red-600/40 flex items-center justify-center shrink-0">
+                    <span className="mt-0.5 w-4 h-4 rounded-full bg-white/20 border border-white/40 flex items-center justify-center shrink-0">
                       <svg viewBox="0 0 12 12" fill="none" className="w-2.5 h-2.5">
                         <path d="M2 6l3 3 5-5" stroke="#ef4444" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
@@ -43,12 +43,12 @@ export function CustomDesignSection() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/custom-design"
-                  className="px-7 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold transition-colors text-center text-sm"
+                  className="px-7 py-3.5 rounded-xl btn-primary font-bold text-center text-sm"
                 >
                   ✏️ Start Custom Order
                 </Link>
                 <a
-                  href="https://wa.me/94751297637?text=Hi%2C+I+want+to+place+a+custom+t-shirt+order+with+ChromaCrew!"
+                  href="https://wa.me/94751297637?text=Hi%2C+I+want+to+place+a+custom+t-shirt+order+with+ORBYT!"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-7 py-3.5 rounded-xl border border-green-600/40 bg-green-600/10 text-green-400 hover:bg-green-600/20 font-bold transition-colors text-center text-sm flex items-center justify-center gap-2"
@@ -63,9 +63,9 @@ export function CustomDesignSection() {
 
             {/* Right — visual placeholder */}
             <div className="hidden lg:flex items-center justify-center p-12 border-l border-white/5">
-              <div className="w-full max-w-xs aspect-square rounded-2xl border-2 border-dashed border-red-600/25 bg-red-600/5 flex flex-col items-center justify-center gap-4 text-center p-8">
-                <div className="w-16 h-16 rounded-2xl bg-red-600/15 border border-red-600/30 flex items-center justify-center">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8 text-red-500">
+              <div className="w-full max-w-xs aspect-square rounded-2xl border-2 border-dashed border-white/25 bg-white/5 flex flex-col items-center justify-center gap-4 text-center p-8">
+                <div className="w-16 h-16 rounded-2xl bg-white/15 border border-white/30 flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8 text-white">
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                     <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
                   </svg>
@@ -76,7 +76,7 @@ export function CustomDesignSection() {
                 </div>
                 <Link
                   href="/custom-design"
-                  className="mt-2 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors"
+                  className="mt-2 px-5 py-2.5 rounded-xl btn-primary text-sm font-semibold"
                 >
                   Get Started
                 </Link>
