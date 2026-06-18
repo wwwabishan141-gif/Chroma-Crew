@@ -46,7 +46,7 @@ const steps = [
     ),
     action: {
       label: "Chat on WhatsApp",
-      href: "https://wa.me/94751297637?text=Hi%2C+I%27d+like+to+confirm+my+ChromaCrew+order!",
+      href: "https://wa.me/94751297637?text=Hi%2C+I%27d+like+to+confirm+my+ORBYT+order!",
       external: true,
     },
   },
@@ -58,7 +58,7 @@ export function HowToOrderSection() {
       <div className="max-w-6xl mx-auto">
 
         <div className="text-center mb-12">
-          <span className="inline-block px-3 py-1 rounded-full border border-red-600/40 bg-red-600/10 text-red-400 text-xs uppercase tracking-widest mb-3">
+          <span className="inline-block px-3 py-1 rounded-full border border-white/40 bg-white/10 text-neutral-300 text-xs uppercase tracking-widest mb-3">
             Simple process
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white">How to order</h2>
@@ -67,17 +67,17 @@ export function HowToOrderSection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
           {/* Connecting line on desktop */}
-          <div className="hidden lg:block absolute top-10 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-red-600/30 to-transparent" />
+          <div className="hidden lg:block absolute top-10 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-neutral-800/30 to-transparent" />
 
           {steps.map((step, i) => (
             <div key={step.num} className="relative flex flex-col items-center text-center gap-4">
               {/* Step number circle */}
-              <div className="relative z-10 w-16 h-16 rounded-full bg-background border-2 border-red-600/60 flex flex-col items-center justify-center text-red-500 shrink-0 shadow-lg shadow-red-600/10">
+              <div className="relative z-10 w-16 h-16 rounded-full bg-background border-2 border-white/60 flex flex-col items-center justify-center text-white shrink-0 shadow-lg shadow-red-600/10">
                 {step.icon}
               </div>
 
               <div className="space-y-2">
-                <span className="text-red-600/50 text-xs font-bold tracking-widest">STEP {step.num}</span>
+                <span className="text-white/50 text-xs font-bold tracking-widest">STEP {step.num}</span>
                 <h3 className="text-white font-semibold text-base">{step.title}</h3>
                 <p className="text-white/50 text-sm leading-relaxed">{step.desc}</p>
                 {step.action && (
@@ -93,7 +93,7 @@ export function HowToOrderSection() {
                   ) : (
                     <Link
                       href={step.action.href}
-                      className="inline-flex items-center gap-1.5 mt-2 px-4 py-2 rounded-xl bg-red-600/15 border border-red-600/30 text-red-400 text-xs font-semibold hover:bg-red-600/25 transition-colors"
+                      className="inline-flex items-center gap-1.5 mt-2 px-4 py-2 rounded-xl bg-white/15 border border-white/30 text-neutral-300 text-xs font-semibold hover:bg-white/25 transition-colors"
                     >
                       {step.action.label}
                     </Link>
@@ -105,14 +105,14 @@ export function HowToOrderSection() {
         </div>
 
         {/* COD highlight */}
-        <div className="mt-12 rounded-2xl border border-red-600/20 bg-red-600/5 px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="mt-12 rounded-2xl border border-white/20 bg-white/5 px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
             <p className="text-white font-semibold">💵 Cash on Delivery — pay when it arrives</p>
             <p className="text-white/55 text-sm mt-1">No online payment needed. Bank transfer also accepted. 100% safe.</p>
           </div>
           <Link
             href="/shop"
-            className="shrink-0 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-colors whitespace-nowrap"
+            className="shrink-0 px-6 py-3 rounded-xl btn-primary font-semibold text-sm whitespace-nowrap"
           >
             Start Ordering
           </Link>

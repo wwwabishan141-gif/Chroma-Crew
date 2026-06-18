@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 
-const CONSENT_KEY = "chromacrew_cookie_consent"
+const CONSENT_KEY = "ORBYT_cookie_consent"
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false)
@@ -37,8 +37,8 @@ export function CookieConsent() {
       <div className="max-w-4xl mx-auto rounded-2xl border border-white/15 bg-[#111]/95 backdrop-blur-xl shadow-2xl p-5 md:p-6">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
           {/* Icon */}
-          <div className="w-10 h-10 rounded-full bg-red-600/20 flex items-center justify-center shrink-0">
-            <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-red-400">
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-neutral-300">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
             </svg>
           </div>
@@ -49,7 +49,7 @@ export function CookieConsent() {
             <p className="text-white/60 text-xs leading-relaxed">
               We use cookies and localStorage to improve your shopping experience, save your cart, and understand how you use our site. 
               Read our{" "}
-              <Link href="/privacy" className="text-red-400 hover:underline">
+              <Link href="/privacy" className="text-neutral-300 hover:underline">
                 Privacy Policy
               </Link>{" "}
               for more details.
@@ -66,7 +66,7 @@ export function CookieConsent() {
             </button>
             <button
               onClick={accept}
-              className="px-5 py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl transition-all active:scale-95"
+              className="px-5 py-2 text-xs font-semibold btn-primary rounded-xl active:scale-95"
             >
               Accept All
             </button>

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useCallback, useState } from "react"
 import Image from "next/image"
@@ -47,7 +47,7 @@ export default function ReviewsGalleryPage() {
         <div>
           <h1 className="text-4xl font-bold mb-3">Reviews & gallery</h1>
           <p className="text-white/65">
-            Be the first to share your ChromaCrew print! Upload a photo of your order — it helps other customers see real results.
+            Be the first to share your ORBYT print! Upload a photo of your order — it helps other customers see real results.
           </p>
         </div>
 

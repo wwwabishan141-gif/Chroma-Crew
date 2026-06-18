@@ -41,7 +41,7 @@ export default function FileRequirementsPage() {
       <div className="max-w-3xl mx-auto px-4 md:px-6 py-12 space-y-10">
 
         <div>
-          <span className="inline-block px-3 py-1 rounded-full border border-red-600/40 bg-red-600/10 text-red-400 text-xs uppercase tracking-widest mb-4">
+          <span className="inline-block px-3 py-1 rounded-full border border-white/40 bg-white/10 text-neutral-300 text-xs uppercase tracking-widest mb-4">
             Print specs
           </span>
           <h1 className="text-4xl font-bold mb-3">File requirements</h1>
@@ -51,8 +51,8 @@ export default function FileRequirementsPage() {
         </div>
 
         {/* Quick checklist */}
-        <div className="rounded-2xl border border-red-600/30 bg-red-600/5 p-6 space-y-3">
-          <h2 className="text-lg font-semibold text-red-400">Quick checklist</h2>
+        <div className="rounded-2xl border border-white/30 bg-white/5 p-6 space-y-3">
+          <h2 className="text-lg font-semibold text-neutral-300">Quick checklist</h2>
           <ul className="space-y-2">
             {[
               "PNG or PDF at 300 DPI+",
@@ -84,7 +84,7 @@ export default function FileRequirementsPage() {
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-xs text-red-400 uppercase tracking-wider">✗ Avoid this</p>
+                  <p className="text-xs text-neutral-300 uppercase tracking-wider">✗ Avoid this</p>
                   <ul className="space-y-1">
                     {spec.bad.map((b) => (
                       <li key={b} className="text-sm text-white/55">{b}</li>
@@ -103,7 +103,7 @@ export default function FileRequirementsPage() {
             <p className="font-semibold">Not sure about your file?</p>
             <p className="text-white/55 text-sm">Send it through — we&apos;ll check it free before printing.</p>
           </div>
-          <Link href="/contacts" className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 font-semibold text-sm transition-colors">
+          <Link href="/contacts" className="px-5 py-2.5 rounded-xl bg-white hover:bg-neutral-800 font-semibold text-sm transition-colors">
             Contact us
           </Link>
         </div>

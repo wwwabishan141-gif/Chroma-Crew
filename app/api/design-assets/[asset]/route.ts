@@ -2,8 +2,8 @@ import { promises as fs } from "fs"
 import { NextResponse } from "next/server"
 
 const ASSET_MAP: Record<string, string> = {
-  logo: "public/website-logo-what-01.png",
-  wordmark: "public/website-logo-what-01.png", // Using the same logo as a fallback
+  logo: "public/logo1.png",
+  wordmark: "public/logo1.png",
 }
 
 import { join } from "path"

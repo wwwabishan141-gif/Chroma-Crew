@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Heart, Eye } from "lucide-react"
+import { Heart } from "lucide-react"
 import { useShop } from "@/components/shop-provider"
 
 interface ProductCardProps {
@@ -26,12 +26,7 @@ export function ProductCard({ id, name, price, image }: ProductCardProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Card Container */}
-      <div
-        className={`relative bg-card aspect-[3/4] rounded-xl overflow-hidden transition-all duration-500 ${
-          isHovered ? "shadow-glow-red scale-[1.02]" : "shadow-lg"
-        }`}
-      >
-        {/* Wishlist button */}
+      <div className="relative bg-card aspect-[3/4] rounded-lg overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-red-600/20">
         <button
           type="button"
           onClick={(e) => {
@@ -39,67 +34,62 @@ export function ProductCard({ id, name, price, image }: ProductCardProps) {
             e.stopPropagation()
             toggleWishlist({ id, name, price, image })
           }}
-          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-200 ${
-            wished
-              ? "bg-red-600 border-red-600 text-white scale-110"
-              : "bg-black/50 border-white/20 text-white/70 hover:border-red-500 hover:text-white backdrop-blur-sm"
+          className={`absolute top-3 right-3 z-20 w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
+            wished ? "bg-red-600 border-red-600 text-white" : "bg-black/55 border-white/30 text-white hover:border-red-500"
           }`}
           aria-label="Toggle wishlist"
         >
-          <Heart className={`w-3.5 h-3.5 ${wished ? "fill-current" : ""}`} />
+          <Heart className={`w-4 h-4 ${wished ? "fill-current" : ""}`} />
         </button>
+        {/* Corner Decorations */}
+        <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-red-600 rounded-tl-lg" />
+        <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-red-600 rounded-tr-lg" />
+        <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-red-600 rounded-bl-lg" />
+        <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-red-600 rounded-br-lg" />
 
-        {/* Corner Decorations — expand on hover */}
-        <div className={`absolute top-0 left-0 border-t-2 border-l-2 border-red-600 rounded-tl-xl transition-all duration-300 ${isHovered ? "w-8 h-8" : "w-5 h-5"}`} />
-        <div className={`absolute top-0 right-0 border-t-2 border-r-2 border-red-600 rounded-tr-xl transition-all duration-300 ${isHovered ? "w-8 h-8" : "w-5 h-5"}`} />
-        <div className={`absolute bottom-0 left-0 border-b-2 border-l-2 border-red-600 rounded-bl-xl transition-all duration-300 ${isHovered ? "w-8 h-8" : "w-5 h-5"}`} />
-        <div className={`absolute bottom-0 right-0 border-b-2 border-r-2 border-red-600 rounded-br-xl transition-all duration-300 ${isHovered ? "w-8 h-8" : "w-5 h-5"}`} />
-
-        {/* Product Image — zoom on hover, no black overlay */}
+        {/* Product Image */}
         {image ? (
-          <Image
-            src={image}
-            alt={name}
-            fill
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
-            className={`object-cover transition-transform duration-700 ${isHovered ? "scale-110" : "scale-100"}`}
-          />
+            <Image
+              src={image}
+              alt={name}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+            />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-muted to-background flex items-center justify-center">
             <span className="text-muted-foreground text-sm">No Image</span>
           </div>
         )}
 
-        {/* Slide-up glass drawer on hover */}
+        {/* Hover Overlay */}
         <div
-          className={`absolute inset-x-0 bottom-0 z-20 glass-drawer px-4 pt-10 pb-4 transition-all duration-300 ease-out ${
-            isHovered ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+          className={`absolute inset-0 bg-black/60 flex flex-col items-center justify-center transition-opacity duration-300 ${
+            isHovered ? "opacity-100" : "opacity-0"
           }`}
         >
-          <p className="text-white font-bold text-sm leading-tight line-clamp-2 mb-1">{name}</p>
-          <p className="text-red-400 font-black text-base mb-3">Rs. {price.toLocaleString()}</p>
-          <div className="flex items-center gap-2">
-            <span className="flex-1 text-center py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5">
-              <Eye className="w-3 h-3" />
-              View Details
-            </span>
-          </div>
+          <span className="text-white font-semibold text-lg">{name}</span>
+          <span className="text-red-500 font-bold text-xl mt-2">
+            Rs. {price.toFixed(2)}
+          </span>
+          <button className="mt-4 px-6 py-2 bg-red-600 text-white rounded-full text-sm font-medium hover:bg-red-700 transition-colors">
+            View Details
+          </button>
         </div>
       </div>
 
-      {/* Product Info below card (visible when not hovered) */}
+      {/* Product Info (visible when not hovered) */}
       <div
-        className={`mt-3 transition-all duration-300 ${
-          isHovered ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"
+        className={`mt-4 text-center transition-opacity duration-300 ${
+          isHovered ? "opacity-0" : "opacity-100"
         }`}
       >
-        <h3 className="text-white/90 font-semibold text-sm line-clamp-1 mb-1">{name}</h3>
-        <div className="flex items-center justify-between">
-          <p className="text-red-500 font-black text-sm">Rs. {price.toLocaleString()}</p>
-          <div className="flex gap-1">
-            <span className="inline-block px-1.5 py-0.5 rounded-full bg-red-600/15 border border-red-600/25 text-red-400 text-[9px] font-bold uppercase tracking-wide">New</span>
-          </div>
+        <h3 className="text-white font-medium">{name}</h3>
+        <div className="flex items-center justify-center gap-2 mt-1">
+          <span className="inline-block px-2 py-0.5 rounded-full bg-red-600/20 border border-red-600/30 text-red-400 text-[10px]">New</span>
+          <span className="inline-block px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/40 text-[10px]">Regular Fit</span>
         </div>
+        <p className="text-red-500 font-semibold mt-1">Rs. {price.toFixed(2)}</p>
       </div>
     </Link>
   )

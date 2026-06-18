@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import { Header } from "@/components/header"
-import { Mail, Phone, MapPin, Send } from "lucide-react"
+import { PageHeader } from "@/components/page-header"
+import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react"
 import { toast } from "sonner"
+import Link from "next/link"
 
 export default function ContactsPage() {
   const [loading, setLoading] = useState(false)
@@ -18,20 +20,21 @@ export default function ContactsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    
+
     try {
       const waLink = `https://wa.me/94751297637?text=${encodeURIComponent(
-        `Hi ChromaCrew, I'm ${formData.name}. \nSubject: ${formData.subject}\nMessage: ${formData.message}`
+        `Hi ORBYT, I'm ${formData.name}. \nSubject: ${formData.subject}\nMessage: ${formData.message}`
       )}`
-      
+
       toast.success("Message sent successfully!")
       setSubmitted(true)
-      
+
       setTimeout(() => {
         window.open(waLink, "_blank")
       }, 1500)
-    } catch (error: any) {
-      toast.error("Failed to send message: " + error.message)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Unknown error"
+      toast.error("Failed to send message: " + message)
     } finally {
       setLoading(false)
     }
@@ -41,144 +44,150 @@ export default function ContactsPage() {
     return (
       <main className="min-h-screen bg-background flex-1">
         <Header currentPage="contacts" />
-        <div className="max-w-3xl mx-auto px-6 py-20 text-center space-y-6">
-          <div className="w-20 h-20 bg-green-600/20 rounded-full flex items-center justify-center mx-auto text-green-500">
-             <Send className="w-10 h-10" />
-          </div>
-          <h1 className="text-4xl font-bold">Message Received!</h1>
-          <p className="text-white/60">Thank you for reaching out. We have saved your message and will get back to you soon.</p>
-          <div className="flex justify-center gap-4">
-             <button onClick={() => setSubmitted(false)} className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 font-medium transition-all">Send another</button>
-             <a href="/" className="px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 font-medium transition-all">Go Home</a>
+        <div className="page-container max-w-lg text-center">
+          <div className="empty-state space-y-5">
+            <div className="w-16 h-16 bg-red-600/15 rounded-full flex items-center justify-center mx-auto border border-red-600/30">
+              <Send className="w-8 h-8 text-red-400" />
+            </div>
+            <h1 className="text-3xl font-black uppercase tracking-tight text-white">Message Received</h1>
+            <p className="text-white/60">Thank you for reaching out. We&apos;ll get back to you soon.</p>
+            <div className="flex flex-col sm:flex-row justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => setSubmitted(false)}
+                className="btn-secondary text-sm"
+              >
+                Send Another
+              </button>
+              <Link href="/" className="btn-primary text-sm">
+                Go Home
+              </Link>
+            </div>
           </div>
         </div>
       </main>
     )
   }
 
+  const contactItems = [
+    {
+      icon: Mail,
+      title: "Email",
+      value: "support@orbyt.lk",
+      href: "mailto:support@orbyt.lk",
+    },
+    {
+      icon: Phone,
+      title: "Phone / WhatsApp",
+      value: "075 129 7637",
+      href: "https://wa.me/94751297637",
+    },
+    {
+      icon: MapPin,
+      title: "Location",
+      value: "115 2nd Lane, Mt Lavinia, Colombo",
+      href: null,
+    },
+  ]
+
   return (
     <main className="min-h-screen bg-background flex-1">
       <Header currentPage="contacts" />
+      <div className="page-container max-w-5xl">
+        <PageHeader
+          badge="Get In Touch"
+          title="Contact Us"
+          description="Questions about an order, custom design, or shipping? We're here to help."
+        />
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        {/* Page Title */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white mb-4">Contact Us</h1>
-          <p className="text-white/60">Get in touch with us for any questions</p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <h2 className="text-2xl font-bold text-white mb-6">Get In Touch</h2>
-
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-red-600/20 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-red-500" />
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          <div className="lg:col-span-2 space-y-4">
+            {contactItems.map((item) => (
+              <div key={item.title} className="page-card p-5 flex items-start gap-4">
+                <div className="w-11 h-11 rounded-xl bg-red-600/15 border border-red-600/25 flex items-center justify-center shrink-0">
+                  <item.icon className="w-5 h-5 text-red-400" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Email</h3>
-                  <p className="text-white/60">www.abiesivan@gmail.com</p>
+                  <h3 className="text-white font-bold text-sm uppercase tracking-wider">{item.title}</h3>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target={item.href.startsWith("http") ? "_blank" : undefined}
+                      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="text-white/65 text-sm mt-1 hover:text-red-400 transition-colors"
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <p className="text-white/65 text-sm mt-1">{item.value}</p>
+                  )}
                 </div>
               </div>
+            ))}
 
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-red-600/20 flex items-center justify-center shrink-0">
-                  <Phone className="w-5 h-5 text-red-500" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold mb-1">Phone</h3>
-                  <p className="text-white/60">075 129 7637</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-red-600/20 flex items-center justify-center shrink-0">
-                  <MapPin className="w-5 h-5 text-red-500" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold mb-1">Address</h3>
-                  <p className="text-white/60">
-                  115 2nd lane, Mt lavinia
-                    <br />
-                    Colombo, Sri Lanka
-                  </p>
-                </div>
-              </div>
-            </div>
+            <a
+              href="https://wa.me/94751297637"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-red-600/30 bg-red-600/10 text-red-400 font-semibold text-sm hover:bg-red-600/20 transition-colors"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Chat on WhatsApp
+            </a>
           </div>
 
-          {/* Contact Form */}
-          <div className="bg-card p-8 rounded-xl border border-white/10">
-            <h2 className="text-2xl font-bold text-white mb-6">Send a Message</h2>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="lg:col-span-3 page-card p-6 md:p-8 border-red-600/15">
+            <h2 className="text-xl font-bold text-white mb-6 uppercase tracking-tight">Send a Message</h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label htmlFor="name" className="text-white/80 text-sm block mb-2">
-                  Your Name
-                </label>
+                <label htmlFor="name" className="form-label-orbyt">Your Name</label>
                 <input
                   type="text"
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 bg-background text-white rounded-lg border border-white/10 focus:border-red-600 focus:outline-none transition-colors"
+                  className="input-orbyt"
                   placeholder="John Doe"
                   required
                 />
               </div>
-
               <div>
-                <label htmlFor="email" className="text-white/80 text-sm block mb-2">
-                  Email Address
-                </label>
+                <label htmlFor="email" className="form-label-orbyt">Email Address</label>
                 <input
                   type="email"
                   id="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-background text-white rounded-lg border border-white/10 focus:border-red-600 focus:outline-none transition-colors"
-                  placeholder="john@example.com"
+                  className="input-orbyt"
+                  placeholder="you@email.com"
                   required
                 />
               </div>
-
               <div>
-                <label htmlFor="subject" className="text-white/80 text-sm block mb-2">
-                  Subject
-                </label>
+                <label htmlFor="subject" className="form-label-orbyt">Subject</label>
                 <input
                   type="text"
                   id="subject"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full px-4 py-3 bg-background text-white rounded-lg border border-white/10 focus:border-red-600 focus:outline-none transition-colors"
+                  className="input-orbyt"
                   placeholder="How can we help?"
                   required
                 />
               </div>
-
               <div>
-                <label htmlFor="message" className="text-white/80 text-sm block mb-2">
-                  Message
-                </label>
+                <label htmlFor="message" className="form-label-orbyt">Message</label>
                 <textarea
                   id="message"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  rows={4}
-                  className="w-full px-4 py-3 bg-background text-white rounded-lg border border-white/10 focus:border-red-600 focus:outline-none transition-colors resize-none"
+                  rows={5}
+                  className="input-orbyt resize-none"
                   placeholder="Your message..."
                   required
                 />
               </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-4 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
-              >
+              <button type="submit" disabled={loading} className="btn-primary w-full gap-2">
                 {loading ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

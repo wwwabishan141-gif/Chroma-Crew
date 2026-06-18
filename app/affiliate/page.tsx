@@ -11,14 +11,14 @@ export default function AffiliatePage() {
           🚧 This program is coming soon. We are a new business and will be launching our affiliate program shortly. Get in touch to express your interest.
         </div>
         <p className="text-white/70 leading-relaxed">
-          Know creators, boutiques, or print shops who could use ChromaCrew? We plan to offer a referral commission program for those who help grow our community.
+          Know creators, boutiques, or print shops who could use ORBYT? We plan to offer a referral commission program for those who help grow our community.
         </p>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-red-500">How to sign up</h2>
+          <h2 className="text-xl font-semibold text-white">How to sign up</h2>
           <ol className="list-decimal pl-5 text-white/75 space-y-2">
             <li>Create an account via{" "}
-              <Link href="/login" className="text-red-400 underline">
+              <Link href="/login" className="text-neutral-300 underline">
                 Login
               </Link>
               .
@@ -29,7 +29,7 @@ export default function AffiliatePage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-red-500">Commission structure</h2>
+          <h2 className="text-xl font-semibold text-white">Commission structure</h2>
           <ul className="list-disc pl-5 text-white/75 space-y-2">
             <li>
               <strong className="text-white">Retail referrals:</strong> 8% on eligible product subtotal (excl. shipping).
@@ -42,7 +42,7 @@ export default function AffiliatePage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-red-500">Promo materials</h2>
+          <h2 className="text-xl font-semibold text-white">Promo materials</h2>
           <p className="text-white/75 leading-relaxed">
             Approved partners receive lifestyle images, DTF explainer copy, file-requirement one-pagers, and seasonal banners. Custom co-branded landing pages available for high-volume affiliates.
           </p>
@@ -50,7 +50,7 @@ export default function AffiliatePage() {
 
         <p className="text-white/50 text-sm">
           For volume pricing on your own SKUs, see our{" "}
-          <Link href="/shop" className="text-red-400 underline">
+          <Link href="/shop" className="text-neutral-300 underline">
             shop page
           </Link>{" "}
           — bulk discounts apply automatically at checkout.

@@ -1,4 +1,4 @@
-export type BlogPost = {
+﻿export type BlogPost = {
   slug: string
   title: string
   excerpt: string
@@ -15,7 +15,7 @@ export const blogPosts: BlogPost[] = [
     title: "What is DTF Printing? A Beginner's Guide",
     excerpt: "DTF (Direct to Film) printing is one of the most versatile and high-quality methods for printing on garments. Here's everything you need to know.",
     date: "2025-01-10",
-    author: "ChromaCrew",
+    author: "ORBYT",
     readTime: "4 min read",
     tags: ["DTF", "printing", "guide"],
     content: `
@@ -30,7 +30,7 @@ Direct to Film (DTF) printing is a modern garment decoration technique where you
 - No minimum order — print just one piece if you want
 - Highly durable and wash-resistant when applied correctly
 
-## How We Do It at ChromaCrew
+## How We Do It at ORBYT
 
 Every order is handled personally. We check your file, print the transfer, and press it onto your chosen garment before packing and shipping island-wide.
 
@@ -48,13 +48,13 @@ Have questions? [Contact us](/contacts) — we're happy to help.
     title: "How to Care for Your DTF Printed T-Shirt",
     excerpt: "Want your DTF print to last as long as possible? Follow these simple care instructions to keep your shirt looking fresh wash after wash.",
     date: "2025-01-20",
-    author: "ChromaCrew",
+    author: "ORBYT",
     readTime: "3 min read",
     tags: ["care", "washing", "tips"],
     content: `
 ## Caring for Your DTF Print
 
-Follow these steps to make your ChromaCrew tee last as long as possible.
+Follow these steps to make your ORBYT tee last as long as possible.
 
 ## Washing Instructions
 
@@ -82,7 +82,7 @@ Questions? [Get in touch](/contacts).
     title: "How to Prepare Your Artwork for DTF Printing",
     excerpt: "Submitting the right file means faster turnaround and sharper results. Here's our simple guide to getting your artwork print-ready.",
     date: "2025-02-05",
-    author: "ChromaCrew",
+    author: "ORBYT",
     readTime: "5 min read",
     tags: ["files", "artwork", "design", "guide"],
     content: `

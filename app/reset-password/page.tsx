@@ -63,14 +63,14 @@ export default function ResetPasswordPage() {
 
   const strength = getStrength(password)
   const strengthLabel = ["", "Weak", "Fair", "Good", "Strong"][strength]
-  const strengthColor = ["", "bg-red-500", "bg-yellow-500", "bg-blue-500", "bg-green-500"][strength]
+  const strengthColor = ["", "bg-white", "bg-yellow-500", "bg-blue-500", "bg-green-500"][strength]
 
   return (
     <main className="min-h-screen bg-black text-white">
       <Header currentPage="login" />
       <div className="max-w-md mx-auto px-6 py-20">
         <div className="mb-10 text-center">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-600/10 border border-red-600/20 flex items-center justify-center text-3xl">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-3xl">
             🔐
           </div>
           <h1 className="text-3xl font-bold mb-2">Reset Your Password</h1>
@@ -83,7 +83,7 @@ export default function ResetPasswordPage() {
 
         {!sessionReady ? (
           <div className="flex justify-center">
-            <div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full" />
+            <div className="animate-spin w-8 h-8 border-4 border-white border-t-transparent rounded-full" />
           </div>
         ) : (
           <form onSubmit={handleReset} className="space-y-5">
@@ -97,7 +97,7 @@ export default function ResetPasswordPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-4 pr-12 rounded-xl bg-white/5 border border-white/10 focus:border-red-600 outline-none transition-all"
+                  className="w-full p-4 pr-12 rounded-xl bg-white/5 border border-white/10 focus:border-white outline-none transition-all"
                 />
                 <button
                   type="button"
@@ -120,7 +120,7 @@ export default function ResetPasswordPage() {
                       />
                     ))}
                   </div>
-                  <p className={`text-xs font-medium ${["", "text-red-400", "text-yellow-400", "text-blue-400", "text-green-400"][strength]}`}>
+                  <p className={`text-xs font-medium ${["", "text-neutral-300", "text-yellow-400", "text-blue-400", "text-green-400"][strength]}`}>
                     {strengthLabel}
                   </p>
                 </div>
@@ -138,14 +138,14 @@ export default function ResetPasswordPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className={`w-full p-4 rounded-xl bg-white/5 border outline-none transition-all ${
                   confirmPassword.length > 0 && confirmPassword !== password
-                    ? "border-red-500 focus:border-red-500"
+                    ? "border-white focus:border-white"
                     : confirmPassword.length > 0 && confirmPassword === password
                     ? "border-green-500 focus:border-green-500"
-                    : "border-white/10 focus:border-red-600"
+                    : "border-white/10 focus:border-white"
                 }`}
               />
               {confirmPassword.length > 0 && confirmPassword !== password && (
-                <p className="text-red-400 text-xs">Passwords do not match.</p>
+                <p className="text-neutral-300 text-xs">Passwords do not match.</p>
               )}
               {confirmPassword.length > 0 && confirmPassword === password && (
                 <p className="text-green-400 text-xs">✓ Passwords match.</p>
@@ -161,7 +161,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading || password !== confirmPassword || password.length < 8}
-              className="w-full py-4 rounded-xl bg-red-600 hover:bg-red-700 font-bold text-lg disabled:opacity-40 shadow-xl shadow-red-600/20 transition-all active:scale-95"
+              className="w-full py-4 rounded-xl bg-white hover:bg-neutral-800 font-bold text-lg disabled:opacity-40 shadow-xl shadow-red-600/20 transition-all active:scale-95"
             >
               {loading ? "Updating..." : "Set New Password"}
             </button>

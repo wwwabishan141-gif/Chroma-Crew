@@ -4,8 +4,8 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { X } from "lucide-react"
 
-const COOKIE_KEY = "chromacrew_cookie_consent"
-const NEWSLETTER_DISMISS_KEY = "chromacrew_newsletter_dismissed"
+const COOKIE_KEY = "ORBYT_cookie_consent"
+const NEWSLETTER_DISMISS_KEY = "ORBYT_newsletter_dismissed"
 
 export function PromoBanner() {
   const [dismissed, setDismissed] = useState<boolean | null>(null)
@@ -48,7 +48,7 @@ export function CookieConsentBanner() {
       <div className="max-w-3xl mx-auto rounded-xl border border-white/20 bg-background/95 backdrop-blur shadow-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4">
         <p className="text-white/80 text-sm flex-1">
           We use cookies to improve your experience, remember cart items, and analyze traffic. By continuing you agree to our{" "}
-          <Link href="/privacy" className="text-red-500 underline">
+          <Link href="/privacy" className="text-white underline">
             Privacy Policy
           </Link>
           .
@@ -111,7 +111,7 @@ export function NewsletterPopup() {
         <h2 className="text-xl font-bold text-white mb-2">Join the Streetwear Drops</h2>
         <p className="text-white/65 text-sm mb-4">Get first access to limited edition t-shirt drops, styling tips, and members-only offers.</p>
         {submitted ? (
-          <p className="text-green-400 text-sm">Thanks! You&apos;re on the list.</p>
+          <p className="text-red-400 text-sm">Thanks! You&apos;re on the list.</p>
         ) : (
           <form
             className="flex flex-col gap-3"
@@ -131,7 +131,7 @@ export function NewsletterPopup() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-lg bg-white/10 border border-white/20 px-3 py-2 text-white placeholder:text-white/40"
             />
-            <button type="submit" className="w-full py-2 rounded-lg bg-red-600 hover:bg-red-700 font-medium text-white">
+            <button type="submit" className="w-full py-2 rounded-lg btn-primary font-medium">
               Subscribe
             </button>
           </form>

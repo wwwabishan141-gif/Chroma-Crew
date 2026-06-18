@@ -1,4 +1,4 @@
-import { Header } from "@/components/header"
+﻿import { Header } from "@/components/header"
 
 export default function PrivacyPage() {
   return (
@@ -8,7 +8,7 @@ export default function PrivacyPage() {
         <h1 className="text-4xl font-bold text-white">Privacy Policy</h1>
         <p>Last updated: April 14, 2026</p>
         <p>
-          ChromaCrew (&quot;we&quot;) respects your privacy. We securely process your cart, wishlist, and order data to provide you with a seamless and premium shopping experience.
+          ORBYT (&quot;we&quot;) respects your privacy. We securely process your cart, wishlist, and order data to provide you with a seamless and premium shopping experience.
         </p>
         <h2 className="text-xl font-semibold text-white pt-4">Data we process</h2>
         <p>
